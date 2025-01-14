@@ -2,12 +2,14 @@
 export default {
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    extend: {
-      fontFamily: {
-        sans: ['Pretendard', 'sans-serif'],
-      },
+    fontFamily: {
+      sans: ['Pretendard', 'sans-serif'],
     },
-
+    borderRadius: {
+      lg: 'var(--radius)',
+      md: 'calc(var(--radius) - 2px)',
+      sm: 'calc(var(--radius) - 4px)',
+    },
     // team04-frontend Wiki '디자인 시스템' 문서에서 용도 확인 가능
     colors: {
       white: '#FFFFFF',
