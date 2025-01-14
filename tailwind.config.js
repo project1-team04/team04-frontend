@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: ['class'],
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
@@ -8,6 +7,8 @@ export default {
         // pretendard
       },
     },
+
+    // team04-frontend Wiki '디자인 시스템' 문서에서 용도 확인 가능
     colors: {
       white: '#FFFFFF',
       purple: '#6224FD',
@@ -18,19 +19,19 @@ export default {
       red: '#FF0101',
       gray: '#EFEFEF',
 
-      text_default: '#232527', // #000000 대신 사용
+      text_default: '#232527',
       text_sub: '#444444',
-      text_disabled: '#A0A0A0', // input의 placeholder 등에 사용
-      text_success: '#2768FF', // 파랑
-      text_error: '#FF0101', // 빨강
+      text_disabled: '#A0A0A0',
+      text_success: '#2768FF',
+      text_error: '#FF0101',
 
       border_defalut: '#BFBFBF',
 
       divider_default: '#E2E2E2',
 
       Bg_default: '#FFFFFF',
-      Bg_light: '#F5F5F5', // 칸반보드 배경에 사용
-      Bg_deep: '#EFEFEF', // 이슈 description, trouble shooting, 상대 채팅 배경, 프로젝트 설정 등에 쓰이는 회색
+      Bg_light: '#F5F5F5',
+      Bg_deep: '#EFEFEF',
     },
   },
   plugins: [require('tailwindcss-animate')],
