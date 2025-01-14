@@ -12,7 +12,7 @@ const InputComponent = ({ type, placeholder }: InputProps) => {
       <Input
         type={type}
         placeholder={placeholder}
-        className={`h-[40px] w-full`}
+        className={`h-[40px] w-full placeholder:text-[#A0A0A0]`}
       />
     </>
   );
