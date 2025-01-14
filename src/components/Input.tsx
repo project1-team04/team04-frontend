@@ -3,16 +3,16 @@ import { InputHTMLAttributes } from 'react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   type: string;
-  placeholder: string;
 }
 
-const InputComponent = ({ type, placeholder }: InputProps) => {
+const InputComponent = ({ type, ...props }: InputProps) => {
   return (
     <>
       <Input
         type={type}
-        placeholder={placeholder}
+        placeholder={props.placeholder}
         className={`h-[40px] w-full placeholder:text-[#A0A0A0]`}
+        {...props}
       />
     </>
   );
