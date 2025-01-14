@@ -12,16 +12,18 @@ export default {
     },
     // team04-frontend Wiki '디자인 시스템' 문서에서 용도 확인 가능
     colors: {
-      white: '#FFFFFF',
       purple: {
         DEFAULT: '#6224FD',
-        hover: '#411F97',
-        disabled: '#C6BBE1',
+        hover: '#4903FB',
       },
+      gray: {
+        DEFAULT: '#EFEFEF',
+        hover: '#D7D7D7',
+      },
+      white: '#FFFFFF',
       orange: '#FFA500',
       green: '#8BC48A',
       red: '#FF0101',
-      gray: '#EFEFEF',
 
       text: {
         DEFAULT: '#232527',
@@ -31,15 +33,14 @@ export default {
         error: '#FF0101',
       },
 
-      border_defalut: '#BFBFBF',
-
-      divider_default: '#E2E2E2',
-
       bg: {
         DEFAULT: '#FFFFFF',
         light: '#F5F5F5',
         deep: '#EFEFEF',
       },
+
+      'border-default': '#BFBFBF',
+      'divider-default': '#E2E2E2',
     },
   },
   plugins: [require('tailwindcss-animate')],
