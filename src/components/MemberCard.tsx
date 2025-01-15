@@ -1,7 +1,6 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -13,16 +12,20 @@ interface MemberCardProps {
   email: string;
 }
 
-// 직책이 PM과 Member로 나뉨 -> CardTitle의 스타일 달라짐
 const MemberCardComponent = ({
   position = 'Member',
   name,
   email,
 }: MemberCardProps) => {
+  const varienStlyes =
+    position === 'Project Manager' ? 'bg-green' : 'bg-orange';
+
   return (
     <>
       <Card className='h-[125px] w-[300px] border-border-default'>
-        <CardHeader className='m-4 mb-2 inline-flex h-7 justify-center rounded-lg bg-green p-3'>
+        <CardHeader
+          className={`m-4 mb-2 inline-flex h-7 justify-center rounded-lg ${varienStlyes} p-3`}
+        >
           <CardTitle className='text-center text-sm font-medium text-white'>
             {position}
           </CardTitle>
