@@ -1,12 +1,17 @@
 import { IoIosArrowDown } from 'react-icons/io';
 
-// props: 이름, 이미지 소스, 이미지 alt
-const ProfileComponent = () => {
+interface ProfileProps {
+  name: string;
+  src: string;
+  alt: string;
+}
+
+const ProfileComponent = ({ name, src, alt }: ProfileProps) => {
   return (
     <>
       <div className='flex items-center justify-center w-48 h-24 gap-3'>
-        <p className='inline-flex'>권보령</p>
-        <img src='' alt='' className='rounded-lg h-9 w-9' />
+        <p className='inline-flex'>{name}</p>
+        <img src={src} alt={alt} className='rounded-lg h-9 w-9' />
         <IoIosArrowDown />
       </div>
     </>
