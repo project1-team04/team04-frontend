@@ -22,7 +22,7 @@ const MemberCardComponent = ({
   return (
     <>
       <Card className='h-[125px] w-[300px] border-border-default'>
-        <CardHeader className='m-4 mb-2 flex h-7 w-[130px] justify-center rounded-lg bg-green p-0'>
+        <CardHeader className='m-4 mb-2 inline-flex h-7 justify-center rounded-lg bg-green p-3'>
           <CardTitle className='text-center text-sm font-medium text-white'>
             {position}
           </CardTitle>
