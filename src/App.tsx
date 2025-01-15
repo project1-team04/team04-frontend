@@ -11,6 +11,7 @@ import ProjectsDetailPage from './pages/ProjectsDetailPage';
 import ProjectsIssueDetailPage from './pages/ProjectsIssueDetailPage';
 import ProjectsSettingPage from './pages/ProjectsSettingPage';
 import UserProfilePage from './pages/UserProfilePage';
+import NotFoundPage from './pages/NotFoundPage';
 
 // TODO) Protected Route 적용 및 루트 경로 접근 처리
 const router = createBrowserRouter([
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
         <UserProfilePage />
       </MainLayout>
     ),
+  },
+  {
+    path: '*',
+    element: <NotFoundPage />,
   },
 ]);
 
