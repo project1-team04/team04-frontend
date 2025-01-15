@@ -19,7 +19,7 @@ const ButtonComponent = ({
 
   return (
     <Button
-      className={`h-[44px] ${variantStyles[variant]} bg-[#6224FD] text-center text-base`}
+      className={`h-[44px] ${variantStyles[variant]} bg-purple text-center text-base text-white hover:bg-purple-hover`}
       {...props}
     >
       {children}
