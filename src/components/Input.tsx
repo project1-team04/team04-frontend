@@ -11,7 +11,7 @@ const InputComponent = ({ type, ...props }: InputProps) => {
       <Input
         type={type}
         placeholder={props.placeholder}
-        className={`h-[40px] w-full placeholder:text-[#A0A0A0]`}
+        className={`h-[40px] w-full border-border-default placeholder:text-text-disabled`}
         {...props}
       />
     </>
