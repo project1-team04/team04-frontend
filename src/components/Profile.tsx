@@ -1,4 +1,12 @@
 import { IoIosArrowDown } from 'react-icons/io';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface ProfileProps {
   name: string;
@@ -12,7 +20,25 @@ const ProfileComponent = ({ name, src, alt }: ProfileProps) => {
       <div className='flex items-center justify-center w-48 h-24 gap-3'>
         <p className='inline-flex'>{name}</p>
         <img src={src} alt={alt} className='rounded-lg h-9 w-9' />
-        <IoIosArrowDown />
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button className='ml-[-10px] w-4 shadow-none'>
+              <IoIosArrowDown />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className='w-10 text-center'>
+            <DropdownMenuGroup>
+              <DropdownMenuItem className='block m-1 cursor-pointer hover:bg-gray-hover'>
+                프로필
+              </DropdownMenuItem>
+              <div className='h-[1px] w-[95%] bg-divider-default'></div>
+              <DropdownMenuItem className='block m-1 cursor-pointer hover:bg-gray-hover'>
+                로그아웃
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </>
   );
