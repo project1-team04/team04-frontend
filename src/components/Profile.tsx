@@ -26,7 +26,7 @@ const ProfileComponent = ({ name, src, alt }: ProfileProps) => {
         )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className='ml-[-10px] w-4 shadow-none'>
+            <Button className='ml-[-10px] w-4 border-0 shadow-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0'>
               <IoIosArrowDown />
             </Button>
           </DropdownMenuTrigger>
