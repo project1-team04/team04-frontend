@@ -2,9 +2,9 @@ import { Input } from './ui/input';
 import { InputHTMLAttributes } from 'react';
 import { IoSearchOutline } from 'react-icons/io5';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
+interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
-const SearchInput = ({ ...props }: InputProps) => {
+const SearchInput = ({ ...props }: SearchInputProps) => {
   return (
     <>
       <div className='flex h-[43px] w-[200px] items-center justify-center rounded-lg border-none bg-gray'>
