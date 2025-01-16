@@ -18,14 +18,12 @@ const InputComponent = ({
 
   return (
     <>
-      <div className={`${variantStyles[varient]}`}>
-        <Input
-          type={type}
-          placeholder={props.placeholder}
-          className='h-[43px] w-full border-border-default placeholder:text-text-disabled'
-          {...props}
-        />
-      </div>
+      <Input
+        type={type}
+        placeholder={props.placeholder}
+        className={`h-[43px] ${variantStyles[varient]} border-border-default placeholder:text-text-disabled`}
+        {...props}
+      />
     </>
   );
 };
