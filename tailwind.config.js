@@ -23,7 +23,10 @@ export default {
       white: '#FFFFFF',
       orange: '#FFA500',
       green: '#8BC48A',
-      red: '#FF0101',
+      red: {
+        DEFAULT: '#FF0101',
+        hover: '#c10505',
+      },
 
       text: {
         DEFAULT: '#232527',
