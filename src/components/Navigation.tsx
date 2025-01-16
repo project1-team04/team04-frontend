@@ -1,6 +1,5 @@
 import Logo from './Logo';
 import ProfileComponent from './Profile';
-
 interface NavigationProps {
   name: string;
   src?: string;
@@ -10,14 +9,11 @@ interface NavigationProps {
 const NavigationComponent = ({ name, src, alt }: NavigationProps) => {
   return (
     <>
-      <div className='z-16'>
+      <div className='z-16 border-b-[1px] border-divider-default'>
         <nav className='flex items-center justify-between w-full h-24 px-20'>
           <Logo />
           <ProfileComponent name={name} src={src} alt={alt} />
         </nav>
-        <div className='flex items-center justify-center'>
-          <div className='h-[1px] w-[95%] bg-divider-default'></div>
-        </div>
       </div>
     </>
   );
