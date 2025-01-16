@@ -1,5 +1,6 @@
 import Logo from './Logo';
 import ProfileComponent from './Profile';
+
 interface NavigationProps {
   name: string;
   src?: string;
