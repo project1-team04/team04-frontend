@@ -1,16 +1,16 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import AuthLayout from '../layouts/AuthLayout';
 import MainLayout from '@/layouts/MainLayout';
+import DetailLayout from '@/layouts/DetailLayout';
 import AuthLoginPage from '@/pages/AuthLoginPage';
 import AuthSignupPage from '@/pages/AuthSignupPage';
-import DetailLayout from '@/layouts/DetailLayout';
 import ProjectsListPage from '@/pages/ProjectsListPage';
 import ProjectsCreatePage from '@/pages/ProjectsCreatePage';
-import ProjectsDelegationPage from '@/pages/ProjectsDelegationPage';
 import ProjectsDetailPage from '@/pages/ProjectsDetailPage';
 import ProjectsIssueDetailPage from '@/pages/ProjectsIssueDetailPage';
 import ProjectsSettingPage from '@/pages/ProjectsSettingPage';
-import UserProfilePage from '@/pages/UserProfilePage';
+import ProfilePage from '@/pages/ProfilePage';
+import ProfileDelegatePage from '@/pages/ProfileDelegatePage';
 import NotFoundPage from '@/pages/NotFoundPage';
 
 // TODO) Protected Route 적용 및 루트 경로 접근 처리
@@ -79,11 +79,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <UserProfilePage />,
+        element: <ProfilePage />,
       },
       {
         path: 'delegate',
-        element: <ProjectsDelegationPage />,
+        element: <ProfileDelegatePage />,
       },
     ],
   },
