@@ -17,14 +17,14 @@ const MemberCardComponent = ({
   name,
   email,
 }: MemberCardProps) => {
-  const varienStlyes =
+  const variantStyles =
     position === 'Project Manager' ? 'bg-green' : 'bg-orange';
 
   return (
     <>
       <Card className='h-[125px] w-[300px] border-border-default'>
         <CardHeader
-          className={`m-4 mb-2 inline-flex h-7 justify-center rounded-lg ${varienStlyes} p-3`}
+          className={`m-4 mb-2 inline-flex h-7 justify-center rounded-lg ${variantStyles} p-3`}
         >
           <CardTitle className='text-center text-sm font-medium text-white'>
             {position}
