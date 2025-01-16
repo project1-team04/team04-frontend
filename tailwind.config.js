@@ -25,7 +25,7 @@ export default {
       green: '#8BC48A',
       red: {
         DEFAULT: '#FF0101',
-        hover: '##c10505',
+        hover: '#c10505',
       },
 
       text: {
