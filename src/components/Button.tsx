@@ -11,12 +11,13 @@ const ButtonComponent = ({
   variant = 'default',
   ...props
 }: ButtonProps) => {
+  const baseStyle =
+    'h-[44px] bg-purple text-center text-base text-white hover:bg-purple-hover';
+
   const variantStyles = {
-    default:
-      'w-[290px]  h-[44px] bg-purple text-center text-base text-white hover:bg-purple-hover',
-    createDone:
-      'w-[500px]  h-[44px] bg-purple text-center text-base text-white hover:bg-purple-hover',
-    edit: 'w-[190px]  h-[44px] bg-purple text-center text-base text-white hover:bg-purple-hover',
+    default: `w-[290px] ${baseStyle}`,
+    createDone: `w-[500px] ${baseStyle}`,
+    edit: `w-[190px]  ${baseStyle}`,
     delete: 'inline-flex h-8 p-2 text-xs bg-red hover:bg-red-hover',
   };
 
