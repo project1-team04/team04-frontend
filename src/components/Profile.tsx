@@ -10,17 +10,20 @@ import {
 
 interface ProfileProps {
   name: string;
-  src: string;
+  src?: string;
   alt: string;
 }
 
 const ProfileComponent = ({ name, src, alt }: ProfileProps) => {
   return (
     <>
-      <div className='flex items-center justify-center w-48 h-24 gap-3'>
+      <div className='flex h-24 w-48 items-center justify-center gap-3'>
         <p className='inline-flex'>{name}</p>
-        <img src={src} alt={alt} className='rounded-lg h-9 w-9' />
-
+        {src ? (
+          <img src={src} alt={alt} className='h-9 w-9 rounded-lg' />
+        ) : (
+          <div className='h-9 w-9 rounded-lg bg-gray'></div>
+        )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className='ml-[-10px] w-4 shadow-none'>
@@ -29,11 +32,11 @@ const ProfileComponent = ({ name, src, alt }: ProfileProps) => {
           </DropdownMenuTrigger>
           <DropdownMenuContent className='w-10 text-center'>
             <DropdownMenuGroup>
-              <DropdownMenuItem className='block m-1 cursor-pointer hover:bg-gray-hover'>
+              <DropdownMenuItem className='m-1 block cursor-pointer hover:bg-gray-hover'>
                 프로필
               </DropdownMenuItem>
               <div className='h-[1px] w-[95%] bg-divider-default'></div>
-              <DropdownMenuItem className='block m-1 cursor-pointer hover:bg-gray-hover'>
+              <DropdownMenuItem className='m-1 block cursor-pointer hover:bg-gray-hover'>
                 로그아웃
               </DropdownMenuItem>
             </DropdownMenuGroup>
