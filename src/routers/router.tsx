@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate, redirect } from 'react-router-dom';
 import AuthLayout from '../layouts/AuthLayout';
 import MainLayout from '@/layouts/MainLayout';
 import AuthLoginPage from '@/pages/AuthLoginPage';
@@ -19,6 +19,11 @@ const router = createBrowserRouter([
     path: '/auth',
     element: <AuthLayout />,
     children: [
+      {
+        // /auth 경로 접근 시 자동으로 /auth/login으로 리다이렉트
+        index: true,
+        element: <Navigate to='/auth/login' replace />,
+      },
       {
         path: 'login',
         element: <AuthLoginPage />,
