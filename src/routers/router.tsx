@@ -42,10 +42,6 @@ const router = createBrowserRouter([
         element: <ProjectsCreatePage />,
       },
       {
-        path: 'delegate',
-        element: <ProjectsDelegationPage />,
-      },
-      {
         path: ':projectId',
         children: [
           {
@@ -74,11 +70,17 @@ const router = createBrowserRouter([
   },
   {
     path: 'profile',
-    element: (
-      <MainLayout>
-        <UserProfilePage />
-      </MainLayout>
-    ),
+    element: <MainLayout />,
+    children: [
+      {
+        path: '',
+        element: <UserProfilePage />,
+      },
+      {
+        path: 'delegate',
+        element: <ProjectsDelegationPage />,
+      },
+    ],
   },
   {
     path: '*',
