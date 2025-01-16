@@ -17,12 +17,12 @@ interface ProfileProps {
 const ProfileComponent = ({ name, src, alt }: ProfileProps) => {
   return (
     <>
-      <div className='flex items-center justify-center w-48 h-24 gap-3'>
+      <div className='flex h-24 w-48 items-center justify-center gap-3'>
         <p className='inline-flex'>{name}</p>
         {src ? (
-          <img src={src} alt={alt} className='rounded-lg h-9 w-9' />
+          <img src={src} alt={alt} className='h-9 w-9 rounded-lg' />
         ) : (
-          <div className='rounded-lg h-9 w-9 bg-gray'></div>
+          <div className='h-9 w-9 rounded-lg bg-gray'></div>
         )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
