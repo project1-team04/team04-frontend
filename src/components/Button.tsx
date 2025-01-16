@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  variant?: 'default' | 'createDone' | 'edit';
+  variant?: 'default' | 'createDone' | 'edit' | 'delete';
 }
 
 const ButtonComponent = ({
@@ -12,16 +12,16 @@ const ButtonComponent = ({
   ...props
 }: ButtonProps) => {
   const variantStyles = {
-    default: 'w-[290px]',
-    createDone: 'w-[500px]',
-    edit: 'w-[190px]',
+    default:
+      'w-[290px]  h-[44px] bg-purple text-center text-base text-white hover:bg-purple-hover',
+    createDone:
+      'w-[500px]  h-[44px] bg-purple text-center text-base text-white hover:bg-purple-hover',
+    edit: 'w-[190px]  h-[44px] bg-purple text-center text-base text-white hover:bg-purple-hover',
+    delete: 'inline-flex h-8 p-2 text-xs bg-red hover:bg-red-hover',
   };
 
   return (
-    <Button
-      className={`h-[44px] ${variantStyles[variant]} bg-purple text-center text-base text-white hover:bg-purple-hover`}
-      {...props}
-    >
+    <Button className={`${variantStyles[variant]} text-white`} {...props}>
       {children}
     </Button>
   );
