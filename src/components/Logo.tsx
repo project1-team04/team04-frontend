@@ -1,8 +1,17 @@
-const Logo = () => {
+interface LogoProps {
+  variant?: 'navLogo' | 'loginLogo';
+}
+
+const Logo = ({ variant = 'navLogo' }: LogoProps) => {
+  const variantStyles = {
+    navLogo: 'text-2xl',
+    loginLogo: 'text-5xl',
+  };
+
   return (
     <>
-      <div className='flex h-[140px] w-2/4 items-end justify-center'>
-        <h1 className='text-5xl font-bold'>Threadly</h1>
+      <div>
+        <p className={`${variantStyles[variant]} font-bold`}>Threadly</p>
       </div>
     </>
   );
