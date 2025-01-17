@@ -2,7 +2,6 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { paths } from './paths';
 import AuthLayout from '../layouts/AuthLayout';
 import MainLayout from '@/layouts/MainLayout';
-import DetailLayout from '@/layouts/DetailLayout';
 import AuthLoginPage from '@/pages/AuthLoginPage';
 import AuthSignupPage from '@/pages/AuthSignupPage';
 import ProjectsListPage from '@/pages/ProjectsListPage';
@@ -52,19 +51,11 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: (
-              <DetailLayout>
-                <ProjectsDetailPage />
-              </DetailLayout>
-            ),
+            element: <ProjectsDetailPage />,
           },
           {
             path: paths.projects.issueDetail,
-            element: (
-              <DetailLayout>
-                <ProjectsIssueDetailPage />
-              </DetailLayout>
-            ),
+            element: <ProjectsIssueDetailPage />,
           },
           {
             path: paths.projects.settings,
