@@ -28,7 +28,7 @@ const MainLayout = ({}) => {
 
         <div className='flex flex-grow items-center justify-center'>
           {isProjectDetailPage && (
-            <div className='h-[100%] w-[400px] bg-purple'>서치바</div>
+            <aside className='h-[100%] w-[400px] bg-purple'>서치바</aside>
           )}
 
           <div
@@ -48,7 +48,7 @@ const MainLayout = ({}) => {
           </div>
 
           {isProjectsIssueDetailPage && (
-            <div className='h-[100%] w-[600px] bg-purple'>채팅</div>
+            <aside className='h-[100%] w-[600px] bg-purple'>채팅</aside>
           )}
         </div>
       </div>
