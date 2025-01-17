@@ -1,9 +1,8 @@
 import HeaderComponent from '@/components/Header';
 import NavigationComponent from '@/components/Navigation';
-import { ReactNode } from 'react';
 import { Outlet, useLocation, useMatch } from 'react-router-dom';
 
-const MainLayout = ({ children }: MainLayoutProps) => {
+const MainLayout = ({}) => {
   const location = useLocation();
 
   const path: Record<string, string> = {

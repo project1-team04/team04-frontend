@@ -1,72 +1,64 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { paths } from './paths';
 import AuthLayout from '../layouts/AuthLayout';
 import MainLayout from '@/layouts/MainLayout';
 import AuthLoginPage from '@/pages/AuthLoginPage';
 import AuthSignupPage from '@/pages/AuthSignupPage';
-import DetailLayout from '@/layouts/DetailLayout';
 import ProjectsListPage from '@/pages/ProjectsListPage';
 import ProjectsCreatePage from '@/pages/ProjectsCreatePage';
-import ProjectsDelegationPage from '@/pages/ProjectsDelegationPage';
 import ProjectsDetailPage from '@/pages/ProjectsDetailPage';
 import ProjectsIssueDetailPage from '@/pages/ProjectsIssueDetailPage';
 import ProjectsSettingPage from '@/pages/ProjectsSettingPage';
-import UserProfilePage from '@/pages/UserProfilePage';
+import ProfilePage from '@/pages/ProfilePage';
+import ProfileDelegatePage from '@/pages/ProfileDelegatePage';
 import NotFoundPage from '@/pages/NotFoundPage';
 
 // TODO) Protected Route 적용 및 루트 경로 접근 처리
 const router = createBrowserRouter([
   {
-    path: '/auth',
+    path: paths.auth.root,
     element: <AuthLayout />,
     children: [
       {
-        // /auth 경로 접근 시 자동으로 /auth/login으로 리다이렉트
+        // /auth 경로 접근 시 /auth/login으로 자동 리다이렉트
         index: true,
-        element: <Navigate to='/auth/login' replace />,
+        element: <Navigate to={paths.auth.login} replace />,
       },
       {
-        path: 'login',
+        path: paths.auth.login,
         element: <AuthLoginPage />,
       },
       {
-        path: 'signup',
+        path: paths.auth.signup,
         element: <AuthSignupPage />,
       },
     ],
   },
   {
-    path: '/projects',
+    path: paths.projects.root,
     element: <MainLayout />,
     children: [
       {
-        path: '',
+        index: true,
         element: <ProjectsListPage />,
       },
       {
-        path: 'new',
+        path: paths.projects.new,
         element: <ProjectsCreatePage />,
       },
       {
-        path: ':projectId',
+        path: paths.projects.detail,
         children: [
           {
-            path: '',
-            element: (
-              <DetailLayout>
-                <ProjectsDetailPage />
-              </DetailLayout>
-            ),
+            index: true,
+            element: <ProjectsDetailPage />,
           },
           {
-            path: 'issues/:issueId',
-            element: (
-              <DetailLayout>
-                <ProjectsIssueDetailPage />
-              </DetailLayout>
-            ),
+            path: paths.projects.issueDetail,
+            element: <ProjectsIssueDetailPage />,
           },
           {
-            path: 'settings',
+            path: paths.projects.settings,
             element: <ProjectsSettingPage />,
           },
         ],
@@ -74,21 +66,21 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: 'profile',
+    path: paths.profile.root,
     element: <MainLayout />,
     children: [
       {
-        path: '',
-        element: <UserProfilePage />,
+        index: true,
+        element: <ProfilePage />,
       },
       {
-        path: 'delegate',
-        element: <ProjectsDelegationPage />,
+        path: paths.profile.delegate,
+        element: <ProfileDelegatePage />,
       },
     ],
   },
   {
-    path: '*',
+    path: paths.notFound,
     element: <NotFoundPage />,
   },
 ]);

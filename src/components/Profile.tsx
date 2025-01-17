@@ -32,10 +32,10 @@ const ProfileComponent = ({ name, src, alt }: ProfileProps) => {
           </DropdownMenuTrigger>
           <DropdownMenuContent className='w-10 text-center'>
             <DropdownMenuGroup className='divide-y divide-divider-default'>
-              <DropdownMenuItem className='block m-1 cursor-pointer hover:bg-gray-hover'>
+              <DropdownMenuItem className='m-1 block cursor-pointer hover:bg-gray-hover'>
                 프로필
               </DropdownMenuItem>
-              <DropdownMenuItem className='block m-1 rounded-none cursor-pointer hover:bg-gray-hover'>
+              <DropdownMenuItem className='rounded-none m-1 block cursor-pointer hover:bg-gray-hover'>
                 로그아웃
               </DropdownMenuItem>
             </DropdownMenuGroup>
