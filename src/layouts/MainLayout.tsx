@@ -3,10 +3,6 @@ import NavigationComponent from '@/components/Navigation';
 import { ReactNode } from 'react';
 import { Outlet, useLocation, useMatch } from 'react-router-dom';
 
-interface MainLayoutProps {
-  children?: ReactNode;
-}
-
 const MainLayout = ({ children }: MainLayoutProps) => {
   const location = useLocation();
 
@@ -46,7 +42,9 @@ const MainLayout = ({ children }: MainLayoutProps) => {
               <HeaderComponent children={headerTitle} />
             </header>
 
-            <main className='flex-grow bg-red'>{children || <Outlet />}</main>
+            <main className='flex-grow bg-red'>
+              <Outlet />
+            </main>
           </div>
 
           {isProjectsIssueDetailPage && (
