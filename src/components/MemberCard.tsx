@@ -31,12 +31,12 @@ const MemberCardComponent = ({
           </CardTitle>
         </CardHeader>
 
-        <CardContent className='h-8 text-xl font-bold text-text'>
+        <CardContent className='h-8 text-xl font-bold'>
           <p>{name}</p>
         </CardContent>
 
-        <CardFooter className='text-sm text-text-disabled'>
-          <p>{email}</p>
+        <CardFooter className='text-sm'>
+          <p className='text-text-disabled'>{email}</p>
         </CardFooter>
       </Card>
     </>
