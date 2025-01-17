@@ -20,10 +20,10 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
   return (
     <>
-      <div>
+      <div className='h-[100vh] w-full'>
         <NavigationComponent name={'권보령'} alt={'프로필 사진'} />
         <HeaderComponent children={headerTitle} />
-        <div className='w-full'>{children || <Outlet />}</div>
+        {children || <Outlet />}
       </div>
     </>
   );
