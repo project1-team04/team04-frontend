@@ -28,7 +28,7 @@ const MainLayout = ({}) => {
 
         <div className='flex flex-grow items-center justify-center'>
           {isProjectDetailPage && (
-            <aside className='h-[100%] w-[400px] bg-purple'>서치바</aside>
+            <aside className='h-[100%] w-[400px]'>서치바</aside>
           )}
 
           <div
@@ -36,19 +36,19 @@ const MainLayout = ({}) => {
               isProjectDetailPage || isProjectsIssueDetailPage
                 ? 'w-full'
                 : 'w-[800px]'
-            } flex-col bg-orange`}
+            } flex-col`}
           >
             <header className='ml-14 flex h-[110px] items-center'>
               <HeaderComponent children={headerTitle} />
             </header>
 
-            <main className='flex-grow bg-red'>
+            <main className='flex-grow'>
               <Outlet />
             </main>
           </div>
 
           {isProjectsIssueDetailPage && (
-            <aside className='h-[100%] w-[600px] bg-purple'>채팅</aside>
+            <aside className='h-[100%] w-[600px]'>채팅</aside>
           )}
         </div>
       </div>
