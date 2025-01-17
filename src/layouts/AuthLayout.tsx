@@ -5,16 +5,16 @@ const AuthLayout = () => {
   return (
     <>
       <div className='flex h-[100vh] w-full'>
-        <div className='w-1/2 bg-purple'>왼쪽 부분</div>
+        <aside className='w-1/2 bg-purple'>왼쪽 부분</aside>
 
         <div className='flex w-1/2 flex-col'>
-          <div className='flex h-[25%] items-end justify-center'>
+          <header className='flex h-[25%] items-end justify-center'>
             <Logo variant='loginLogo' />
-          </div>
+          </header>
 
-          <div className='h-4/5'>
+          <main className='h-4/5'>
             <Outlet />
-          </div>
+          </main>
         </div>
       </div>
     </>
