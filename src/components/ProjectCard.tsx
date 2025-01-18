@@ -10,7 +10,7 @@ const ProjectCardComponent = ({ title, issue, onClick }: ProjectCardProps) => {
   return (
     <>
       <Card
-        className='h-[130px] w-[230px] rounded-[15px] border-none'
+        className='h-[130px] w-[230px] transform rounded-[15px] border-none transition-transform duration-200 hover:scale-105'
         onClick={onClick}
       >
         <CardHeader className='flex h-[85px] justify-center rounded-t-[15px] bg-[#8280FF]/20'>
