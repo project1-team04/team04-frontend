@@ -9,13 +9,16 @@ const ProjectsListPage = () => {
 
   return (
     <>
-      <ProjectCardComponent
-        title={''}
-        issue={0}
-        onClick={function (): void {
-          throw new Error('Function not implemented.');
-        }}
-      />
+      <div className='grid grid-cols-3 gap-4 p-4'>
+        {data.map((project) => (
+          <ProjectCardComponent
+            key={project.id}
+            title={project.title}
+            issue={project.issue}
+            onClick={() => console.log(`${project.title} 클릭`)}
+          />
+        ))}
+      </div>
     </>
   );
 };
