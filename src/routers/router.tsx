@@ -23,18 +23,18 @@ const router = createBrowserRouter([
       {
         // /auth 경로 접근 시 /auth/login으로 자동 리다이렉트
         index: true,
-        element: <Navigate to={paths.auth.login} replace />,
+        element: <Navigate to={paths.auth.login.fullPath} replace />,
       },
       {
-        path: paths.auth.login,
+        path: paths.auth.login.relativePath,
         element: <AuthLoginPage />,
       },
       {
-        path: paths.auth.signup,
+        path: paths.auth.signup.relativePath,
         element: <AuthSignupPage />,
       },
       {
-        path: paths.auth.findPassword,
+        path: paths.auth.findPassword.relativePath,
         element: <AuthFindPasswordPage />,
       },
     ],
@@ -48,22 +48,22 @@ const router = createBrowserRouter([
         element: <ProjectsListPage />,
       },
       {
-        path: paths.projects.new,
+        path: paths.projects.new.relativePath,
         element: <ProjectsCreatePage />,
       },
       {
-        path: paths.projects.detail,
+        path: paths.projects.detail.relativePath,
         children: [
           {
             index: true,
             element: <ProjectsDetailPage />,
           },
           {
-            path: paths.projects.issueDetail,
+            path: paths.projects.issueDetail.relativePath,
             element: <ProjectsIssueDetailPage />,
           },
           {
-            path: paths.projects.settings,
+            path: paths.projects.settings.relativePath,
             element: <ProjectsSettingPage />,
           },
         ],
@@ -79,7 +79,7 @@ const router = createBrowserRouter([
         element: <ProfilePage />,
       },
       {
-        path: paths.profile.delegate,
+        path: paths.profile.delegate.relativePath,
         element: <ProfileDelegatePage />,
       },
     ],
