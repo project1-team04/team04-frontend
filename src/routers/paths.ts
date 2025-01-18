@@ -3,6 +3,7 @@ export const paths = {
     root: '/auth',
     login: 'login',
     signup: 'signup',
+    findPassword: 'find-password',
   },
   projects: {
     root: '/projects',

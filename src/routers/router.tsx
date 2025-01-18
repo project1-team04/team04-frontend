@@ -4,6 +4,7 @@ import AuthLayout from '../layouts/AuthLayout';
 import MainLayout from '@/layouts/MainLayout';
 import AuthLoginPage from '@/pages/AuthLoginPage';
 import AuthSignupPage from '@/pages/AuthSignupPage';
+import AuthFindPasswordPage from '@/pages/AuthFindPasswordPage';
 import ProjectsListPage from '@/pages/ProjectsListPage';
 import ProjectsCreatePage from '@/pages/ProjectsCreatePage';
 import ProjectsDetailPage from '@/pages/ProjectsDetailPage';
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: paths.auth.signup,
         element: <AuthSignupPage />,
+      },
+      {
+        path: paths.auth.findPassword,
+        element: <AuthFindPasswordPage />,
       },
     ],
   },
