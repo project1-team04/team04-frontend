@@ -17,7 +17,7 @@ const ButtonComponent = ({
     <Button
       variant={variant}
       size={size}
-      className={`w-full text-center text-base`}
+      className={`w-full text-center`}
       {...props}
     >
       {children}
