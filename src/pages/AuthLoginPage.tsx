@@ -1,7 +1,8 @@
 import { Checkbox } from '@/components/ui/checkbox';
-import { Separator } from '@/components/ui/separator';
+import { paths } from '@/routers/paths';
 import ButtonComponent from '@/components/Button';
 import InputComponent from '@/components/Input';
+import AuthNavLinks from '@/components/AuthNavLinks';
 import NaverIcon from '../assets/btn_naver.svg?react';
 import KakaoIcon from '../assets/btn_kakao.svg?react';
 import GoogleIcon from '../assets/btn_google.svg?react';
@@ -42,11 +43,12 @@ const AuthLoginPage = () => {
         ))}
       </div>
 
-      <div className='flex h-4 items-center gap-4 text-xs text-text-disabled'>
-        <p className='hover:text-text-sub'>회원가입하기</p>
-        <Separator orientation='vertical' />
-        <p className='hover:text-text-sub'>비밀번호찾기</p>
-      </div>
+      <AuthNavLinks
+        leftText='회원가입하기'
+        rightText='비밀번호 찾기'
+        leftPath={paths.auth.signup.fullPath}
+        rightPath={paths.auth.findPassword.fullPath}
+      />
     </div>
   );
 };

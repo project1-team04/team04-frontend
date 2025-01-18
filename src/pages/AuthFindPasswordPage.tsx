@@ -1,6 +1,7 @@
-import { Separator } from '@/components/ui/separator';
+import { paths } from '@/routers/paths';
 import ButtonComponent from '@/components/Button';
 import InputComponent from '@/components/Input';
+import AuthNavLinks from '@/components/AuthNavLinks';
 
 const AuthForgotPasswordPage = () => {
   return (
@@ -15,11 +16,12 @@ const AuthForgotPasswordPage = () => {
         <ButtonComponent>임시 비밀번호 전송</ButtonComponent>
       </form>
 
-      <div className='flex h-4 items-center gap-4 text-xs text-text-disabled'>
-        <p className='hover:text-text-sub'>로그인하기</p>
-        <Separator orientation='vertical' />
-        <p className='hover:text-text-sub'>비밀번호찾기</p>
-      </div>
+      <AuthNavLinks
+        leftText='로그인하기'
+        rightText='회원가입하기'
+        leftPath={paths.auth.login.fullPath}
+        rightPath={paths.auth.signup.fullPath}
+      />
     </div>
   );
 };
