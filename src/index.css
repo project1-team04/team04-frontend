@@ -4,14 +4,15 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    /* shadcn/ui의 기본 스타일을 위한 설정 */
-    --radius: 0.5rem;
-  }
+/* shadcn/ui의 기본 스타일을 위한 설정 */
+:root {
+  --radius: 0.5rem;
+}
 
+@layer base {
   body {
     /* Pretendard를 전역 기본 폰트로 설정 */
-    @apply font-sans;
+    /* 모든 텍스트 태그에 기본 텍스트 색상 적용 */
+    @apply font-sans text-text;
   }
 }

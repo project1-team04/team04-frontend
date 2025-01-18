@@ -1,11 +1,11 @@
 interface LogoProps {
-  variant?: 'navLogo' | 'loginLogo';
+  variant?: 'navLogo' | 'authLogo';
 }
 
 const Logo = ({ variant = 'navLogo' }: LogoProps) => {
   const variantStyles = {
     navLogo: 'text-2xl',
-    loginLogo: 'text-5xl',
+    authLogo: 'text-5xl',
   };
 
   return (
