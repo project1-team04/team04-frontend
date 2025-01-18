@@ -9,6 +9,7 @@ const MainLayout = ({}) => {
   const path: Record<string, string> = {
     [paths.projects.root]: '내 프로젝트',
     [paths.projects.new.fullPath]: '프로젝트 생성',
+    [paths.projects.settings.fullPath]: '프로젝트 설정',
     [paths.profile.delegate.fullPath]: '프로젝트 권한 위임',
   };
 
