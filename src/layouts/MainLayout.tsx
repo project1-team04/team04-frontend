@@ -8,18 +8,20 @@ const MainLayout = ({}) => {
 
   const path: Record<string, string> = {
     [paths.projects.root]: '내 프로젝트',
-    [`${paths.projects.root}/${paths.projects.new}`]: '프로젝트 생성',
-    [`${paths.profile.root}/${paths.profile.delegate}`]: '프로젝트 권한 위임',
+    [paths.projects.new.fullPath]: '프로젝트 생성',
+    [paths.profile.delegate.fullPath]: '프로젝트 권한 위임',
   };
 
   const headerTitle = path[location.pathname];
 
   // 특정 경로 매칭: /projects/:projectId
-  // const isProjectDetailPage = useMatch('/projects/:projectId');
+  const isProjectDetailPage =
+    useMatch(paths.projects.detail.fullPath)?.params?.projectId &&
+    location.pathname !== paths.projects.new.fullPath;
 
-  // 임시로 /profile(서치바 O), /profile/delegate(채팅 O)로 설정
-  const isProjectDetailPage = useMatch('/profile');
-  const isProjectsIssueDetailPage = useMatch('/profile/delegate');
+  const isProjectsIssueDetailPage = useMatch(
+    paths.projects.issueDetail.fullPath
+  );
 
   return (
     <>
