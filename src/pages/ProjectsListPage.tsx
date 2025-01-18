@@ -1,4 +1,12 @@
 import ProjectCardComponent from '@/components/ProjectCard';
+import { MdKeyboardArrowLeft } from 'react-icons/md';
+import { MdKeyboardArrowRight } from 'react-icons/md';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+} from '@/components/ui/pagination';
 
 const ProjectsListPage = () => {
   const data = [
@@ -11,6 +19,10 @@ const ProjectsListPage = () => {
     { id: '7', title: 'Gamma', issue: 7 },
     { id: '8', title: 'Delta', issue: 8 },
     { id: '9', title: 'Epsilon', issue: 9 },
+    // { id: '10', title: 'Beta', issue: 6 },
+    // { id: '11', title: 'Gamma', issue: 7 },
+    // { id: '12', title: 'Delta', issue: 8 },
+    // { id: '14', title: 'Epsilon', issue: 9 },
   ];
 
   return (
@@ -25,6 +37,20 @@ const ProjectsListPage = () => {
           />
         ))}
       </div>
+
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <MdKeyboardArrowLeft href='#' />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href='#'>1</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <MdKeyboardArrowRight href='#' />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </>
   );
 };
