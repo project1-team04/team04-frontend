@@ -38,7 +38,7 @@ const ProjectsListPage = () => {
         ))}
       </div>
 
-      <Pagination>
+      <Pagination className='mt-6'>
         <PaginationContent>
           <PaginationItem>
             <MdKeyboardArrowLeft href='#' />
