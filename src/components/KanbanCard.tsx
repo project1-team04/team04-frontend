@@ -1,3 +1,5 @@
+import IssueCard from './IssueCard';
+
 const KanbanCard = () => {
   return (
     <>
@@ -9,9 +11,8 @@ const KanbanCard = () => {
           <span>이슈 개수(숫자)</span>
           {/* divider 역으로 border bottom? 넣기 */}
         </div>
-        <div className='h-[130px] w-full rounded-lg bg-red'>
-          이슈 카드 컴포넌트
-        </div>
+
+        <IssueCard />
       </div>
     </>
   );
