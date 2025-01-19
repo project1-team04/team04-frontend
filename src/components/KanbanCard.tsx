@@ -1,5 +1,6 @@
 import IssueCard from './IssueCard';
 
+// props: status
 const KanbanCard = () => {
   return (
     <>
@@ -12,7 +13,13 @@ const KanbanCard = () => {
           {/* divider 역으로 border bottom? 넣기 */}
         </div>
 
-        <IssueCard />
+        <section className='flex flex-col gap-5'>
+          <IssueCard
+            title={'Merge 이슈'}
+            issueId={'12345'}
+            manager={'권보령'}
+          />
+        </section>
       </div>
     </>
   );
