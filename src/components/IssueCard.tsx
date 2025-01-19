@@ -1,12 +1,20 @@
-// props: 이슈 타이틀, 이슈 아이디, 담당자 명
-const IssueCard = () => {
+interface IssueCardProps {
+  title: string;
+  issueId: string;
+  manager: string;
+}
+
+const IssueCard = ({ title, issueId, manager }: IssueCardProps) => {
   return (
     <>
-      <div className='h-[130px] w-full rounded-lg bg-bg p-7'>
-        <span className='text-lg font-bold'>이슈 타이틀</span>
-        <div className='flex justify-between mt-4 text-sm'>
-          <span>이슈 아이디</span>
-          <span>담당자 명</span>
+      <div className='h-[125px] w-full rounded-lg bg-bg p-7 pt-6'>
+        <span className='text-lg font-bold'>{title}</span>
+        <div className='flex justify-between text-sm mt-7'>
+          <div className='flex items-center gap-2'>
+            <div className='w-3 h-3 rounded-full bg-red' />
+            <span>{issueId}</span>
+          </div>
+          <span>{manager}</span>
         </div>
       </div>
     </>
