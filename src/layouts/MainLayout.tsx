@@ -2,6 +2,7 @@ import HeaderComponent from '@/components/Header';
 import NavigationComponent from '@/components/Navigation';
 import { Outlet, useLocation, useMatch } from 'react-router-dom';
 import { paths } from '../routers/paths';
+import { Button } from '@/components/ui/button';
 
 const MainLayout = ({}) => {
   const location = useLocation();
@@ -43,6 +44,12 @@ const MainLayout = ({}) => {
           >
             <header className='ml-14 flex h-[110px] items-center'>
               <HeaderComponent children={headerTitle} />
+
+              {headerTitle === '프로젝트 설정' && (
+                <Button className='ml-auto' variant={'negative'}>
+                  프로젝트 삭제
+                </Button>
+              )}
             </header>
 
             <main className='flex-grow'>
