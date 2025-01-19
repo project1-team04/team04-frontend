@@ -22,7 +22,7 @@ const MemberCardComponent = ({
 
   return (
     <>
-      <Card className='h-[120px] w-[250px]'>
+      <Card className='h-[120px] w-[270px]'>
         <CardHeader
           className={`m-4 mb-2 inline-flex h-3 justify-center rounded-lg ${variantStyles} p-3`}
         >
