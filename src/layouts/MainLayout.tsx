@@ -46,7 +46,7 @@ const MainLayout = ({}) => {
               <HeaderComponent children={headerTitle} />
 
               {headerTitle === '프로젝트 설정' && (
-                <Button className='ml-auto' variant={'negative'}>
+                <Button className='ml-auto' variant={'negative'} size={'sm'}>
                   프로젝트 삭제
                 </Button>
               )}
