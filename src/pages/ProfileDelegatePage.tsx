@@ -1,18 +1,18 @@
 import Button from '@/components/Button';
 import ProjectDelegation from '@/components/ProjectDelegation';
 
-// 목 데이터터
+// 목 데이터
 const data = [
-  { id: '1', title: 'Threadly', member: ['앵무새새', '고양이', '강아지'] },
-  { id: '2', title: 'Apple', member: ['권', '보보', '령령'] },
-  { id: '3', title: 'Banana', member: ['ㅇㅇ', 'ㄴㄴ', 'ㅈ'] },
+  { id: '1', title: 'Threadly', member: ['앵무새', '고양이', '강아지'] },
+  { id: '2', title: 'Apple', member: ['권', '보', '령'] },
+  { id: '3', title: 'Banana', member: ['ㅇ', 'ㄴ', 'ㅈ'] },
 ];
 
 const ProfileDelegatePage = () => {
   return (
     <>
-      <div className='m-auto flex h-[90%] w-[75%] flex-col items-center rounded-2xl bg-gray p-8'>
-        <div className='flex h-[400px] w-4/5 flex-col overflow-auto'>
+      <div className='m-auto flex h-[90%] w-[65%] flex-col items-center rounded-2xl bg-gray p-8'>
+        <div className='flex h-[400px] w-[90%] flex-col overflow-auto'>
           {data.map((project) => (
             <ProjectDelegation
               key={project.id}
