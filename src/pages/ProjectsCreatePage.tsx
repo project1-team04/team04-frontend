@@ -1,4 +1,5 @@
 import ButtonComponent from '@/components/Button';
+import InputComponent from '@/components/Input';
 import MemberCardComponent from '@/components/MemberCard';
 
 const ProjectsCreatePage = () => {
@@ -18,15 +19,24 @@ const ProjectsCreatePage = () => {
 
   return (
     <>
-      <div className='align-items-center m-5 mt-3 grid grid-cols-2 justify-items-center gap-y-4'>
-        {data.map((member) => (
-          <MemberCardComponent
-            key={member.id}
-            name={member.name}
-            email={member.email}
-            position={member.position}
-          />
-        ))}
+      <div className='ml-3 flex items-center gap-5'>
+        <p>프로젝트 이름</p>
+        <div className='w-[86%]'>
+          <InputComponent placeholder="Enter Project's name" />
+        </div>
+      </div>
+
+      <div className='mt-4 h-[315px] overflow-auto bg-gray p-3'>
+        <div className='align-items-center m-5 mt-3 grid grid-cols-2 justify-items-center gap-y-4'>
+          {data.map((member) => (
+            <MemberCardComponent
+              key={member.id}
+              name={member.name}
+              email={member.email}
+              position={member.position}
+            />
+          ))}
+        </div>
       </div>
 
       <div className='mt-5 flex flex-col gap-4'>
