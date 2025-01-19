@@ -2,6 +2,7 @@ import HeaderComponent from '@/components/Header';
 import NavigationComponent from '@/components/Navigation';
 import { Outlet, useLocation, useMatch } from 'react-router-dom';
 import { paths } from '../routers/paths';
+import Search from '@/components/Search';
 
 const MainLayout = ({}) => {
   const location = useLocation();
@@ -31,7 +32,7 @@ const MainLayout = ({}) => {
 
         <div className='flex flex-grow items-center justify-center'>
           {isProjectDetailPage && (
-            <aside className='h-[100%] w-[400px]'>서치바</aside>
+            <aside className='h-[100%] w-[400px]'>{<Search />}</aside>
           )}
 
           <div
