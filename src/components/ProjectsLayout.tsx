@@ -1,6 +1,8 @@
 import ButtonComponent from './Button';
 import MemberCardComponent from './MemberCard';
 import InputComponent from './Input';
+import { useModalStore } from '@/stores/useModalStore';
+import WarningModal from './WarningModal';
 
 interface Member {
   id: string;
@@ -14,6 +16,8 @@ interface ProjectLayoutProps {
 }
 
 const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
+  const { open } = useModalStore();
+
   return (
     <>
       <div className='ml-3 flex items-center gap-5'>
@@ -40,9 +44,7 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
         <ButtonComponent
           variant='secondary'
           children={'+ 인원 추가'}
-          onClick={() => {
-            console.log('인원 추가 버튼 클릭');
-          }}
+          onClick={() => open()}
         />
         <ButtonComponent
           children={'생성 완료'}
@@ -51,6 +53,8 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
           }}
         />
       </div>
+
+      <WarningModal />
     </>
   );
 };
