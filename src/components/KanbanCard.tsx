@@ -38,6 +38,7 @@ const KanbanCard = ({ status, issueCount }: KanbanCardProps) => {
         </div>
 
         <section className='flex flex-col gap-5 pt-4'>
+          {/* data */}
           <IssueCard
             title={'Merge 이슈'}
             issueId={'12345'}
