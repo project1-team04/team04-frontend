@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { RiErrorWarningLine } from 'react-icons/ri';
+
 const WarningModal = () => {
   return (
     <>
@@ -11,7 +12,7 @@ const WarningModal = () => {
             탈퇴 후에는 해당 이메일로 재가입이 불가능합니다.
           </p>
         </div>
-        <div className='flex'>
+        <div className='flex gap-x-3'>
           <Button variant={'outline'} children={'아니오'} />
           <Button variant={'negative'} children={'네'} />
         </div>
