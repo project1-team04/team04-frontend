@@ -2,7 +2,8 @@ import ButtonComponent from './Button';
 import MemberCardComponent from './MemberCard';
 import InputComponent from './Input';
 import { useModalStore } from '@/stores/useModalStore';
-import InviteUserModal from './InviteUserModal';
+import Modal from './Modal';
+import { Input } from './ui/input';
 
 interface Member {
   id: string;
@@ -20,7 +21,7 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
 
   return (
     <>
-      <div className='ml-3 flex items-center gap-5'>
+      <div className='flex items-center gap-5 ml-3'>
         <p>프로젝트 이름</p>
         <div className='w-[86%]'>
           <InputComponent placeholder="Enter Project's name" />
@@ -28,7 +29,7 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
       </div>
 
       <div className='mt-4 h-[315px] overflow-auto bg-gray p-3'>
-        <div className='align-items-center m-5 mt-3 grid grid-cols-2 justify-items-center gap-y-4'>
+        <div className='grid grid-cols-2 m-5 mt-3 align-items-center justify-items-center gap-y-4'>
           {data.map((member) => (
             <MemberCardComponent
               key={member.id}
@@ -40,7 +41,7 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
         </div>
       </div>
 
-      <div className='mt-5 flex flex-col gap-4'>
+      <div className='flex flex-col gap-4 mt-5'>
         <ButtonComponent
           variant='secondary'
           children={'+ 인원 추가'}
@@ -54,7 +55,23 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
         />
       </div>
 
-      {modalType === 'addPeople' && <InviteUserModal />}
+      {modalType === 'addPeople' && (
+        <Modal
+          title={'인원 초대'}
+          content={
+            <div className='w-64'>
+              <span className='text-sm'>
+                이메일 <span className='text-red'>*</span>
+              </span>
+              <Input className='bg-white' />
+            </div>
+          }
+          buttons={[
+            { text: '취소', variantStyle: 'outline' },
+            { text: '추가' },
+          ]}
+        />
+      )}
     </>
   );
 };
