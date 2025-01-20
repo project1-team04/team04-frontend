@@ -2,7 +2,7 @@ import ButtonComponent from './Button';
 import MemberCardComponent from './MemberCard';
 import InputComponent from './Input';
 import { useModalStore } from '@/stores/useModalStore';
-import WarningModal from './WarningModal';
+import InviteUserModal from './InviteUserModal';
 
 interface Member {
   id: string;
@@ -54,7 +54,7 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
         />
       </div>
 
-      <WarningModal />
+      <InviteUserModal />
     </>
   );
 };
