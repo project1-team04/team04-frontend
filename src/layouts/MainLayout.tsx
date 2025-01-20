@@ -31,7 +31,7 @@ const MainLayout = ({}) => {
   // 임시 프로젝트명(data)
   const projectName = 'Threadly';
 
-  const { open } = useModalStore();
+  const { open, close, modalType } = useModalStore();
 
   return (
     <>
@@ -64,16 +64,18 @@ const MainLayout = ({}) => {
                   className='ml-auto'
                   variant={'negative'}
                   size={'sm'}
-                  onClick={() => open()}
+                  onClick={() => open('warning')}
                 >
                   프로젝트 삭제
                 </Button>
               )}
 
               {isProjectDetailPage && (
-                <Button className='ml-[800px]' variant={'outline'}>
-                  이슈 생성
-                </Button>
+                <div>
+                  <Button className='ml-[800px]' variant={'outline'}>
+                    이슈 생성
+                  </Button>
+                </div>
               )}
             </header>
 
@@ -87,8 +89,7 @@ const MainLayout = ({}) => {
           )}
         </div>
       </div>
-
-      <WarningModal />
+      {modalType === 'warning' && <WarningModal />}
     </>
   );
 };
