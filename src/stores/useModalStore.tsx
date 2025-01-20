@@ -1,15 +1,13 @@
 import { create } from 'zustand';
 
 interface ModalStore {
-  content: React.ReactNode | null;
-  isOpen: boolean;
-  open: (content: React.ReactNode) => void;
-  close: () => void;
+  isOpen: boolean; // 모달 오픈 여부
+  open: () => void; // 모달 열 때 호출
+  close: () => void; // 모달 닫을 때 호출
 }
 
 export const useModalStore = create<ModalStore>((set) => ({
-  content: null,
   isOpen: false,
-  open: (content) => set({ isOpen: true, content }),
+  open: () => set({ isOpen: true }),
   close: () => set({ isOpen: false }),
 }));
