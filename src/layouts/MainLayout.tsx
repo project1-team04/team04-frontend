@@ -31,7 +31,7 @@ const MainLayout = ({}) => {
   // 임시 프로젝트명(data)
   const projectName = 'Threadly';
 
-  const { open, close, modalType } = useModalStore();
+  const { open, modalType } = useModalStore();
 
   return (
     <>
