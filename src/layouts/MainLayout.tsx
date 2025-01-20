@@ -26,8 +26,8 @@ const MainLayout = ({}) => {
     paths.projects.issueDetail.fullPath
   );
 
-  // 임시 프로젝트명(data)
-  const projectName = 'Threadly';
+  // FIX) api에서 프로젝트 title 또는 이슈 title 불러와서 저장
+  const headerDetailTitle = 'Threadly';
 
   return (
     <>
@@ -54,7 +54,7 @@ const MainLayout = ({}) => {
             } flex-col`}
           >
             <header className='ml-14 flex h-[110px] items-center'>
-              <HeaderComponent children={projectName || headerTitle} />
+              <HeaderComponent children={headerTitle ?? headerDetailTitle} />
               {headerTitle === '프로젝트 설정' && (
                 <Button className='ml-auto' variant={'negative'} size={'sm'}>
                   프로젝트 삭제
