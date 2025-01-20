@@ -5,7 +5,8 @@ import { paths } from '../routers/paths';
 import Search from '@/components/Search';
 import { Button } from '@/components/ui/button';
 import { useModalStore } from '@/stores/useModalStore';
-import WarningModal from '@/components/WarningModal';
+import Modal from '@/components/Modal';
+import { RiErrorWarningLine } from 'react-icons/ri';
 
 const MainLayout = ({}) => {
   const location = useLocation();
@@ -38,7 +39,7 @@ const MainLayout = ({}) => {
       <div className='flex h-[100vh] w-full flex-col'>
         <NavigationComponent name={'권보령'} alt={'프로필 사진'} />
 
-        <div className='flex flex-grow items-center justify-center'>
+        <div className='flex items-center justify-center flex-grow'>
           {isProjectDetailPage && (
             <aside className='flex h-[100%] w-[330px] flex-col border-r-[1px] border-divider-default'>
               <Search />
@@ -90,9 +91,15 @@ const MainLayout = ({}) => {
         </div>
       </div>
       {modalType === 'warning' && (
-        <WarningModal
+        <Modal
           title={'정말 삭제하시겠습니까?'}
-          sub={'삭제 후에는 되돌리기가 불가능합니다.'}
+          content={'삭제 후에는 되돌리기가 불가능합니다.'}
+          icon={<RiErrorWarningLine className='h-[60px] w-[60px]' />}
+          css={'text-sm mt-[-18px]'}
+          buttons={[
+            { text: '아니오', variantStyle: 'outline' },
+            { text: '네', variantStyle: 'negative' },
+          ]}
         />
       )}
     </>
