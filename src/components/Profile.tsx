@@ -26,7 +26,10 @@ const ProfileComponent = ({ name, src, alt }: ProfileProps) => {
         )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className='ml-[-10px] w-4 border-0 shadow-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0'>
+            <Button
+              className='ml-[-10px] w-4 border-0 shadow-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0'
+              variant={'outline'}
+            >
               <IoIosArrowDown />
             </Button>
           </DropdownMenuTrigger>
@@ -35,7 +38,7 @@ const ProfileComponent = ({ name, src, alt }: ProfileProps) => {
               <DropdownMenuItem className='m-1 block cursor-pointer hover:bg-gray-hover'>
                 프로필
               </DropdownMenuItem>
-              <DropdownMenuItem className='rounded-none m-1 block cursor-pointer hover:bg-gray-hover'>
+              <DropdownMenuItem className='m-1 block cursor-pointer rounded-none hover:bg-gray-hover'>
                 로그아웃
               </DropdownMenuItem>
             </DropdownMenuGroup>
