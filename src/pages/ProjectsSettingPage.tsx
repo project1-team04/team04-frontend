@@ -1,5 +1,11 @@
+import ProjectsLayout from '@/components/ProjectsLayout';
+
 const ProjectsSettingPage = () => {
-  return <div>프로젝트 설정</div>;
+  return (
+    <>
+      <ProjectsLayout data={[]} />
+    </>
+  );
 };
 
 export default ProjectsSettingPage;
