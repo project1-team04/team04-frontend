@@ -62,7 +62,7 @@ const MainLayout = ({}) => {
               )}
 
               {isProjectDetailPage && (
-                <Button className='ml-[770px]' variant={'outline'}>
+                <Button className='ml-[800px]' variant={'outline'}>
                   이슈 생성
                 </Button>
               )}
