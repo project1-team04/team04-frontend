@@ -16,7 +16,7 @@ interface ProjectLayoutProps {
 }
 
 const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
-  const { open } = useModalStore();
+  const { modalType, open } = useModalStore();
 
   return (
     <>
@@ -44,7 +44,7 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
         <ButtonComponent
           variant='secondary'
           children={'+ 인원 추가'}
-          onClick={() => open()}
+          onClick={() => open('addPeople')}
         />
         <ButtonComponent
           children={'생성 완료'}
@@ -54,7 +54,7 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
         />
       </div>
 
-      <InviteUserModal />
+      {modalType === 'addPeople' && <InviteUserModal />}
     </>
   );
 };
