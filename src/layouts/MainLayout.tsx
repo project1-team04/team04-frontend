@@ -4,6 +4,9 @@ import { Outlet, useLocation, useMatch } from 'react-router-dom';
 import { paths } from '../routers/paths';
 import Search from '@/components/Search';
 import { Button } from '@/components/ui/button';
+import { useModalStore } from '@/stores/useModalStore';
+import Modal from '@/components/Modal';
+import { RiErrorWarningLine } from 'react-icons/ri';
 
 const MainLayout = ({}) => {
   const location = useLocation();
@@ -29,12 +32,14 @@ const MainLayout = ({}) => {
   // 임시 프로젝트명(data)
   const projectName = 'Threadly';
 
+  const { open, modalType } = useModalStore();
+
   return (
     <>
       <div className='flex h-[100vh] w-full flex-col'>
         <NavigationComponent name={'권보령'} alt={'프로필 사진'} />
 
-        <div className='flex flex-grow items-center justify-center'>
+        <div className='flex items-center justify-center flex-grow'>
           {isProjectDetailPage && (
             <aside className='flex h-[100%] w-[330px] flex-col border-r-[1px] border-divider-default'>
               <Search />
@@ -56,15 +61,22 @@ const MainLayout = ({}) => {
             <header className='ml-14 flex h-[110px] items-center'>
               <HeaderComponent children={projectName || headerTitle} />
               {headerTitle === '프로젝트 설정' && (
-                <Button className='ml-auto' variant={'negative'} size={'sm'}>
+                <Button
+                  className='ml-auto'
+                  variant={'negative'}
+                  size={'sm'}
+                  onClick={() => open('warning')}
+                >
                   프로젝트 삭제
                 </Button>
               )}
 
               {isProjectDetailPage && (
-                <Button className='ml-[800px]' variant={'outline'}>
-                  이슈 생성
-                </Button>
+                <div>
+                  <Button className='ml-[800px]' variant={'outline'}>
+                    이슈 생성
+                  </Button>
+                </div>
               )}
             </header>
 
@@ -78,6 +90,18 @@ const MainLayout = ({}) => {
           )}
         </div>
       </div>
+      {modalType === 'warning' && (
+        <Modal
+          title={'정말 삭제하시겠습니까?'}
+          content={'삭제 후에는 되돌리기가 불가능합니다.'}
+          icon={<RiErrorWarningLine className='h-[60px] w-[60px]' />}
+          css={'text-sm mt-[-18px]'}
+          buttons={[
+            { text: '아니오', variantStyle: 'outline' },
+            { text: '네', variantStyle: 'negative' },
+          ]}
+        />
+      )}
     </>
   );
 };
