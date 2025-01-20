@@ -89,7 +89,12 @@ const MainLayout = ({}) => {
           )}
         </div>
       </div>
-      {modalType === 'warning' && <WarningModal />}
+      {modalType === 'warning' && (
+        <WarningModal
+          title={'정말 삭제하시겠습니까?'}
+          sub={'삭제 후에는 되돌리기가 불가능합니다.'}
+        />
+      )}
     </>
   );
 };
