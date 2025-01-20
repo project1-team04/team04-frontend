@@ -36,7 +36,7 @@ const MainLayout = ({}) => {
 
         <div className='flex flex-grow items-center justify-center'>
           {isProjectDetailPage && (
-            <aside className='flex h-[100%] w-[400px] flex-col'>
+            <aside className='flex h-[100%] w-[330px] flex-col border-r-[1px] border-divider-default'>
               <Search />
               <Button
                 className='m-4 w-[90px] text-xs'
