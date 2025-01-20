@@ -22,16 +22,16 @@ const MemberCardComponent = ({
 
   return (
     <>
-      <Card className='h-[125px] w-[300px] border-border-default'>
+      <Card className='h-[120px] w-[270px]'>
         <CardHeader
-          className={`m-4 mb-2 inline-flex h-7 justify-center rounded-lg ${variantStyles} p-3`}
+          className={`m-4 mb-2 inline-flex h-3 justify-center rounded-lg ${variantStyles} p-3`}
         >
-          <CardTitle className='text-center text-sm font-medium text-white'>
+          <CardTitle className='text-center text-xs font-medium text-white'>
             {position}
           </CardTitle>
         </CardHeader>
 
-        <CardContent className='h-8 text-xl font-bold'>
+        <CardContent className='h-8 text-lg font-bold'>
           <p>{name}</p>
         </CardContent>
 
