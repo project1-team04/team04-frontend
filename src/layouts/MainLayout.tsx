@@ -4,6 +4,8 @@ import { Outlet, useLocation, useMatch } from 'react-router-dom';
 import { paths } from '../routers/paths';
 import Search from '@/components/Search';
 import { Button } from '@/components/ui/button';
+import { useModalStore } from '@/stores/useModalStore';
+import WarningModal from '@/components/WarningModal';
 
 const MainLayout = ({}) => {
   const location = useLocation();
@@ -28,6 +30,8 @@ const MainLayout = ({}) => {
 
   // 임시 프로젝트명(data)
   const projectName = 'Threadly';
+
+  const { open } = useModalStore();
 
   return (
     <>
@@ -56,7 +60,12 @@ const MainLayout = ({}) => {
             <header className='ml-14 flex h-[110px] items-center'>
               <HeaderComponent children={projectName || headerTitle} />
               {headerTitle === '프로젝트 설정' && (
-                <Button className='ml-auto' variant={'negative'} size={'sm'}>
+                <Button
+                  className='ml-auto'
+                  variant={'negative'}
+                  size={'sm'}
+                  onClick={() => open()}
+                >
                   프로젝트 삭제
                 </Button>
               )}
@@ -78,6 +87,8 @@ const MainLayout = ({}) => {
           )}
         </div>
       </div>
+
+      <WarningModal />
     </>
   );
 };
