@@ -1,4 +1,4 @@
-import HeaderComponent from '@/components/Header';
+import Header from '@/components/Header';
 import NavigationComponent from '@/components/Navigation';
 import { Outlet, useLocation, useMatch } from 'react-router-dom';
 import { paths } from '../routers/paths';
@@ -31,15 +31,15 @@ const MainLayout = ({}) => {
 
   return (
     <>
-      <div className='flex h-[100vh] w-full flex-col'>
+      <div className='flex flex-col w-full h-screen'>
         <NavigationComponent name={'권보령'} alt={'프로필 사진'} />
 
-        <div className='flex grow items-center justify-center'>
+        <div className='flex items-center justify-center grow'>
           {isProjectDetailPage && (
-            <aside className='flex h-[100%] w-[330px] flex-col border-r-[1px] border-divider-default'>
+            <aside className='flex h-full w-[23%] flex-col border-r border-divider-default'>
               <Search />
               <Button
-                className='m-4 w-[90px] text-xs'
+                className='w-24 m-4 text-xs'
                 variant={'negative'}
                 children={'프로젝트 나가기'}
               />
@@ -50,11 +50,11 @@ const MainLayout = ({}) => {
             className={`flex h-full ${
               isProjectDetailPage || isProjectsIssueDetailPage
                 ? 'w-full'
-                : 'w-[800px]'
+                : 'w-[50rem]'
             } flex-col`}
           >
-            <header className='ml-14 flex h-[110px] items-center'>
-              <HeaderComponent children={headerTitle ?? headerDetailTitle} />
+            <header className='flex items-center ml-14 h-28'>
+              <Header children={headerTitle ?? headerDetailTitle} />
               {headerTitle === '프로젝트 설정' && (
                 <Button className='ml-auto' variant={'negative'} size={'sm'}>
                   프로젝트 삭제
@@ -62,7 +62,7 @@ const MainLayout = ({}) => {
               )}
 
               {isProjectDetailPage && (
-                <Button className='ml-[800px]' variant={'outline'}>
+                <Button className='ml-[73%]' variant={'outline'}>
                   이슈 생성
                 </Button>
               )}
@@ -74,7 +74,7 @@ const MainLayout = ({}) => {
           </div>
 
           {isProjectsIssueDetailPage && (
-            <aside className='h-[100%] w-[600px]'>채팅</aside>
+            <aside className='h-full w-[37.5rem]'>채팅</aside>
           )}
         </div>
       </div>
