@@ -9,17 +9,11 @@ import { Button } from '@/components/ui/button';
 
 interface DropDownProps {
   buttonText: React.ReactNode;
-  items: string[];
+  items: { label: string; onClick: () => void }[];
   className?: string;
-  // onItemClick?: (item: string) => void;
 }
 
-function DropDown({
-  buttonText,
-  items,
-  className,
-  // onItemClick,
-}: DropDownProps) {
+function DropDown({ buttonText, items, className }: DropDownProps) {
   return (
     <div>
       <DropdownMenu>
@@ -31,15 +25,15 @@ function DropDown({
             children={buttonText}
           ></Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className='w-10 text-center'>
-          <DropdownMenuGroup className='divide-y divide-divider-default'>
-            {items.map((item) => (
+        <DropdownMenuContent className='min-w-fit'>
+          <DropdownMenuGroup className='w-fit divide-y divide-divider-default'>
+            {items.map(({ label, onClick }) => (
               <DropdownMenuItem
-                key={item}
-                className='m-1 block cursor-pointer hover:bg-gray-hover'
-                // onClick={() => onItemClick(item)}
+                key={label}
+                className='flex cursor-pointer justify-center px-4 py-2'
+                onClick={onClick}
               >
-                {item}
+                {label}
               </DropdownMenuItem>
             ))}
           </DropdownMenuGroup>

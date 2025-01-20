@@ -1,5 +1,8 @@
+import { Link } from 'react-router-dom';
+import { paths } from '@/routers/paths';
 import Logo from './Logo';
 import ProfileComponent from './Profile';
+
 interface NavigationProps {
   name: string;
   src?: string;
@@ -8,14 +11,12 @@ interface NavigationProps {
 
 const NavigationComponent = ({ name, src, alt }: NavigationProps) => {
   return (
-    <>
-      <div className='z-16 border-b-[1px] border-divider-default'>
-        <nav className='flex h-24 w-full items-center justify-between px-20'>
-          <Logo />
-          <ProfileComponent name={name} src={src} alt={alt} />
-        </nav>
-      </div>
-    </>
+    <nav className='z-16 flex w-full items-center justify-between border-b-[1px] border-divider-default px-16 py-4'>
+      <Link to={paths.projects.root}>
+        <Logo />
+      </Link>
+      <ProfileComponent name={name} src={src} alt={alt} />
+    </nav>
   );
 };
 
