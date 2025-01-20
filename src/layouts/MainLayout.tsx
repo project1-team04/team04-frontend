@@ -39,7 +39,7 @@ const MainLayout = ({}) => {
       <div className='flex h-[100vh] w-full flex-col'>
         <NavigationComponent name={'권보령'} alt={'프로필 사진'} />
 
-        <div className='flex items-center justify-center flex-grow'>
+        <div className='flex flex-grow items-center justify-center'>
           {isProjectDetailPage && (
             <aside className='flex h-[100%] w-[330px] flex-col border-r-[1px] border-divider-default'>
               <Search />
