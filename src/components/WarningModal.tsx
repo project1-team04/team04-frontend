@@ -4,13 +4,13 @@ import Backdrop from './Backdrop';
 import { useModalStore } from '@/stores/useModalStore';
 
 const WarningModal = () => {
-  const { content, isOpen, close } = useModalStore(); // Zustand 스토어에서 상태 가져오기
+  const { isOpen, close } = useModalStore();
 
-  // if (!isOpen) return null; // 모달이 열려 있지 않으면 아무것도 렌더링하지 않음
+  if (!isOpen) return null; // 모달이 열려 있지 않으면 아무것도 렌더링하지 않음
 
   return (
     <>
-      <div className='flex justify-center'>
+      <div className='fixed inset-0 z-50 flex items-center justify-center'>
         <Backdrop onClick={close} />
         <div className='flex h-[300px] w-[400px] flex-col items-center justify-center bg-bg-light'>
           <RiErrorWarningLine className='h-[60px] w-[60px]' />
