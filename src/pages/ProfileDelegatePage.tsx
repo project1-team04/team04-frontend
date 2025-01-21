@@ -18,7 +18,7 @@ const ProfileDelegatePage = () => {
         </div>
 
         <div className='m-auto flex h-[90%] w-[70%] flex-col items-center rounded-2xl bg-gray p-5'>
-          <div className='flex h-[400px] w-[90%] flex-col overflow-auto'>
+          <div className='flex h-[380px] w-[90%] flex-col overflow-auto'>
             {data.map((project) => (
               <ProjectDelegation
                 key={project.id}
