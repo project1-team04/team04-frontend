@@ -27,7 +27,7 @@ const KanbanCard = ({ status, issueCount }: KanbanCardProps) => {
   return (
     <>
       <div
-        className={`h-full w-[30%] divide-y-2 ${divideColor} rounded-t-2xl bg-bg-deep p-5`}
+        className={`h-full w-[30%] divide-y-2 ${divideColor} overflow-auto rounded-t-2xl bg-bg-deep p-5`}
       >
         <div className='mb-3 flex h-9 items-center gap-4'>
           <div className={`h-3 w-3 rounded-full ${roundColor}`} />
@@ -37,7 +37,7 @@ const KanbanCard = ({ status, issueCount }: KanbanCardProps) => {
           </span>
         </div>
 
-        <section className='flex flex-col gap-5 pt-4'>
+        <section className='flex max-h-[28rem] flex-col gap-5 overflow-auto pt-4'>
           {/* data */}
           <IssueCard
             title={'Merge 이슈'}
