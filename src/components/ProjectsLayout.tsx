@@ -20,7 +20,7 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
   const { modalType, open } = useModalStore();
 
   return (
-    <div className='m-auto w-[55%]'>
+    <div className='m-auto w-[50%]'>
       <header className='flex h-28 items-center justify-between px-20'>
         <Header children={'프로젝트 설정'} />
         <Button className='ml-auto' variant={'negative'} size={'sm'}>
@@ -30,7 +30,7 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
 
       <div className='ml-3 flex items-center gap-5'>
         <p>프로젝트 이름</p>
-        <div className='w-[86%]'>
+        <div className='w-[84%]'>
           <InputComponent placeholder="Enter Project's name" />
         </div>
       </div>

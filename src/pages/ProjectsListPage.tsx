@@ -24,7 +24,7 @@ const data = [
 
 const ProjectsListPage = () => {
   return (
-    <div className='m-auto w-[55%]'>
+    <div className='m-auto w-[50%]'>
       <div className='flex w-[78%] flex-col'>
         <div className='flex h-28 items-center gap-5 px-20'>
           <Header children={'내 프로젝트'} />
@@ -41,21 +41,21 @@ const ProjectsListPage = () => {
             />
           ))}
         </div>
-      </div>
 
-      <Pagination className='mt-6'>
-        <PaginationContent>
-          <PaginationItem>
-            <MdKeyboardArrowLeft href='#' />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href='#'>1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <MdKeyboardArrowRight href='#' />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+        <Pagination className='mt-6'>
+          <PaginationContent>
+            <PaginationItem>
+              <MdKeyboardArrowLeft href='#' />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href='#'>1</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <MdKeyboardArrowRight href='#' />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
     </div>
   );
 };
