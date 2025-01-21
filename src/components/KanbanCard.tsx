@@ -27,12 +27,12 @@ const KanbanCard = ({ status, issueCount }: KanbanCardProps) => {
   return (
     <>
       <div
-        className={`h-full w-[21rem] divide-y-2 ${divideColor} rounded-t-2xl bg-bg-deep p-5`}
+        className={`h-full w-[30%] divide-y-2 ${divideColor} rounded-t-2xl bg-bg-deep p-5`}
       >
-        <div className='flex items-center gap-4 mb-3 h-9'>
+        <div className='mb-3 flex h-9 items-center gap-4'>
           <div className={`h-3 w-3 rounded-full ${roundColor}`} />
           <span className='font-semibold'>{status}</span>
-          <span className='w-5 h-5 text-sm text-center rounded-lg bg-border-default'>
+          <span className='h-5 w-5 rounded-lg bg-border-default text-center text-sm'>
             {issueCount}
           </span>
         </div>
