@@ -31,15 +31,15 @@ const MainLayout = ({}) => {
 
   return (
     <>
-      <div className='flex flex-col w-full h-screen'>
+      <div className='flex h-screen w-full flex-col'>
         <NavigationComponent name={'권보령'} alt={'프로필 사진'} />
 
-        <div className='flex items-center justify-center grow'>
+        <div className='flex grow items-center justify-center'>
           {isProjectDetailPage && (
-            <aside className='flex h-full w-[23%] flex-col border-r border-divider-default'>
+            <aside className='flex h-full w-[22%] flex-col border-r border-divider-default'>
               <Search />
               <Button
-                className='w-24 m-4 text-xs'
+                className='m-4 w-24 text-xs'
                 variant={'negative'}
                 children={'프로젝트 나가기'}
               />
@@ -53,7 +53,7 @@ const MainLayout = ({}) => {
                 : 'w-[50rem]'
             } flex-col`}
           >
-            <header className='flex items-center ml-14 h-28'>
+            <header className='ml-14 flex h-28 items-center'>
               <Header children={headerTitle ?? headerDetailTitle} />
               {headerTitle === '프로젝트 설정' && (
                 <Button className='ml-auto' variant={'negative'} size={'sm'}>

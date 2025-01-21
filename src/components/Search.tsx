@@ -2,7 +2,7 @@ import SearchInput from './SearchInput';
 
 const Search = () => {
   return (
-    <div className='flex flex-col items-center h-full p-10'>
+    <div className='flex h-full flex-col items-center p-8'>
       <SearchInput />
 
       <div className='mt-3 divide-y divide-divider-default'>
