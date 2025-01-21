@@ -26,47 +26,28 @@ const MainLayout = ({}) => {
     paths.projects.issueDetail.fullPath
   );
 
-  // FIX) api에서 프로젝트 title 또는 이슈 title 불러와서 저장
-  const headerDetailTitle = 'Threadly';
-
   return (
     <>
       <div className='flex h-screen w-full flex-col'>
         <NavigationComponent name={'권보령'} alt={'프로필 사진'} />
 
-        <div className='flex grow items-center justify-center'>
-          {isProjectDetailPage && (
-            <aside className='flex h-full w-[22%] flex-col border-r border-divider-default'>
-              <Search />
-              <Button
-                className='m-4 w-24 text-xs'
-                variant={'negative'}
-                children={'프로젝트 나가기'}
-              />
-            </aside>
-          )}
-
+        <div className=''>
           <div
-            className={`flex h-full ${
-              isProjectDetailPage || isProjectsIssueDetailPage
-                ? 'w-full'
-                : 'w-[50rem]'
-            } flex-col`}
+            className='flex-grow items-center justify-center'
+            // className={`flex h-full ${
+            //   isProjectDetailPage || isProjectsIssueDetailPage
+            //     ? 'w-full'
+            //     : 'w-[50rem]'
+            // } flex-col`}
           >
-            <header className='ml-14 flex h-28 items-center'>
+            {/* <header className='flex items-center ml-14 h-28'>
               <Header children={headerTitle ?? headerDetailTitle} />
               {headerTitle === '프로젝트 설정' && (
                 <Button className='ml-auto' variant={'negative'} size={'sm'}>
                   프로젝트 삭제
                 </Button>
               )}
-
-              {isProjectDetailPage && (
-                <Button className='ml-[73%]' variant={'outline'}>
-                  이슈 생성
-                </Button>
-              )}
-            </header>
+            </header> */}
 
             <main className='flex-grow'>
               <Outlet />
