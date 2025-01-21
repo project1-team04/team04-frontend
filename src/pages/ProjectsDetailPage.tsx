@@ -18,10 +18,10 @@ const ProjectsDetailPage = () => {
       </aside>
 
       <div className='flex w-[78%] flex-col'>
-        <header className='flex h-28 items-center justify-between px-20'>
+        <div className='flex h-28 items-center justify-between px-20'>
           <Header children={headerDetailTitle} />
           <Button variant='outline'>이슈 생성</Button>
-        </header>
+        </div>
 
         <div className='flex h-full gap-6 px-6 pt-6'>
           <KanbanCard status='To Do' issueCount='4' />
