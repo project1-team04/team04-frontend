@@ -36,7 +36,7 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
         </div>
       </div>
 
-      <div className='mt-5 flex flex-col gap-4'>
+      <div className='mt-5 flex flex-col gap-4 pb-5'>
         <ButtonComponent
           variant='secondary'
           children={'+ 인원 추가'}
