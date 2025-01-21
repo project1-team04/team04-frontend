@@ -1,6 +1,8 @@
 import ButtonComponent from './Button';
 import MemberCardComponent from './MemberCard';
 import InputComponent from './Input';
+import Header from './Header';
+import { Button } from './ui/button';
 
 interface Member {
   id: string;
@@ -15,7 +17,14 @@ interface ProjectLayoutProps {
 
 const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
   return (
-    <>
+    <div className='m-auto w-[55%]'>
+      <header className='flex h-28 items-center justify-between px-20'>
+        <Header children={'프로젝트 설정'} />
+        <Button className='ml-auto' variant={'negative'} size={'sm'}>
+          프로젝트 삭제
+        </Button>
+      </header>
+
       <div className='ml-3 flex items-center gap-5'>
         <p>프로젝트 이름</p>
         <div className='w-[86%]'>
@@ -51,7 +60,7 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
           }}
         />
       </div>
-    </>
+    </div>
   );
 };
 
