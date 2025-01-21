@@ -21,7 +21,7 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
 
   return (
     <>
-      <div className='flex items-center gap-5 ml-3'>
+      <div className='ml-3 flex items-center gap-5'>
         <p>프로젝트 이름</p>
         <div className='w-[86%]'>
           <InputComponent placeholder="Enter Project's name" />
@@ -29,7 +29,7 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
       </div>
 
       <div className='mt-4 h-[315px] overflow-auto bg-gray p-3'>
-        <div className='grid grid-cols-2 m-5 mt-3 align-items-center justify-items-center gap-y-4'>
+        <div className='align-items-center m-5 mt-3 grid grid-cols-2 justify-items-center gap-y-4'>
           {data.map((member) => (
             <MemberCardComponent
               key={member.id}
@@ -41,7 +41,7 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
         </div>
       </div>
 
-      <div className='flex flex-col gap-4 mt-5'>
+      <div className='mt-5 flex flex-col gap-4'>
         <ButtonComponent
           variant='secondary'
           children={'+ 인원 추가'}
