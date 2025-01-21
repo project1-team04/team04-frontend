@@ -34,6 +34,17 @@ const MainLayout = ({}) => {
 
   const { open, modalType } = useModalStore();
 
+  // FIX) api에서 프로젝트 title 또는 이슈 title 불러와서 저장
+  const headerDetailTitle = 'Threadly';
+
+  const { open, modalType } = useModalStore();
+
+=======
+import NavigationComponent from '@/components/Navigation';
+import { Outlet } from 'react-router-dom';
+
+const MainLayout = ({}) => {
+>>>>>>> be2acee (fix: 사용하지 않는는 코드 제거)
   return (
     <>
       <div className='flex h-[100vh] w-full flex-col'>
@@ -88,6 +99,11 @@ const MainLayout = ({}) => {
           {isProjectsIssueDetailPage && (
             <aside className='h-[100%] w-[600px]'>채팅</aside>
           )}
+=======
+          <main className='flex-grow'>
+            <Outlet />
+          </main>
+>>>>>>> be2acee (fix: 사용하지 않는는 코드 제거)
         </div>
       </div>
       {modalType === 'warning' && (
