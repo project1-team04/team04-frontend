@@ -20,7 +20,14 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
   const { modalType, open } = useModalStore();
 
   return (
-    <>
+    <div className='m-auto w-[55%]'>
+      <header className='flex h-28 items-center justify-between px-20'>
+        <Header children={'프로젝트 설정'} />
+        <Button className='ml-auto' variant={'negative'} size={'sm'}>
+          프로젝트 삭제
+        </Button>
+      </header>
+
       <div className='ml-3 flex items-center gap-5'>
         <p>프로젝트 이름</p>
         <div className='w-[86%]'>
