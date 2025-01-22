@@ -11,7 +11,7 @@ const data = [
 
 const ProfileDelegatePage = () => {
   return (
-    <div className='m-auto w-[50%]'>
+    <div className='m-auto'>
       <div className='flex flex-col'>
         <div className='flex h-28 items-center gap-5 px-20'>
           <Header children={'프로젝트 권한 위임'} />

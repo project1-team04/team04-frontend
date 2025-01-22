@@ -11,7 +11,7 @@ interface NavigationProps {
 
 const Navigation = ({ name, src, alt }: NavigationProps) => {
   return (
-    <nav className='z-16 flex h-24 w-full items-center justify-between border-b-[1px] border-divider-default px-16 py-4'>
+    <nav className='flex w-full items-center justify-between border-b-[1px] border-divider-default px-16 py-4'>
       <Link to={paths.projects.root}>
         <Logo />
       </Link>

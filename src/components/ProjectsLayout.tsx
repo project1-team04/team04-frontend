@@ -16,7 +16,7 @@ interface ProjectLayoutProps {
 
 const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
   return (
-    <div className='m-auto w-[50%]'>
+    <div className='m-auto'>
       <header className='flex h-28 items-center justify-between px-20'>
         <Header children={'프로젝트 설정'} />
         <Button className='ml-auto' variant={'negative'} size={'sm'}>

@@ -24,14 +24,14 @@ const data = [
 
 const ProjectsListPage = () => {
   return (
-    <div className='m-auto w-[50%]'>
-      <div className='flex w-[78%] flex-col'>
+    <div className='m-auto flex justify-center'>
+      <div className='flex flex-col'>
         <div className='flex h-28 items-center gap-5 px-20'>
           <Header children={'내 프로젝트'} />
           <Button variant='outline'>프로젝트 생성</Button>
         </div>
 
-        <div className='grid grid-cols-3 gap-x-44 gap-y-5'>
+        <div className='grid grid-cols-3 gap-x-10 gap-y-5'>
           {data.map((project) => (
             <ProjectCard
               key={project.id}

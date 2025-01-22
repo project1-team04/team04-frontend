@@ -7,8 +7,8 @@ const headerDetailTitle = 'Threadly';
 
 const ProjectsDetailPage = () => {
   return (
-    <div className='flex h-[90vh]'>
-      <aside className='flex w-[22%] flex-col border-r border-divider-default p-4'>
+    <div className='flex h-full w-full'>
+      <aside className='flex h-full w-[22%] flex-col overflow-hidden border-r border-divider-default p-4'>
         <Search />
         <Button
           className='w-24 text-xs'
@@ -17,13 +17,13 @@ const ProjectsDetailPage = () => {
         />
       </aside>
 
-      <div className='flex w-[78%] flex-col'>
+      <div className='flex grow flex-col'>
         <div className='flex h-28 items-center justify-between px-20'>
           <Header children={headerDetailTitle} />
           <Button variant='outline'>이슈 생성</Button>
         </div>
 
-        <div className='flex h-full gap-6 px-6 pt-6'>
+        <div className='flex h-full justify-evenly gap-6 px-6'>
           <KanbanCard status='To Do' issueCount='4' />
           <KanbanCard status='On Progress' issueCount='3' />
           <KanbanCard status='Done' issueCount='2' />
