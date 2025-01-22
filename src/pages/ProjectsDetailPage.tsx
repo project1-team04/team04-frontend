@@ -3,7 +3,7 @@ import KanbanCard from '@/components/KanbanCard';
 import Search from '@/components/Search';
 import { Button } from '@/components/ui/button';
 
-const headerDetailTitle = 'Threadly';
+const headerDetailTitle = 'Project Title';
 
 const ProjectsDetailPage = () => {
   return (
@@ -17,16 +17,16 @@ const ProjectsDetailPage = () => {
         />
       </aside>
 
-      <div className='flex grow flex-col'>
-        <div className='flex h-28 items-center justify-between px-20'>
+      <div className='flex grow flex-col px-6'>
+        <div className='my-9 flex items-center justify-between'>
           <Header children={headerDetailTitle} />
           <Button variant='outline'>이슈 생성</Button>
         </div>
 
-        <div className='flex h-full justify-evenly gap-6 px-6'>
+        <div className='flex h-full justify-between gap-x-6 overflow-hidden'>
           <KanbanCard status='To Do' issueCount='4' />
           <KanbanCard status='On Progress' issueCount='3' />
-          <KanbanCard status='Done' issueCount='2' />
+          <KanbanCard status='Done' issueCount='200' />
         </div>
       </div>
     </div>
