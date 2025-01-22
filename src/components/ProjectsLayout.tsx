@@ -1,6 +1,5 @@
-import ButtonComponent from './Button';
-import MemberCardComponent from './MemberCard';
-import InputComponent from './Input';
+import MemberCard from './MemberCard';
+import Input from './Input';
 import Header from './Header';
 import { Button } from './ui/button';
 
@@ -28,14 +27,14 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
       <div className='ml-3 flex items-center gap-5'>
         <p>프로젝트 이름</p>
         <div className='w-[84%]'>
-          <InputComponent placeholder="Enter Project's name" />
+          <Input placeholder="Enter Project's name" />
         </div>
       </div>
 
       <div className='mt-4 h-[315px] overflow-auto bg-gray p-3'>
         <div className='align-items-center m-5 mt-3 grid grid-cols-2 justify-items-center gap-y-4'>
           {data.map((member) => (
-            <MemberCardComponent
+            <MemberCard
               key={member.id}
               name={member.name}
               email={member.email}
@@ -46,14 +45,14 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
       </div>
 
       <div className='mt-5 flex flex-col gap-4 pb-5'>
-        <ButtonComponent
+        <Button
           variant='secondary'
           children={'+ 인원 추가'}
           onClick={() => {
             console.log('인원 추가 버튼 클릭');
           }}
         />
-        <ButtonComponent
+        <Button
           children={'생성 완료'}
           onClick={() => {
             console.log('생성 완료 버튼 클릭');

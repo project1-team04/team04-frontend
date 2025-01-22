@@ -1,4 +1,4 @@
-import ProjectCardComponent from '@/components/ProjectCard';
+import ProjectCard from '@/components/ProjectCard';
 import { MdKeyboardArrowLeft } from 'react-icons/md';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import {
@@ -33,7 +33,7 @@ const ProjectsListPage = () => {
 
         <div className='grid grid-cols-3 gap-x-44 gap-y-5'>
           {data.map((project) => (
-            <ProjectCardComponent
+            <ProjectCard
               key={project.id}
               title={project.title}
               issue={project.issue}
