@@ -1,16 +1,16 @@
-import { Input } from './ui/input';
+import { Input as UiInput } from './ui/input';
 import { InputHTMLAttributes } from 'react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   type?: string;
 }
 
-const InputComponent = ({ type = 'text', ...props }: InputProps) => {
+const Input = ({ type = 'text', ...props }: InputProps) => {
   return (
     <>
-      <Input type={type} placeholder={props.placeholder} {...props} />
+      <UiInput type={type} placeholder={props.placeholder} {...props} />
     </>
   );
 };
 
-export default InputComponent;
+export default Input;
