@@ -15,6 +15,8 @@ interface ProjectLayoutProps {
 }
 
 const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
+  const { modalType, open } = useModalStore();
+
   return (
     <div className='m-auto w-[50%]'>
       <header className='flex items-center justify-between px-20 h-28'>
@@ -48,9 +50,7 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
         <Button
           variant='secondary'
           children={'+ 인원 추가'}
-          onClick={() => {
-            console.log('인원 추가 버튼 클릭');
-          }}
+          onClick={() => open('addPeople')}
         />
         <Button
           children={'생성 완료'}
