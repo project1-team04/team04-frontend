@@ -6,11 +6,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = ({ type = 'text', ...props }: InputProps) => {
-  return (
-    <>
-      <UiInput type={type} placeholder={props.placeholder} {...props} />
-    </>
-  );
+  return <UiInput type={type} placeholder={props.placeholder} {...props} />;
 };
 
 export default Input;
