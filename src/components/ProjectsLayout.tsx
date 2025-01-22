@@ -21,14 +21,14 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
 
   return (
     <div className='m-auto w-[50%]'>
-      <header className='flex h-28 items-center justify-between px-20'>
+      <header className='flex items-center justify-between px-20 h-28'>
         <Header children={'프로젝트 설정'} />
         <Button className='ml-auto' variant={'negative'} size={'sm'}>
           프로젝트 삭제
         </Button>
       </header>
 
-      <div className='ml-3 flex items-center gap-5'>
+      <div className='flex items-center gap-5 ml-3'>
         <p>프로젝트 이름</p>
         <div className='w-[84%]'>
           <Input placeholder="Enter Project's name" />
@@ -36,7 +36,7 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
       </div>
 
       <div className='mt-4 h-[315px] overflow-auto bg-gray p-3'>
-        <div className='align-items-center m-5 mt-3 grid grid-cols-2 justify-items-center gap-y-4'>
+        <div className='grid grid-cols-2 m-5 mt-3 align-items-center justify-items-center gap-y-4'>
           {data.map((member) => (
             <MemberCard
               key={member.id}
