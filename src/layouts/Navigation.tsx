@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { paths } from '@/routers/paths';
-import Logo from './Logo';
-import Profile from './Profile';
+import Logo from '@/components/Logo';
+import Profile from '@/components/Profile';
 
 interface NavigationProps {
   name: string;
