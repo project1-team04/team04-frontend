@@ -10,7 +10,7 @@ interface ProfileProps {
   alt: string;
 }
 
-const ProfileComponent = ({ name, src, alt }: ProfileProps) => {
+const Profile = ({ name, src, alt }: ProfileProps) => {
   const navigate = useNavigate();
   const dropdownItems = [
     {
@@ -21,23 +21,21 @@ const ProfileComponent = ({ name, src, alt }: ProfileProps) => {
   ];
 
   return (
-    <>
-      <div className='flex items-center justify-center gap-3'>
-        <p>{name}</p>
+    <div className='flex items-center justify-center gap-3'>
+      <p>{name}</p>
 
-        <Avatar>
-          <AvatarImage src={src} alt={alt} />
-          <AvatarFallback />
-        </Avatar>
+      <Avatar>
+        <AvatarImage src={src} alt={alt} />
+        <AvatarFallback />
+      </Avatar>
 
-        <DropDown
-          buttonText={<IoIosArrowDown />}
-          items={dropdownItems}
-          className='ml-[-5px] w-8 border-0 shadow-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0'
-        />
-      </div>
-    </>
+      <DropDown
+        buttonText={<IoIosArrowDown />}
+        items={dropdownItems}
+        className='ml-[-5px] w-8 border-0 shadow-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0'
+      />
+    </div>
   );
 };
 
-export default ProfileComponent;
+export default Profile;

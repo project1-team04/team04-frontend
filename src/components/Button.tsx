@@ -1,4 +1,4 @@
-import { Button } from './ui/button';
+import { Button as UiButton } from './ui/button';
 import { ButtonHTMLAttributes } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -7,22 +7,22 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'default' | 'sm' | 'lg' | 'icon';
 }
 
-const ButtonComponent = ({
+const Button = ({
   children,
   variant = 'primary',
   size = 'default',
   ...props
 }: ButtonProps) => {
   return (
-    <Button
+    <UiButton
       variant={variant}
       size={size}
       className={`w-full text-center`}
       {...props}
     >
       {children}
-    </Button>
+    </UiButton>
   );
 };
 
-export default ButtonComponent;
+export default Button;
