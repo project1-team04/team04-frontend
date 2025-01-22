@@ -31,14 +31,14 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
       <div className='ml-3 flex items-center gap-5'>
         <p>프로젝트 이름</p>
         <div className='w-[84%]'>
-          <InputComponent placeholder="Enter Project's name" />
+          <Input placeholder="Enter Project's name" />
         </div>
       </div>
 
       <div className='mt-4 h-[315px] overflow-auto bg-gray p-3'>
         <div className='align-items-center m-5 mt-3 grid grid-cols-2 justify-items-center gap-y-4'>
           {data.map((member) => (
-            <MemberCardComponent
+            <MemberCard
               key={member.id}
               name={member.name}
               email={member.email}
@@ -54,7 +54,7 @@ const ProjectsLayout = ({ data }: ProjectLayoutProps) => {
           children={'+ 인원 추가'}
           onClick={() => open('addPeople')}
         />
-        <ButtonComponent
+        <Button
           children={'생성 완료'}
           onClick={() => {
             console.log('생성 완료 버튼 클릭');
