@@ -2,7 +2,7 @@ import MemberCard from './MemberCard';
 import Header from './Header';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { useModalStore } from '@/stores/useModalStore';
+import { useModalStore, ModalType } from '@/stores/useModalStore';
 import Modal from './Modal';
 import { RiErrorWarningLine } from 'react-icons/ri';
 
@@ -30,7 +30,7 @@ const ProjectsLayout = ({ header, deleteButton, data }: ProjectLayoutProps) => {
           <Button
             variant='negative'
             size='sm'
-            onClick={() => open('deleteWarning')}
+            onClick={() => open(ModalType.DELETE_WARNING)}
           >
             {deleteButton}
           </Button>
@@ -61,7 +61,7 @@ const ProjectsLayout = ({ header, deleteButton, data }: ProjectLayoutProps) => {
             <Button
               variant='secondary'
               children={'+ 인원 추가'}
-              onClick={() => open('invitePeople')}
+              onClick={() => open(ModalType.INVITE_PEOPLE)}
             />
             <Button
               children={'생성 완료'}
