@@ -12,17 +12,18 @@ interface Member {
 
 interface ProjectLayoutProps {
   header: string;
+  deleteButton?: string;
   data: Member[];
 }
 
-const ProjectsLayout = ({ header, data }: ProjectLayoutProps) => {
+const ProjectsLayout = ({ header, deleteButton, data }: ProjectLayoutProps) => {
   return (
     <div className='flex flex-col w-1/2 mx-auto'>
       <header className='flex items-center justify-between gap-5 my-9'>
         <Header children={header} />
-        <Button variant={'negative'} size={'sm'}>
-          프로젝트 삭제
-        </Button>
+        {deleteButton && (
+          <Button variant='negative' size='sm' children={deleteButton}></Button>
+        )}
       </header>
 
       <div className='flex items-center gap-5 ml-3'>
