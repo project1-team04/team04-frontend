@@ -13,6 +13,7 @@ interface ModalProps {
 interface ButtonConfig {
   text: string;
   variantStyle?: 'primary' | 'secondary' | 'outline' | 'negative';
+  onClick: () => void;
 }
 
 const Modal = ({ title, content, icon, css, buttons }: ModalProps) => {
@@ -30,7 +31,7 @@ const Modal = ({ title, content, icon, css, buttons }: ModalProps) => {
           <p className='m-5 text-2xl font-semibold'>{title}</p>
           <div className={css}>{content}</div>
 
-          <div className='flex gap-3 m-5'>
+          <div className='m-5 flex gap-3'>
             {buttons.map((button, index) => (
               <Button
                 key={index}
