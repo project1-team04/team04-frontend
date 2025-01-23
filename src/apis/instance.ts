@@ -9,8 +9,8 @@ import axios from 'axios';
  */
 
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-  withCredentials: true,
+  baseURL: '/api',
+  withCredentials: true, // 쿠키 포함 요청 허용
 });
 
 export default instance;
