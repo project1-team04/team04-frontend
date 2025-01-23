@@ -22,7 +22,7 @@ const data: Member[] = [
 ];
 
 const ProjectsSettingPage = () => {
-  return <ProjectsLayout data={data} />;
+  return <ProjectsLayout data={data} header='프로젝트 설정' />;
 };
 
 export default ProjectsSettingPage;
