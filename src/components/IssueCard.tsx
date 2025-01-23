@@ -1,20 +1,21 @@
-interface IssueCardProps {
+export interface IssueCardProps {
+  id: string;
   title: string;
-  issueId: string;
-  manager: string;
+  assignee: string;
 }
 
-const IssueCard = ({ title, issueId, manager }: IssueCardProps) => {
+const IssueCard = ({ title, id, assignee }: IssueCardProps) => {
   return (
-    <div className='h-[125px] w-full rounded-lg bg-bg p-7 pt-6'>
+    // FIX) title, id, assignee 길어지는 경우 대응
+    <div className='grid w-full gap-6 rounded-lg bg-bg p-4'>
       <span className='text-lg font-semibold'>{title}</span>
-      <div className='flex justify-between text-sm mt-7'>
+      <div className='flex justify-between text-sm'>
         <div className='flex items-center gap-2'>
-          <div className='w-3 h-3 rounded-full bg-red' />
+          <div className='h-3 w-3 rounded-full bg-red' />
           {/* button? */}
-          <span>{issueId}</span>
+          <span>{id}</span>
         </div>
-        <span>{manager}</span>
+        <span>{assignee}</span>
       </div>
     </div>
   );

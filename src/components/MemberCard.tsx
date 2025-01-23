@@ -17,16 +17,16 @@ const MemberCard = ({ position = 'Member', name, email }: MemberCardProps) => {
     position === 'Project Manager' ? 'bg-green' : 'bg-orange';
 
   return (
-    <Card className='h-[120px] w-[270px]'>
+    <Card>
       <CardHeader
-        className={`m-4 mb-2 inline-flex h-3 justify-center rounded-lg ${variantStyles} p-3`}
+        className={`m-4 flex w-fit justify-center rounded-lg ${variantStyles} px-3 py-1`}
       >
         <CardTitle className='text-center text-xs font-medium text-white'>
           {position}
         </CardTitle>
       </CardHeader>
 
-      <CardContent className='h-8 text-lg font-bold'>
+      <CardContent className='pb-1 text-lg font-bold'>
         <p>{name}</p>
       </CardContent>
 

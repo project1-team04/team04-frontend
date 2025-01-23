@@ -18,15 +18,11 @@ const data: Member[] = [
   { id: '2', name: '권보령', email: 'hfgdf3@naver.com' },
   { id: '3', name: '양혜림', email: 'hfgdf3@naver.com' },
   { id: '4', name: '이태정', email: 'hfgdf3@naver.com' },
-  // { id: '5', name: '명광호', email: 'hfgdf3@naver.com', position: 'Member' },
+  { id: '5', name: '명광호', email: 'hfgdf3@naver.com', position: 'Member' },
 ];
 
 const ProjectsCreatePage = () => {
-  return (
-    <>
-      <ProjectsLayout data={data} />
-    </>
-  );
+  return <ProjectsLayout data={data} />;
 };
 
 export default ProjectsCreatePage;

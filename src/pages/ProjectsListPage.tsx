@@ -1,14 +1,14 @@
 import ProjectCard from '@/components/ProjectCard';
-import { MdKeyboardArrowLeft } from 'react-icons/md';
-import { MdKeyboardArrowRight } from 'react-icons/md';
+import Header from '@/components/Header';
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
   PaginationLink,
 } from '@/components/ui/pagination';
-import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
+import { MdKeyboardArrowLeft } from 'react-icons/md';
+import { MdKeyboardArrowRight } from 'react-icons/md';
 
 const data = [
   { id: '1', title: 'Threadly', issue: 1 },
@@ -24,14 +24,16 @@ const data = [
 
 const ProjectsListPage = () => {
   return (
-    <div className='m-auto w-[50%]'>
-      <div className='flex w-[78%] flex-col'>
-        <div className='flex h-28 items-center gap-5 px-20'>
-          <Header children={'내 프로젝트'} />
-          <Button variant='outline'>프로젝트 생성</Button>
-        </div>
+    <div className='mx-auto flex flex-col'>
+      <header className='my-9 flex items-center gap-5'>
+        <Header children={'내 프로젝트'} />
+        <Button variant='outline'>프로젝트 생성</Button>
+      </header>
 
-        <div className='grid grid-cols-3 gap-x-44 gap-y-5'>
+      {/* main 태그 없으면 Pagination의 margin-bottom이 무시됨 */}
+      {/* flex 컨테이너 내부에서 자식 요소의 margin-bottom이 유지되도록 하기 위해 main 태그 추가 */}
+      <main>
+        <div className='grid grid-cols-3 gap-5'>
           {data.map((project) => (
             <ProjectCard
               key={project.id}
@@ -42,7 +44,7 @@ const ProjectsListPage = () => {
           ))}
         </div>
 
-        <Pagination className='mt-6'>
+        <Pagination className='my-9'>
           <PaginationContent>
             <PaginationItem>
               <MdKeyboardArrowLeft href='#' />
@@ -55,7 +57,7 @@ const ProjectsListPage = () => {
             </PaginationItem>
           </PaginationContent>
         </Pagination>
-      </div>
+      </main>
     </div>
   );
 };
