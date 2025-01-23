@@ -23,8 +23,8 @@ const ProjectsLayout = ({ header, deleteButton, data }: ProjectLayoutProps) => {
   const { modalType, open, close } = useModalStore();
 
   return (
-    <div className='mx-auto flex w-1/2 flex-col'>
-      <header className='my-9 flex items-center justify-between gap-5'>
+    <div className='flex flex-col w-1/2 mx-auto'>
+      <header className='flex items-center justify-between gap-5 my-9'>
         <Header children={header} />
         {deleteButton && (
           <Button
@@ -37,16 +37,16 @@ const ProjectsLayout = ({ header, deleteButton, data }: ProjectLayoutProps) => {
         )}
       </header>
 
-      <div className='ml-3 flex items-center gap-5'>
+      <div className='flex items-center gap-5 ml-3'>
         <p>프로젝트 이름</p>
         <div className='flex-1'>
           <Input placeholder="Enter Project's name" />
         </div>
       </div>
 
-      <main className='grow overflow-hidden'>
-        <div className='flex h-full flex-col'>
-          <div className='my-4 grid w-full grid-cols-2 gap-5 overflow-y-auto bg-bg-deep p-4'>
+      <main className='overflow-hidden grow'>
+        <div className='flex flex-col h-full'>
+          <div className='grid w-full grid-cols-2 gap-5 p-4 my-4 overflow-y-auto bg-bg-deep'>
             {data.map((member) => (
               <MemberCard
                 key={member.id}
@@ -57,7 +57,7 @@ const ProjectsLayout = ({ header, deleteButton, data }: ProjectLayoutProps) => {
             ))}
           </div>
 
-          <div className='mb-9 flex w-full flex-col gap-y-4'>
+          <div className='flex flex-col w-full mb-9 gap-y-4'>
             <Button
               variant='secondary'
               children={'+ 인원 추가'}
@@ -73,7 +73,7 @@ const ProjectsLayout = ({ header, deleteButton, data }: ProjectLayoutProps) => {
         </div>
       </main>
 
-      {modalType === 'deleteWarning' && (
+      {modalType === ModalType.DELETE_WARNING && (
         <Modal
           title={'정말 삭제하시겠습니까?'}
           content={'삭제 후에는 되돌리기가 불가능합니다.'}
@@ -90,7 +90,7 @@ const ProjectsLayout = ({ header, deleteButton, data }: ProjectLayoutProps) => {
         />
       )}
 
-      {modalType === 'invitePeople' && (
+      {modalType === ModalType.INVITE_PEOPLE && (
         <Modal
           title={'인원 초대'}
           content={
