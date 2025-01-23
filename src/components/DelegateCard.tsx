@@ -6,15 +6,15 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-interface ProjectDelegationProps {
+interface DelegateCardProps {
   title: string;
   member: string[];
 }
 
-const ProjectDelegation = ({ title, member }: ProjectDelegationProps) => {
+const DelegateCard = ({ title, member }: DelegateCardProps) => {
   return (
-    <div className='my-2 flex h-[60px] w-full items-center justify-between gap-10 rounded-xl bg-white p-8 pl-10'>
-      <span className='text-lg font-semibold text-text'>{title}</span>
+    <div className='flex w-full items-center justify-between rounded-2xl bg-white px-8 py-4'>
+      <span className='text-lg font-semibold'>{title}</span>
 
       <Select>
         <SelectTrigger className='w-fit'>
@@ -34,4 +34,4 @@ const ProjectDelegation = ({ title, member }: ProjectDelegationProps) => {
   );
 };
 
-export default ProjectDelegation;
+export default DelegateCard;
