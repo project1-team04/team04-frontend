@@ -1,6 +1,6 @@
 import Header from '@/components/Header';
 import KanbanCard from '@/components/KanbanCard';
-import Search from '@/components/Search';
+import IssueSearchBar from '@/components/IssueSearchBar';
 import { Button } from '@/components/ui/button';
 
 const headerDetailTitle = 'Project Title';
@@ -9,7 +9,7 @@ const ProjectsDetailPage = () => {
   return (
     <div className='flex h-full w-full'>
       <aside className='flex h-full w-[22%] flex-col overflow-hidden border-r border-divider-default p-4'>
-        <Search />
+        <IssueSearchBar />
         <Button
           className='w-24 text-xs'
           variant='negative'
