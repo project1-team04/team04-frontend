@@ -6,6 +6,7 @@ import AuthNavLinks from '@/components/AuthNavLinks';
 import NaverIcon from '../assets/btn_naver.svg?react';
 import KakaoIcon from '../assets/btn_kakao.svg?react';
 import GoogleIcon from '../assets/btn_google.svg?react';
+import { login } from '@/apis/authApi';
 
 const socialLoginIcons = [
   { Component: NaverIcon, alt: '네이버 로그인' },
@@ -16,7 +17,7 @@ const socialLoginIcons = [
 const AuthLoginPage = () => {
   return (
     <div className='mt-6 flex flex-col items-center gap-y-6'>
-      <form className='flex w-[250px] flex-col gap-2'>
+      <form className='flex w-[250px] flex-col gap-2' onSubmit={() => login}>
         <InputComponent type='email' placeholder='이메일' />
         <InputComponent type='password' placeholder='비밀번호' />
 

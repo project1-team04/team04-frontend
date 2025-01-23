@@ -8,9 +8,9 @@ import axios from 'axios';
  * - 실제 요청은 Nginx가 백엔드(`http://<제공받은IP>:8080/`)로 프록시합니다.
  */
 
-const api = axios.create({
-  baseURL: '/api/',
+const instance = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
 });
 
-export default api;
+export default instance;
