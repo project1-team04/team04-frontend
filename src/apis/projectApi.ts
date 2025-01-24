@@ -16,3 +16,14 @@ export const getUserProjects = async () => {
     return [];
   }
 };
+
+export const getProjectsDetail = async (projectId: string) => {
+  try {
+    const res = await instance.get(`/projects/details?projectId=${projectId}`);
+    console.log('프로젝트 상세:', res.data);
+    return res.data;
+  } catch (error) {
+    console.log('프로젝트 상세 에러: ', error);
+    return [];
+  }
+};
