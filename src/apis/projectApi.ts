@@ -10,16 +10,26 @@ export interface Project extends CreateProjectResponse {
   issueCount: number;
 }
 
+export interface ProjectResponse {
+  projects: Project[];
+  conditionTotalProjects: number;
+  totalProjects: number;
+}
+
 export const getUserProjects = async (page: number, size: number) => {
   try {
-    const res = await instance.get<Project[]>('/projects', {
+    const res = await instance.get<ProjectResponse>('/projects', {
       params: { page, size },
     });
     console.log('프로젝트 목록:', res.data);
     return res.data;
   } catch (error) {
     console.log('프로젝트 목록 에러: ', error);
-    return [];
+    return {
+      projects: [],
+      conditionTotalProjects: 0,
+      totalProjects: 0,
+    };
   }
 };
 
