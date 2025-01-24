@@ -22,7 +22,13 @@ const data: Member[] = [
 ];
 
 const ProjectsSettingPage = () => {
-  return <ProjectsLayout data={data} />;
+  return (
+    <ProjectsLayout
+      data={data}
+      header='프로젝트 설정'
+      deleteButton='프로젝트 삭제'
+    />
+  );
 };
 
 export default ProjectsSettingPage;

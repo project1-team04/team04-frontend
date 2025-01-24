@@ -22,7 +22,7 @@ const data: Member[] = [
 ];
 
 const ProjectsCreatePage = () => {
-  return <ProjectsLayout data={data} />;
+  return <ProjectsLayout data={data} header='프로젝트 생성' />;
 };
 
 export default ProjectsCreatePage;
