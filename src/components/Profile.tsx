@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { paths } from '@/routers/paths';
+import { logout } from '@/apis/authApi';
 import DropDown from './DropDown';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { IoIosArrowDown } from 'react-icons/io';
@@ -17,7 +18,7 @@ const Profile = ({ name, src, alt }: ProfileProps) => {
       label: '프로필',
       onClick: () => navigate(paths.profile.root),
     },
-    { label: '로그아웃', onClick: () => console.log('handleLogout') }, // TODO) 로그아웃 함수 호출
+    { label: '로그아웃', onClick: () => logout() },
   ];
 
   return (

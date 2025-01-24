@@ -26,7 +26,7 @@ const mockSearchResults: SearchResult[] = [
   // { id: 12, issueName: '채팅 UI 버그', assignee: '권보령' },
 ];
 
-const Search = () => {
+const IssueSearchBar = () => {
   return (
     <div className='flex h-full flex-col items-center overflow-hidden'>
       <SearchInput />
@@ -53,4 +53,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default IssueSearchBar;
