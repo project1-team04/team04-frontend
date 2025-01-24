@@ -30,23 +30,8 @@ export const login = async (
 // TODO) 로그인 여부에 따른 라우팅 로직 추가
 // /auth/login으로 redirect
 export const logout = async () => {
-  const accessToken = localStorage.getItem('AccessToken');
-
-  if (!accessToken) {
-    console.log('Access Token 없음. 로그인 상태가 아님.', accessToken);
-    return;
-  } else {
-    console.log('로그인 상태', accessToken);
-  }
-
   try {
-    await instance.post(
-      '/auth/logout',
-      {},
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
-    );
+    await instance.post('/auth/logout');
 
     localStorage.removeItem('AccessToken');
     console.log('로그아웃 완료');
