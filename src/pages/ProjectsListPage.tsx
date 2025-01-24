@@ -45,7 +45,9 @@ const ProjectsListPage = () => {
     <div className='flex flex-col mx-auto'>
       <header className='flex items-center gap-5 my-9'>
         <Header children={'내 프로젝트'} />
-        <Button variant='outline'>프로젝트 생성</Button>
+        <Button variant='outline' onClick={() => navigate('/projects/new')}>
+          프로젝트 생성
+        </Button>
       </header>
 
       <main>
