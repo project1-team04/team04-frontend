@@ -1,19 +1,20 @@
 import instance from './instance';
 
-export interface Project {
-  id: string;
-  name: string;
-  issueCount: number;
-}
-
 interface CreateProjectResponse {
   id: string;
   name: string;
 }
 
-export const getUserProjects = async () => {
+export interface Project extends CreateProjectResponse {
+  projectKey: string;
+  issueCount: number;
+}
+
+export const getUserProjects = async (page: number, size: number) => {
   try {
-    const res = await instance.get<Project[]>('/projects');
+    const res = await instance.get<Project[]>('/projects', {
+      params: { page, size },
+    });
     console.log('프로젝트 목록:', res.data);
     return res.data;
   } catch (error) {
