@@ -11,24 +11,39 @@ import { MdKeyboardArrowLeft } from 'react-icons/md';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import { getUserProjects, Project, getProjectsDetail } from '@/apis/projectApi';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const ProjectsListPage = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const [page, setPage] = useState(0); // 현재 페이지
+  const [size] = useState(9); // 한 페이지 당 아이템 갯수
+  const [totalPages, setTotalPages] = useState(1); // 전체 페이지
 
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const projectData = await getUserProjects();
-        setProjects(projectData);
-      } catch (error) {
-        console.log('fetch 에러', error);
-      }
-    };
+    const queryParams = new URLSearchParams(location.search);
+    const pageNumber = parseInt(queryParams.get('page') || '0', 10);
 
-    fetchProjects();
-  }, []);
+    setPage(pageNumber);
+  }, [location.search]);
+
+  const fetchProjects = async (currentPage: number) => {
+    try {
+      const projectData = await getUserProjects(currentPage, size);
+      setProjects(projectData);
+
+      const totalItems = 20; //
+      setTotalPages(Math.ceil(totalItems / size));
+    } catch (error) {
+      console.log('fetch 에러', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProjects(page);
+  }, [page]);
 
   const handleProjectClick = async (projectId: string) => {
     try {
@@ -38,6 +53,13 @@ const ProjectsListPage = () => {
       navigate(`/projects/${projectId}`, { state: { projectDetails } });
     } catch (error) {
       console.log('프로젝트 상세 정보 실패: ', error);
+    }
+  };
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 0 && newPage < totalPages) {
+      setPage(newPage);
+      navigate(`?page=${newPage}&size=${size}`);
     }
   };
 
@@ -65,13 +87,35 @@ const ProjectsListPage = () => {
         <Pagination className='my-9'>
           <PaginationContent>
             <PaginationItem>
-              <MdKeyboardArrowLeft href='#' />
+              <button
+                onClick={() => handlePageChange(page - 1)}
+                disabled={page === 0}
+                className={page === 0 ? 'text-gray-400' : ''}
+              >
+                <MdKeyboardArrowLeft />
+              </button>
             </PaginationItem>
+
+            {Array.from({ length: totalPages }, (_, i) => (
+              <PaginationItem key={i}>
+                <PaginationLink
+                  href='#'
+                  onClick={() => handlePageChange(i)}
+                  className={page === i ? 'text-blue-500' : ''}
+                >
+                  {i + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+
             <PaginationItem>
-              <PaginationLink href='#'>1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <MdKeyboardArrowRight href='#' />
+              <button
+                onClick={() => handlePageChange(page + 1)}
+                disabled={page === totalPages - 1}
+                className={page === totalPages - 1 ? 'text-gray-400' : ''}
+              >
+                <MdKeyboardArrowRight />
+              </button>
             </PaginationItem>
           </PaginationContent>
         </Pagination>
