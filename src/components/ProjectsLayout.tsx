@@ -17,9 +17,17 @@ interface ProjectLayoutProps {
   header: string;
   deleteButton?: string;
   data: Member[];
+  onInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onCreate: () => void;
 }
 
-const ProjectsLayout = ({ header, deleteButton, data }: ProjectLayoutProps) => {
+const ProjectsLayout = ({
+  header,
+  deleteButton,
+  data,
+  onInputChange,
+  onCreate,
+}: ProjectLayoutProps) => {
   const { modalType, open, close } = useModalStore();
 
   return (
@@ -40,7 +48,7 @@ const ProjectsLayout = ({ header, deleteButton, data }: ProjectLayoutProps) => {
       <div className='flex items-center gap-5 ml-3'>
         <p>프로젝트 이름</p>
         <div className='flex-1'>
-          <Input placeholder="Enter Project's name" />
+          <Input placeholder="Enter Project's name" onChange={onInputChange} />
         </div>
       </div>
 
@@ -67,6 +75,7 @@ const ProjectsLayout = ({ header, deleteButton, data }: ProjectLayoutProps) => {
               children={'생성 완료'}
               onClick={() => {
                 console.log('생성 완료 버튼 클릭');
+                onCreate();
               }}
             />
           </div>
