@@ -10,10 +10,12 @@ import { Button } from '@/components/ui/button';
 import { MdKeyboardArrowLeft } from 'react-icons/md';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { useEffect, useState } from 'react';
-import { getUserProjects, Project } from '@/apis/projectApi';
+import { getUserProjects, Project, getProjectsDetail } from '@/apis/projectApi';
+import { useNavigate } from 'react-router-dom';
 
 const ProjectsListPage = () => {
   const [projects, setProjects] = useState<Project[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -27,6 +29,17 @@ const ProjectsListPage = () => {
 
     fetchProjects();
   }, []);
+
+  const handleProjectClick = async (projectId: string) => {
+    try {
+      const projectDetails = await getProjectsDetail(projectId);
+      console.log('프로젝트 상세 정보:', projectDetails);
+
+      navigate(`/projects/${projectId}`, { state: { projectDetails } });
+    } catch (error) {
+      console.log('프로젝트 상세 정보 실패: ', error);
+    }
+  };
 
   return (
     <div className='flex flex-col mx-auto'>
@@ -42,7 +55,7 @@ const ProjectsListPage = () => {
               key={project.id}
               title={project.name}
               issue={project.issueCount}
-              onClick={() => console.log(`${project.name} 클릭`)}
+              onClick={() => handleProjectClick(project.id)}
             />
           ))}
         </div>
