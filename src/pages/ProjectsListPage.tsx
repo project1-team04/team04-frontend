@@ -10,10 +10,10 @@ import { Button } from '@/components/ui/button';
 import { MdKeyboardArrowLeft } from 'react-icons/md';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { useEffect, useState } from 'react';
-import { getUserProjects } from '@/apis/projectApi';
+import { getUserProjects, Project } from '@/apis/projectApi';
 
 const ProjectsListPage = () => {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
     const fetchProjects = async () => {
