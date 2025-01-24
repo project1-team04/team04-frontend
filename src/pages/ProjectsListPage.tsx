@@ -32,10 +32,9 @@ const ProjectsListPage = () => {
   const fetchProjects = async (currentPage: number) => {
     try {
       const projectData = await getUserProjects(currentPage, size);
-      setProjects(projectData);
+      setProjects(projectData.projects);
 
-      const totalItems = 20; //
-      setTotalPages(Math.ceil(totalItems / size));
+      setTotalPages(Math.ceil(projectData.totalProjects / size));
     } catch (error) {
       console.log('fetch 에러', error);
     }
@@ -64,8 +63,8 @@ const ProjectsListPage = () => {
   };
 
   return (
-    <div className='flex flex-col mx-auto'>
-      <header className='flex items-center gap-5 my-9'>
+    <div className='mx-auto flex flex-col'>
+      <header className='my-9 flex items-center gap-5'>
         <Header children={'내 프로젝트'} />
         <Button variant='outline' onClick={() => navigate('/projects/new')}>
           프로젝트 생성
