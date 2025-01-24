@@ -24,7 +24,7 @@ instance.interceptors.request.use(
     if (!config.url) return config;
 
     // Access Token이 필요하지 않은 API가 아니라면 Authorization 헤더 추가
-    if (accessToken && !EXCLUDED_AUTH_ENDPOINTS.includes(config.url || '')) {
+    if (accessToken && !EXCLUDED_AUTH_ENDPOINTS.includes(config.url)) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
 
