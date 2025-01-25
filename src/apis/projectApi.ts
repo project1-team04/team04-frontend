@@ -56,3 +56,16 @@ export const createProject = async (name: string) => {
     console.log('프로젝트 생성 에러: ', error);
   }
 };
+
+export const deleteProject = async (projectId: number) => {
+  try {
+    const res = await instance.delete('/projects', {
+      params: { projectId },
+    });
+
+    console.log('프로젝트 나가기:', res.data);
+    return res.data;
+  } catch (error) {
+    console.log('프로젝트 나가기 에러: ', error);
+  }
+};
