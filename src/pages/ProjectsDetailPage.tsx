@@ -19,7 +19,7 @@ const ProjectsDetailPage = () => {
   }
 
   const navigate = useNavigate();
-  const { projectId: paramProjectId } = useParams();
+  const { paramProjectId } = useParams();
 
   const query = new URLSearchParams(location.search);
   const queryProjectId = query.get('projectId');
@@ -37,7 +37,7 @@ const ProjectsDetailPage = () => {
   };
 
   return (
-    <div className='flex h-full w-full'>
+    <div className='flex w-full h-full'>
       <aside className='flex h-full w-[22%] flex-col overflow-hidden border-r border-divider-default p-4'>
         <IssueSearchBar />
         <Button
@@ -50,8 +50,8 @@ const ProjectsDetailPage = () => {
         />
       </aside>
 
-      <div className='flex grow flex-col px-6'>
-        <div className='my-9 flex items-center justify-between'>
+      <div className='flex flex-col px-6 grow'>
+        <div className='flex items-center justify-between my-9'>
           <Header children={projectDetails.name} />
           <Button
             variant='outline'
@@ -63,7 +63,7 @@ const ProjectsDetailPage = () => {
           </Button>
         </div>
 
-        <div className='flex h-full justify-between gap-x-6 overflow-hidden'>
+        <div className='flex justify-between h-full overflow-hidden gap-x-6'>
           <KanbanCard status='To Do' issueCount='4' />
           <KanbanCard status='On Progress' issueCount='3' />
           <KanbanCard status='Done' issueCount='200' />
