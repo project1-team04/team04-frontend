@@ -10,8 +10,7 @@ interface Member {
   position?: 'Project Manager' | 'Member';
 }
 
-// 목 데이터
-const data: Member[] = [
+const member: Member[] = [
   {
     id: '1',
     name: '정태승',
@@ -42,8 +41,9 @@ const ProjectsCreatePage = () => {
 
   return (
     <ProjectsLayout
-      data={data}
       header='프로젝트 생성'
+      projectName={projectName}
+      member={member}
       onInputChange={(e) => setProjectName(e.target.value)}
       onCreate={handleCreateProject}
     />

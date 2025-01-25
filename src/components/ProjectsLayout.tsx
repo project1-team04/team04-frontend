@@ -5,6 +5,7 @@ import { Input } from './ui/input';
 import { useModalStore, ModalType } from '@/stores/useModalStore';
 import Modal from './Modal';
 import { RiErrorWarningLine } from 'react-icons/ri';
+import { useState } from 'react';
 
 interface Member {
   id: string;
@@ -16,7 +17,8 @@ interface Member {
 interface ProjectLayoutProps {
   header: string;
   deleteButton?: string;
-  data: Member[];
+  projectName: string;
+  member: Member[];
   onInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onCreate: () => void;
 }
@@ -24,15 +26,16 @@ interface ProjectLayoutProps {
 const ProjectsLayout = ({
   header,
   deleteButton,
-  data,
+  projectName,
+  member,
   onInputChange,
   onCreate,
 }: ProjectLayoutProps) => {
   const { modalType, open, close } = useModalStore();
 
   return (
-    <div className='flex flex-col w-1/2 mx-auto'>
-      <header className='flex items-center justify-between gap-5 my-9'>
+    <div className='mx-auto flex w-1/2 flex-col'>
+      <header className='my-9 flex items-center justify-between gap-5'>
         <Header children={header} />
         {deleteButton && (
           <Button
@@ -45,17 +48,17 @@ const ProjectsLayout = ({
         )}
       </header>
 
-      <div className='flex items-center gap-5 ml-3'>
+      <div className='ml-3 flex items-center gap-5'>
         <p>프로젝트 이름</p>
         <div className='flex-1'>
           <Input placeholder="Enter Project's name" onChange={onInputChange} />
         </div>
       </div>
 
-      <main className='overflow-hidden grow'>
-        <div className='flex flex-col h-full'>
-          <div className='grid w-full grid-cols-2 gap-5 p-4 my-4 overflow-y-auto bg-bg-deep'>
-            {data.map((member) => (
+      <main className='grow overflow-hidden'>
+        <div className='flex h-full flex-col'>
+          <div className='my-4 grid w-full grid-cols-2 gap-5 overflow-y-auto bg-bg-deep p-4'>
+            {member.map((member) => (
               <MemberCard
                 key={member.id}
                 name={member.name}
@@ -65,7 +68,7 @@ const ProjectsLayout = ({
             ))}
           </div>
 
-          <div className='flex flex-col w-full mb-9 gap-y-4'>
+          <div className='mb-9 flex w-full flex-col gap-y-4'>
             <Button
               variant='secondary'
               children={'+ 인원 추가'}
@@ -73,6 +76,7 @@ const ProjectsLayout = ({
             />
             <Button
               children={'생성 완료'}
+              disabled={!projectName}
               onClick={() => {
                 console.log('생성 완료 버튼 클릭');
                 onCreate();
