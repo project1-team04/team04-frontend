@@ -26,13 +26,9 @@ export const responseRejectInterceptor = async (error: AxiosError) => {
 
     try {
       // 새로운 Access Token 발급 요청
-      const refreshInstance = axios.create({
-        baseURL: instance.defaults.baseURL, // 기존 axios instance의 baseURL 참조
-        withCredentials: true, // 쿠키 포함 요청 허용
-      });
-
-      const { data } = await refreshInstance.get<{ accessToken: string }>(
-        'auth/refresh-token'
+      const { data } = await axios.get<{ accessToken: string }>(
+        '/api/auth/refresh-token',
+        { withCredentials: true }
       );
 
       // 새 Access Token 저장
