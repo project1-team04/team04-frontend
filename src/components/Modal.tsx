@@ -36,7 +36,10 @@ const Modal = ({ title, content, icon, css, buttons }: ModalProps) => {
               <Button
                 key={index}
                 variant={button.variantStyle || 'primary'}
-                onClick={close}
+                onClick={() => {
+                  button.onClick();
+                  close();
+                }}
               >
                 {button.text}
               </Button>
