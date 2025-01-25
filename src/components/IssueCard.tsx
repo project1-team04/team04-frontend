@@ -7,7 +7,7 @@ export interface IssueCardProps {
 const IssueCard = ({ title, id, assignee }: IssueCardProps) => {
   return (
     // FIX) title, id, assignee 길어지는 경우 대응
-    <div className='grid w-full gap-6 rounded-lg bg-bg p-4'>
+    <div className='grid h-32 w-full gap-6 rounded-lg bg-bg p-4'>
       <span className='text-lg font-semibold'>{title}</span>
       <div className='flex justify-between text-sm'>
         <div className='flex items-center gap-2'>
