@@ -4,6 +4,7 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 import instance from './instance';
+import { PUBLIC_API_ENDPOINTS } from './publicEndpoints';
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -22,6 +23,12 @@ export const responseRejectInterceptor = async (error: AxiosError) => {
     originalRequest &&
     !originalRequest._retry
   ) {
+    // Access Token 필요 없는 API에서 401 에러 발생 시 토큰 갱신하지 않고 그대로 반환
+    // 각 API에서 401 에러 처리
+    if (PUBLIC_API_ENDPOINTS.includes(originalRequest.url ?? '')) {
+      return Promise.reject(error);
+    }
+
     originalRequest._retry = true; // 무한루프 방지
 
     try {
