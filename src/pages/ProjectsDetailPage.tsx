@@ -2,7 +2,8 @@ import Header from '@/components/Header';
 import KanbanCard from '@/components/KanbanCard';
 import IssueSearchBar from '@/components/IssueSearchBar';
 import { Button } from '@/components/ui/button';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { deleteProject } from '@/apis/projectApi';
 
 const ProjectsDetailPage = () => {
   const { state } = useLocation();
@@ -12,24 +13,43 @@ const ProjectsDetailPage = () => {
     return <p>프로젝트 상세 정보가 없습니다.</p>;
   }
 
+  const navigate = useNavigate();
+  const { projectId: paramProjectId } = useParams();
+
+  const query = new URLSearchParams(location.search);
+  const queryProjectId = query.get('projectId');
+
+  const projectId = paramProjectId || queryProjectId;
+
+  const handleDelete = async (projectId: number) => {
+    try {
+      await deleteProject(projectId);
+
+      navigate('/projects');
+    } catch (error) {
+      console.log('프로젝트 삭제:', error);
+    }
+  };
+
   return (
-    <div className='flex w-full h-full'>
+    <div className='flex h-full w-full'>
       <aside className='flex h-full w-[22%] flex-col overflow-hidden border-r border-divider-default p-4'>
         <IssueSearchBar />
         <Button
           className='w-24 text-xs'
           variant='negative'
           children='프로젝트 나가기'
+          onClick={() => handleDelete(Number(projectId))}
         />
       </aside>
 
-      <div className='flex flex-col px-6 grow'>
-        <div className='flex items-center justify-between my-9'>
+      <div className='flex grow flex-col px-6'>
+        <div className='my-9 flex items-center justify-between'>
           <Header children={projectDetails.name} />
           <Button variant='outline'>이슈 생성</Button>
         </div>
 
-        <div className='flex justify-between h-full overflow-hidden gap-x-6'>
+        <div className='flex h-full justify-between gap-x-6 overflow-hidden'>
           <KanbanCard status='To Do' issueCount='4' />
           <KanbanCard status='On Progress' issueCount='3' />
           <KanbanCard status='Done' issueCount='200' />
