@@ -1,4 +1,12 @@
 import axios from 'axios';
+import {
+  requestInterceptor,
+  requestRejectInterceptor,
+} from './requestInterceptor';
+import {
+  responseInterceptor,
+  responseRejectInterceptor,
+} from './responseInterceptor';
 
 /**
  * Axios 인스턴스 설정
@@ -12,5 +20,11 @@ const instance = axios.create({
   baseURL: '/api',
   withCredentials: true, // 쿠키 포함 요청 허용
 });
+
+instance.interceptors.request.use(requestInterceptor, requestRejectInterceptor);
+instance.interceptors.response.use(
+  responseInterceptor,
+  responseRejectInterceptor
+);
 
 export default instance;
