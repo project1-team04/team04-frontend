@@ -22,13 +22,6 @@ const ProjectsListPage = () => {
   const [size] = useState(9); // 한 페이지 당 아이템 갯수
   const [totalPages, setTotalPages] = useState(1); // 전체 페이지
 
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const pageNumber = parseInt(queryParams.get('page') || '0', 10);
-
-    setPage(pageNumber);
-  }, [location.search]);
-
   const fetchProjects = async (currentPage: number) => {
     try {
       const projectData = await getUserProjects(currentPage, size);
@@ -44,6 +37,20 @@ const ProjectsListPage = () => {
     fetchProjects(page);
   }, [page]);
 
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const pageNumber = parseInt(queryParams.get('page') || '0', 10);
+
+    setPage(pageNumber);
+  }, [location.search]);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 0 && newPage < totalPages) {
+      setPage(newPage);
+      navigate(`?page=${newPage}&size=${size}`);
+    }
+  };
+
   const handleProjectClick = async (projectId: string) => {
     try {
       const projectDetails = await getProjectsDetail(projectId);
@@ -52,13 +59,6 @@ const ProjectsListPage = () => {
       navigate(`/projects/${projectId}`, { state: { projectDetails } });
     } catch (error) {
       console.log('프로젝트 상세 정보 실패: ', error);
-    }
-  };
-
-  const handlePageChange = (newPage: number) => {
-    if (newPage >= 0 && newPage < totalPages) {
-      setPage(newPage);
-      navigate(`?page=${newPage}&size=${size}`);
     }
   };
 
