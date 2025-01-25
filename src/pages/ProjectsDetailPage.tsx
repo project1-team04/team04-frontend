@@ -46,7 +46,14 @@ const ProjectsDetailPage = () => {
       <div className='flex grow flex-col px-6'>
         <div className='my-9 flex items-center justify-between'>
           <Header children={projectDetails.name} />
-          <Button variant='outline'>이슈 생성</Button>
+          <Button
+            variant='outline'
+            onClick={() => {
+              navigate(`/projects/:${projectId}/issues/:issueId`);
+            }}
+          >
+            이슈 생성
+          </Button>
         </div>
 
         <div className='flex h-full justify-between gap-x-6 overflow-hidden'>
