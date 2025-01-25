@@ -4,8 +4,13 @@ import IssueSearchBar from '@/components/IssueSearchBar';
 import { Button } from '@/components/ui/button';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { deleteProject } from '@/apis/projectApi';
+import Modal from '@/components/Modal';
+import { RiErrorWarningLine } from 'react-icons/ri';
+import { useModalStore, ModalType } from '@/stores/useModalStore';
 
 const ProjectsDetailPage = () => {
+  const { open, close } = useModalStore();
+
   const { state } = useLocation();
   const projectDetails = state?.projectDetails;
 
@@ -39,7 +44,9 @@ const ProjectsDetailPage = () => {
           className='w-24 text-xs'
           variant='negative'
           children='프로젝트 나가기'
-          onClick={() => handleDelete(Number(projectId))}
+          onClick={() => {
+            open(ModalType.DELETE_WARNING);
+          }}
         />
       </aside>
 
@@ -62,6 +69,21 @@ const ProjectsDetailPage = () => {
           <KanbanCard status='Done' issueCount='200' />
         </div>
       </div>
+
+      <Modal
+        title={'정말 삭제하시겠습니까?'}
+        content={'삭제 후에는 되돌리기가 불가능합니다.'}
+        icon={<RiErrorWarningLine className='h-[60px] w-[60px]' />}
+        css={'text-sm mt-[-18px]'}
+        buttons={[
+          { text: '아니오', variantStyle: 'outline', onClick: close },
+          {
+            text: '네',
+            variantStyle: 'negative',
+            onClick: () => handleDelete(Number(projectId)),
+          },
+        ]}
+      />
     </div>
   );
 };
