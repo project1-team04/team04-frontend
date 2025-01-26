@@ -6,6 +6,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { deleteProject } from '@/apis/projectApi';
 import Modal from '@/components/Modal';
 import { RiErrorWarningLine } from 'react-icons/ri';
+import { IoSettingsOutline } from 'react-icons/io5';
 import { useModalStore, ModalType } from '@/stores/useModalStore';
 
 const ProjectsDetailPage = () => {
@@ -19,7 +20,7 @@ const ProjectsDetailPage = () => {
   }
 
   const navigate = useNavigate();
-  const { paramProjectId } = useParams();
+  const { projectId: paramProjectId } = useParams();
 
   const query = new URLSearchParams(location.search);
   const queryProjectId = query.get('projectId');
@@ -40,23 +41,35 @@ const ProjectsDetailPage = () => {
     <div className='flex w-full h-full'>
       <aside className='flex h-full w-[22%] flex-col overflow-hidden border-r border-divider-default p-4'>
         <IssueSearchBar />
-        <Button
+        {/* 초대된 유저(일반 유저)만 보임 */}
+        {/* <Button
           className='w-24 text-xs'
           variant='negative'
           children='프로젝트 나가기'
           onClick={() => {
             open(ModalType.DELETE_WARNING);
           }}
-        />
+        /> */}
       </aside>
 
       <div className='flex flex-col px-6 grow'>
         <div className='flex items-center justify-between my-9'>
-          <Header children={projectDetails.name} />
+          <div className='flex gap-4'>
+            <Header children={projectDetails.name} />
+            <Button
+              variant='outline'
+              className='p-2 border-none'
+              onClick={() => {
+                navigate(`/projects/${projectId}/settings`);
+              }}
+            >
+              <IoSettingsOutline />
+            </Button>
+          </div>
           <Button
             variant='outline'
             onClick={() => {
-              navigate(`/projects/:${projectId}/issues/:issueId`);
+              navigate(`/projects/${projectId}/issues/:issueId`);
             }}
           >
             이슈 생성
