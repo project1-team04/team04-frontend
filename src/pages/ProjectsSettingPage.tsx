@@ -1,4 +1,6 @@
+import { deleteProject } from '@/apis/projectApi';
 import ProjectsLayout from '@/components/ProjectsLayout';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface Member {
   id: string;
@@ -7,7 +9,6 @@ interface Member {
   position?: 'Project Manager' | 'Member';
 }
 
-// 목 데이터
 const member: Member[] = [
   {
     id: '1',
@@ -22,18 +23,27 @@ const member: Member[] = [
 ];
 
 const ProjectsSettingPage = () => {
+  const navigate = useNavigate();
+  const { projectId } = useParams();
+
+  const handleDelete = async (projectId: number) => {
+    try {
+      await deleteProject(projectId);
+
+      navigate('/projects');
+    } catch (error) {
+      console.log('프로젝트 삭제:', error);
+    }
+  };
+
   return (
     <ProjectsLayout
       header='프로젝트 설정'
       deleteButton='프로젝트 삭제'
       member={member}
       projectName={''}
-      onCreate={function (): void {
-        throw new Error('Function not implemented.');
-      }}
-      // projectName={projectName}
-      // onInputChange={(e) => setProjectName(e.target.value)}
-      // onCreate={handleCreateProject}
+      projectId={projectId ? Number(projectId) : undefined}
+      onDelete={handleDelete}
     />
   );
 };
