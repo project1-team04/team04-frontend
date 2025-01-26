@@ -8,7 +8,7 @@ interface Member {
 }
 
 // 목 데이터
-const data: Member[] = [
+const member: Member[] = [
   {
     id: '1',
     name: '정태승',
@@ -24,9 +24,16 @@ const data: Member[] = [
 const ProjectsSettingPage = () => {
   return (
     <ProjectsLayout
-      data={data}
       header='프로젝트 설정'
       deleteButton='프로젝트 삭제'
+      member={member}
+      projectName={''}
+      onCreate={function (): void {
+        throw new Error('Function not implemented.');
+      }}
+      // projectName={projectName}
+      // onInputChange={(e) => setProjectName(e.target.value)}
+      // onCreate={handleCreateProject}
     />
   );
 };
