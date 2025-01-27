@@ -44,6 +44,7 @@ const ProjectsCreatePage = () => {
       header='프로젝트 생성'
       projectName={projectName}
       member={member}
+      isCreatePage={true}
       onInputChange={(e) => setProjectName(e.target.value)}
       onCreate={handleCreateProject}
     />
