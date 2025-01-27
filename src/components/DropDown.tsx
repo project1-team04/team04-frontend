@@ -8,7 +8,7 @@ import {
 import { Button } from '@/components/ui/button';
 
 interface DropDownProps {
-  buttonText: React.ReactNode;
+  buttonText?: React.ReactNode;
   items: { label: string; onClick: () => void }[];
   className?: string;
 }

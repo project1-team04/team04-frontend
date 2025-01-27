@@ -9,37 +9,76 @@ import {
 import { Button } from '@/components/ui/button';
 import { MdKeyboardArrowLeft } from 'react-icons/md';
 import { MdKeyboardArrowRight } from 'react-icons/md';
-
-const data = [
-  { id: '1', title: 'Threadly', issue: 1 },
-  { id: '2', title: 'Day6', issue: 2 },
-  { id: '3', title: 'Bee', issue: 3 },
-  { id: '4', title: 'Project X', issue: 4 },
-  { id: '5', title: 'Alpha', issue: 5 },
-  { id: '6', title: 'Beta', issue: 6 },
-  { id: '7', title: 'Gamma', issue: 7 },
-  { id: '8', title: 'Delta', issue: 8 },
-  { id: '9', title: 'Epsilon', issue: 9 },
-];
+import { useEffect, useState } from 'react';
+import { getUserProjects, Project, getProjectsDetail } from '@/apis/projectApi';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const ProjectsListPage = () => {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [page, setPage] = useState(0); // 현재 페이지
+  const [size] = useState(9); // 한 페이지 당 아이템 갯수
+  const [totalPages, setTotalPages] = useState(1); // 전체 페이지
+
+  const fetchProjects = async (currentPage: number) => {
+    try {
+      const projectData = await getUserProjects(currentPage, size);
+      setProjects(projectData.projects);
+
+      setTotalPages(Math.ceil(projectData.totalProjects / size));
+    } catch (error) {
+      console.log('fetch 에러', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProjects(page);
+  }, [page]);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const pageNumber = parseInt(queryParams.get('page') || '0', 10);
+
+    setPage(pageNumber);
+  }, [location.search]);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 0 && newPage < totalPages) {
+      setPage(newPage);
+      navigate(`?page=${newPage}&size=${size}`);
+    }
+  };
+
+  const handleProjectClick = async (projectId: string) => {
+    try {
+      const projectDetails = await getProjectsDetail(projectId);
+      console.log('프로젝트 상세 정보:', projectDetails);
+
+      navigate(`/projects/${projectId}`, { state: { projectDetails } });
+    } catch (error) {
+      console.log('프로젝트 상세 정보 실패: ', error);
+    }
+  };
+
   return (
     <div className='mx-auto flex flex-col'>
       <header className='my-9 flex items-center gap-5'>
         <Header children={'내 프로젝트'} />
-        <Button variant='outline'>프로젝트 생성</Button>
+        <Button variant='outline' onClick={() => navigate('/projects/new')}>
+          프로젝트 생성
+        </Button>
       </header>
 
-      {/* main 태그 없으면 Pagination의 margin-bottom이 무시됨 */}
-      {/* flex 컨테이너 내부에서 자식 요소의 margin-bottom이 유지되도록 하기 위해 main 태그 추가 */}
       <main>
         <div className='grid grid-cols-3 gap-5'>
-          {data.map((project) => (
+          {projects.map((project) => (
             <ProjectCard
               key={project.id}
-              title={project.title}
-              issue={project.issue}
-              onClick={() => console.log(`${project.title} 클릭`)}
+              title={project.name}
+              issue={project.issueCount}
+              onClick={() => handleProjectClick(project.id)}
             />
           ))}
         </div>
@@ -47,13 +86,35 @@ const ProjectsListPage = () => {
         <Pagination className='my-9'>
           <PaginationContent>
             <PaginationItem>
-              <MdKeyboardArrowLeft href='#' />
+              <button
+                onClick={() => handlePageChange(page - 1)}
+                disabled={page === 0}
+                className={page === 0 ? 'text-gray-400' : ''}
+              >
+                <MdKeyboardArrowLeft />
+              </button>
             </PaginationItem>
+
+            {Array.from({ length: totalPages }, (_, i) => (
+              <PaginationItem key={i}>
+                <PaginationLink
+                  href='#'
+                  onClick={() => handlePageChange(i)}
+                  className={page === i ? 'text-blue-500' : ''}
+                >
+                  {i + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+
             <PaginationItem>
-              <PaginationLink href='#'>1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <MdKeyboardArrowRight href='#' />
+              <button
+                onClick={() => handlePageChange(page + 1)}
+                disabled={page === totalPages - 1}
+                className={page === totalPages - 1 ? 'text-gray-400' : ''}
+              >
+                <MdKeyboardArrowRight />
+              </button>
             </PaginationItem>
           </PaginationContent>
         </Pagination>
