@@ -22,7 +22,7 @@ const member: Member[] = [
 
 const ProjectsSettingPage = () => {
   const [projectName, setProjectName] = useState('');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState<string>('');
   const navigate = useNavigate();
 
   const { projectId } = useParams();
@@ -47,7 +47,7 @@ const ProjectsSettingPage = () => {
     }
   };
 
-  const handleInviteMember = async (projectId: number, email: string) => {
+  const handleInviteMember = async (projectId: number, email: string[]) => {
     try {
       const res = await inviteMember(projectId, email);
       console.log('프로젝트 생성 페이지 - 인원 초대', res);
@@ -56,7 +56,7 @@ const ProjectsSettingPage = () => {
     }
   };
 
-  console.log(email);
+  console.log([email]);
 
   return (
     <ProjectsLayout
@@ -70,6 +70,7 @@ const ProjectsSettingPage = () => {
       onDelete={handleDelete}
       onInvite={handleInviteMember}
       onEmailChange={(e) => setEmail(e.target.value)}
+      email={email}
     />
   );
 };

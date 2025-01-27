@@ -25,7 +25,8 @@ interface ProjectLayoutProps {
   onDelete?: (projectId: number) => void;
   projectId?: number | undefined;
   onEmailChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onInvite?: (projectId: number, email: string) => void;
+  onInvite?: (projectId: number, email: string[]) => void;
+  email?: string;
 }
 
 const ProjectsLayout = ({
@@ -41,6 +42,7 @@ const ProjectsLayout = ({
   projectId,
   onEmailChange,
   onInvite,
+  email,
 }: ProjectLayoutProps) => {
   const { modalType, open, close } = useModalStore();
 
@@ -149,9 +151,20 @@ const ProjectsLayout = ({
             {
               text: '추가',
               onClick: () => {
-                console.log('인원 추가 전송');
+                if (projectId) {
+                  console.log('인원 추가 전송');
 
-                onInvite;
+                  console.log(projectId);
+                  console.log('인원 추가 로직 전달 email', [email]);
+
+                  if (email) {
+                    onInvite?.(projectId, [email]);
+                  } else {
+                    console.error('이메일이 비어 있습니다.');
+                  }
+                } else {
+                  console.error('projectId가 undefined입니다.');
+                }
               },
             },
           ]}
