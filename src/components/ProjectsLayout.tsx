@@ -24,6 +24,8 @@ interface ProjectLayoutProps {
   onUpdate?: (projectId: number) => void;
   onDelete?: (projectId: number) => void;
   projectId?: number | undefined;
+  onEmailChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onInvite?: (projectId: number, email: string) => void;
 }
 
 const ProjectsLayout = ({
@@ -37,6 +39,8 @@ const ProjectsLayout = ({
   onUpdate,
   onDelete,
   projectId,
+  onEmailChange,
+  onInvite,
 }: ProjectLayoutProps) => {
   const { modalType, open, close } = useModalStore();
 
@@ -137,12 +141,19 @@ const ProjectsLayout = ({
               <span className='text-sm'>
                 이메일 <span className='text-red'>*</span>
               </span>
-              <Input className='bg-white' />
+              <Input className='bg-white' onChange={onEmailChange} />
             </div>
           }
           buttons={[
             { text: '취소', variantStyle: 'outline', onClick: close },
-            { text: '추가', onClick: () => console.log('인원 초대 진행') },
+            {
+              text: '추가',
+              onClick: () => {
+                console.log('인원 추가 전송');
+
+                onInvite;
+              },
+            },
           ]}
         />
       )}

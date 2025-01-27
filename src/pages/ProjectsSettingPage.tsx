@@ -1,4 +1,4 @@
-import { deleteProject, modifyProject } from '@/apis/projectApi';
+import { deleteProject, inviteMember, modifyProject } from '@/apis/projectApi';
 import ProjectsLayout from '@/components/ProjectsLayout';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -22,6 +22,7 @@ const member: Member[] = [
 
 const ProjectsSettingPage = () => {
   const [projectName, setProjectName] = useState('');
+  const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
   const { projectId } = useParams();
@@ -46,6 +47,17 @@ const ProjectsSettingPage = () => {
     }
   };
 
+  const handleInviteMember = async (projectId: number, email: string) => {
+    try {
+      const res = await inviteMember(projectId, email);
+      console.log('프로젝트 생성 페이지 - 인원 초대', res);
+    } catch (error) {
+      console.log('프로젝트 생성 페이지 에러 - 인원 초대', error);
+    }
+  };
+
+  console.log(email);
+
   return (
     <ProjectsLayout
       header='프로젝트 설정'
@@ -56,6 +68,8 @@ const ProjectsSettingPage = () => {
       onUpdate={handleUpdate}
       onInputChange={(e) => setProjectName(e.target.value)}
       onDelete={handleDelete}
+      onInvite={handleInviteMember}
+      onEmailChange={(e) => setEmail(e.target.value)}
     />
   );
 };
