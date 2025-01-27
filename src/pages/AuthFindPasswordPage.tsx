@@ -8,7 +8,7 @@ import Button from '@/components/Button';
 import Input from '@/components/Input';
 import AuthNavLinks from '@/components/AuthNavLinks';
 
-const AuthForgotPasswordPage = () => {
+const AuthFindPasswordPage = () => {
   const {
     register,
     handleSubmit,
@@ -126,4 +126,4 @@ const AuthForgotPasswordPage = () => {
   );
 };
 
-export default AuthForgotPasswordPage;
+export default AuthFindPasswordPage;
