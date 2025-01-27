@@ -1,19 +1,25 @@
 import { Input as UiInput } from './ui/input';
-import { forwardRef, InputHTMLAttributes } from 'react';
+import { forwardRef, InputHTMLAttributes, ReactNode } from 'react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   type?: string;
+  iconPosition?: 'left' | 'right';
+  icon?: ReactNode;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ type = 'text', ...props }, ref) => {
+  ({ type = 'text', iconPosition, icon, ...props }, ref) => {
     return (
-      <UiInput
-        type={type}
-        placeholder={props.placeholder}
-        ref={ref}
-        {...props}
-      />
+      <div className='flex gap-1'>
+        {iconPosition === 'left' && icon}
+        <UiInput
+          type={type}
+          placeholder={props.placeholder}
+          ref={ref}
+          {...props}
+        />
+        {iconPosition === 'right' && icon}
+      </div>
     );
   }
 );
