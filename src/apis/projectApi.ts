@@ -84,3 +84,16 @@ export const modifyProject = async (projectId: number, name: string) => {
     console.log('프로젝트 수정 에러: ', error);
   }
 };
+
+export const inviteMember = async (projectId: number, email: string) => {
+  try {
+    const res = await instance.post('/projects/invite', {
+      params: { projectId, email },
+    });
+
+    console.log('인원 초대:', res.data);
+    return res.data;
+  } catch (error) {
+    console.log('인원 초대 에러: ', error);
+  }
+};
