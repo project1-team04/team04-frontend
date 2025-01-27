@@ -10,10 +10,10 @@ import NaverIcon from '@/assets/btn_naver.svg?react';
 import KakaoIcon from '@/assets/btn_kakao.svg?react';
 import GoogleIcon from '@/assets/btn_google.svg?react';
 
-interface LoginFormInputs {
+type LoginFormInputs = {
   email: string;
   password: string;
-}
+};
 
 const socialLoginIcons = [
   { Component: NaverIcon, alt: '네이버 로그인' },
@@ -79,6 +79,7 @@ const AuthLoginPage = () => {
             {errors.email.message?.toString()}
           </small>
         )}
+
         <InputComponent
           type='password'
           placeholder='비밀번호'
@@ -107,6 +108,7 @@ const AuthLoginPage = () => {
           </small>
         )}
 
+        {/* TODO: '이메일 저장' 체크 후 로그인하면, 로그아웃 시 최근 로그인한 이메일이 자동 입력되도록 구현 */}
         <div className='my-2 flex items-center gap-2'>
           <Checkbox id='rememberId' />
           <label
