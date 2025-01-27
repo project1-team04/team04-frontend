@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import instance from '@/apis/instance';
 import { paths } from '@/routers/paths';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
@@ -8,8 +10,40 @@ const AuthForgotPasswordPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitted, isSubmitting },
-  } = useForm();
+    getValues,
+    setError,
+    formState: { errors, isSubmitted, isSubmitting, isValid },
+  } = useForm({ mode: 'onBlur' });
+
+  const [isEmailChecked, setIsEmailChecked] = useState(false); // 이메일 검증 여부
+  const [isChecking, setIsChecking] = useState(false); // 이메일 확인 중인지 여부
+
+  const handleCheckEmail = async () => {
+    if (isChecking) return;
+
+    const email = getValues('email');
+    if (!email) return;
+
+    setIsChecking(true);
+
+    try {
+      const res = await instance.post('auth/validate-email', { email });
+
+      if (res.data) {
+        setIsEmailChecked(true);
+      } else {
+        setError('email', { message: '가입되지 않은 이메일입니다.' });
+        setIsEmailChecked(false);
+      }
+    } catch (error) {
+      setError('email', {
+        message: '예상치 못한 오류가 발생했습니다. 다시 시도해주세요.',
+      });
+      setIsEmailChecked(false);
+    } finally {
+      setIsChecking(false);
+    }
+  };
 
   const onSubmit = (data: any) => {
     console.log(data);
@@ -32,8 +66,7 @@ const AuthForgotPasswordPage = () => {
             isSubmitted ? (errors.email ? 'true' : 'false') : undefined
           }
           {...register('email', {
-            required:
-              '먼저 가입된 이메일인지 확인이 필요해요. 확인 버튼을 눌러주세요.',
+            required: '이메일을 입력해주세요.',
             pattern: {
               value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
               message: '이메일 형식에 맞지 않습니다.',
@@ -41,7 +74,12 @@ const AuthForgotPasswordPage = () => {
           })}
           iconPosition='right'
           icon={
-            <Button variant='outline' className='w-auto'>
+            <Button
+              variant='outline'
+              className='w-auto'
+              onClick={handleCheckEmail}
+              disabled={isChecking || !isValid}
+            >
               확인
             </Button>
           }
@@ -52,7 +90,10 @@ const AuthForgotPasswordPage = () => {
           </small>
         )}
 
-        <Button type='submit' disabled={isSubmitting}>
+        <Button
+          type='submit'
+          disabled={isSubmitting || !isEmailChecked || isChecking}
+        >
           임시 비밀번호 전송
         </Button>
       </form>
