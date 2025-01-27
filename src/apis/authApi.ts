@@ -1,19 +1,11 @@
+import { AxiosError } from 'axios';
 import instance from './instance';
 
 interface LoginResponse {
   accessToken: string;
 }
 
-// TODO) react-hook-form 적용 후 params 수정
-// TODO) 로그인 여부에 따른 라우팅 로직 추가
-// /projects로 redirect
-export const login = async (
-  e: React.FormEvent<HTMLFormElement>,
-  email: string,
-  password: string
-) => {
-  e.preventDefault();
-
+export const login = async (email: string, password: string) => {
   try {
     const res = await instance.post<LoginResponse>('auth/login', {
       email,
@@ -21,14 +13,23 @@ export const login = async (
     });
 
     localStorage.setItem('AccessToken', res.data.accessToken);
-    console.log('로그인 성공', res, res.data);
-  } catch (error) {
-    console.error('Login failed:', error);
+    return { success: true };
+  } catch (error: unknown) {
+    if (error instanceof AxiosError && error.response?.status === 403) {
+      return {
+        success: false,
+        message: '가입되지 않았거나 올바르지 않은 계정입니다.',
+      };
+    }
+
+    return {
+      success: false,
+      message: '로그인 중 예상치 못한 오류가 발생했습니다.',
+      error,
+    };
   }
 };
 
-// TODO) 로그인 여부에 따른 라우팅 로직 추가
-// /auth/login으로 redirect
 export const logout = async () => {
   try {
     await instance.post('/auth/logout');
