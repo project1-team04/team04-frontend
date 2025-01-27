@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import instance from '@/apis/instance';
 import { paths } from '@/routers/paths';
 import Button from '@/components/Button';
@@ -45,8 +46,20 @@ const AuthForgotPasswordPage = () => {
     }
   };
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  // FIXME) 토큰 유무에 따른 라우팅 로직 추가 후 navigate 관련 로직 삭제
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: any) => {
+    try {
+      await instance.post('auth/reset-password', { email: data.email });
+
+      alert('임시 비밀번호가 이메일로 전송되었습니다.');
+      navigate(paths.auth.login.fullPath);
+    } catch (error) {
+      setError('email', {
+        message: '임시 비밀번호 발급에 실패했습니다. 다시 시도해주세요.',
+      });
+    }
   };
 
   return (
