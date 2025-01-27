@@ -22,8 +22,8 @@ const member: Member[] = [
 
 const ProjectsSettingPage = () => {
   const [projectName, setProjectName] = useState('');
-
   const navigate = useNavigate();
+
   const { projectId } = useParams();
 
   const handleDelete = async (projectId: number) => {
