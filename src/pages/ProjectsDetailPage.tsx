@@ -15,17 +15,23 @@ const ProjectsDetailPage = () => {
   const { state } = useLocation();
   const projectDetails = state?.projectDetails;
 
+  const projectId = projectDetails.id;
+  console.log(projectId);
+
   if (!projectDetails) {
     return <p>프로젝트 상세 정보가 없습니다.</p>;
   }
 
   const navigate = useNavigate();
-  const { projectId: paramProjectId } = useParams();
+  // const { projectId: paramProjectId } = useParams();
+  // console.log(paramProjectId);
 
-  const query = new URLSearchParams(location.search);
-  const queryProjectId = query.get('projectId');
+  // const query = new URLSearchParams(location.search);
+  // const queryProjectId = query.get('projectId');
+  // console.log(queryProjectId);
 
-  const projectId = paramProjectId || queryProjectId;
+  // const projectId = paramProjectId || queryProjectId;
+  // console.log(projectId);
 
   const handleDelete = async (projectId: number) => {
     try {
@@ -38,7 +44,7 @@ const ProjectsDetailPage = () => {
   };
 
   return (
-    <div className='flex w-full h-full'>
+    <div className='flex h-full w-full'>
       <aside className='flex h-full w-[22%] flex-col overflow-hidden border-r border-divider-default p-4'>
         <IssueSearchBar />
         {/* 초대된 유저(일반 유저)만 보임 */}
@@ -52,13 +58,13 @@ const ProjectsDetailPage = () => {
         /> */}
       </aside>
 
-      <div className='flex flex-col px-6 grow'>
-        <div className='flex items-center justify-between my-9'>
+      <div className='flex grow flex-col px-6'>
+        <div className='my-9 flex items-center justify-between'>
           <div className='flex gap-4'>
             <Header children={projectDetails.name} />
             <Button
               variant='outline'
-              className='p-2 border-none'
+              className='border-none p-2'
               onClick={() => {
                 navigate(`/projects/${projectId}/settings`);
               }}
@@ -76,7 +82,7 @@ const ProjectsDetailPage = () => {
           </Button>
         </div>
 
-        <div className='flex justify-between h-full overflow-hidden gap-x-6'>
+        <div className='flex h-full justify-between gap-x-6 overflow-hidden'>
           <KanbanCard status='To Do' issueCount='4' />
           <KanbanCard status='On Progress' issueCount='3' />
           <KanbanCard status='Done' issueCount='200' />
