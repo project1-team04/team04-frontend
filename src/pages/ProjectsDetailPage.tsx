@@ -11,18 +11,16 @@ import { useModalStore, ModalType } from '@/stores/useModalStore';
 
 const ProjectsDetailPage = () => {
   const { open, close } = useModalStore();
+  const navigate = useNavigate();
 
   const { state } = useLocation();
   const projectDetails = state?.projectDetails;
-
   const projectId = projectDetails.id;
-  console.log(projectId);
 
   if (!projectDetails) {
     return <p>프로젝트 상세 정보가 없습니다.</p>;
   }
 
-  const navigate = useNavigate();
   // const { projectId: paramProjectId } = useParams();
   // console.log(paramProjectId);
 
