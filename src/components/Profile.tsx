@@ -18,7 +18,14 @@ const Profile = ({ name, src, alt }: ProfileProps) => {
       label: '프로필',
       onClick: () => navigate(paths.profile.root),
     },
-    { label: '로그아웃', onClick: () => logout() },
+    {
+      label: '로그아웃',
+      onClick: () => {
+        logout();
+        // FIXME) 토큰 유무에 따른 라우팅 로직 추가 후 아래 navigate 삭제
+        navigate(paths.auth.login.fullPath);
+      },
+    },
   ];
 
   return (
