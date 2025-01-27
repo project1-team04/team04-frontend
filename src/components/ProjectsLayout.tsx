@@ -21,7 +21,7 @@ interface ProjectLayoutProps {
   isCreatePage?: boolean;
   onInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onCreate?: () => void;
-  onUpdate?: () => void;
+  onUpdate?: (projectId: number) => void;
   onDelete?: (projectId: number) => void;
   projectId?: number | undefined;
 }
@@ -48,7 +48,8 @@ const ProjectsLayout = ({
       onCreate?.();
     } else {
       console.log('프로젝트 설정 수정 진행');
-      onUpdate?.();
+      console.log(projectId);
+      onUpdate?.(projectId);
     }
   };
 
