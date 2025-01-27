@@ -25,6 +25,7 @@ const AuthLoginPage = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitted, isSubmitting },
   } = useForm<LoginFormInputs>();
 
@@ -40,15 +41,17 @@ const AuthLoginPage = () => {
       if (response.success) {
         navigate(paths.projects.root);
       } else {
-        console.error('로그인 실패');
+        setError('root', { message: response.message });
       }
     } catch (error) {
       console.error('로그인 요청 중 오류 발생:', error);
+      setError('root', {
+        message: '로그인 중 예상치 못한 오류가 발생했습니다.',
+      });
     }
   };
 
-  const passwordErrorMessage =
-    '비밀번호는 8~16자이며, 영문 대소문자, 숫자, 특수문자(@, !)를 각각 최소 1개 이상 포함해야 합니다.';
+  const passwordErrorMessage = '비밀번호 형식에 맞지 않습니다.';
 
   return (
     <div className='mt-6 flex flex-col items-center gap-y-6'>
@@ -113,6 +116,12 @@ const AuthLoginPage = () => {
             이메일 저장
           </label>
         </div>
+
+        {errors.root && (
+          <small role='alert' className='text-text-error'>
+            {errors.root.message?.toString()}
+          </small>
+        )}
 
         <ButtonComponent type='submit' disabled={isSubmitting}>
           로그인
