@@ -69,3 +69,18 @@ export const deleteProject = async (projectId: number) => {
     console.log('프로젝트 나가기 에러: ', error);
   }
 };
+
+export const modifyProject = async (projectId: number, name: string) => {
+  try {
+    const res = await instance.patch(
+      '/projects',
+      { name },
+      { params: { projectId } }
+    );
+
+    console.log('프로젝트 수정:', res.data);
+    return res.data;
+  } catch (error) {
+    console.log('프로젝트 수정 에러: ', error);
+  }
+};
