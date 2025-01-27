@@ -2,8 +2,8 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { login } from '@/apis/authApi';
 import { paths } from '@/routers/paths';
-import ButtonComponent from '@/components/Button';
-import InputComponent from '@/components/Input';
+import Button from '@/components/Button';
+import Input from '@/components/Input';
 import { Checkbox } from '@/components/ui/checkbox';
 import AuthNavLinks from '@/components/AuthNavLinks';
 import NaverIcon from '@/assets/btn_naver.svg?react';
@@ -60,7 +60,7 @@ const AuthLoginPage = () => {
         onSubmit={handleSubmit(onSubmit)}
         noValidate // 기본 HTML5 검증 메세지 제거
       >
-        <InputComponent
+        <Input
           type='email'
           placeholder='이메일'
           aria-invalid={
@@ -79,7 +79,7 @@ const AuthLoginPage = () => {
             {errors.email.message?.toString()}
           </small>
         )}
-        <InputComponent
+        <Input
           type='password'
           placeholder='비밀번호'
           aria-invalid={
@@ -123,9 +123,9 @@ const AuthLoginPage = () => {
           </small>
         )}
 
-        <ButtonComponent type='submit' disabled={isSubmitting}>
+        <Button type='submit' disabled={isSubmitting}>
           로그인
-        </ButtonComponent>
+        </Button>
       </form>
 
       <div className='flex w-full items-center text-xs text-text-disabled before:me-6 before:flex-1 before:border-t before:border-border-default after:ms-6 after:flex-1 after:border-t after:border-border-default'>

@@ -1,6 +1,6 @@
 import { paths } from '@/routers/paths';
-import ButtonComponent from '@/components/Button';
-import InputComponent from '@/components/Input';
+import Button from '@/components/Button';
+import Input from '@/components/Input';
 import AuthNavLinks from '@/components/AuthNavLinks';
 
 const InputWithButton = ({
@@ -13,10 +13,10 @@ const InputWithButton = ({
   buttonLabel: string;
 }) => (
   <div className='flex gap-1'>
-    <InputComponent type={type} placeholder={placeholder} />
-    <ButtonComponent variant='outline' className='w-auto'>
+    <Input type={type} placeholder={placeholder} />
+    <Button variant='outline' className='w-auto'>
       {buttonLabel}
-    </ButtonComponent>
+    </Button>
   </div>
 );
 
@@ -24,12 +24,12 @@ const AuthSignupPage = () => {
   return (
     <div className='mt-6 flex flex-col items-center gap-y-6'>
       <form className='flex w-[250px] flex-col gap-2'>
-        <InputComponent placeholder='이름' />
+        <Input placeholder='이름' />
         <InputWithButton type='email' placeholder='이메일' buttonLabel='인증' />
         <InputWithButton placeholder='이메일 인증번호' buttonLabel='확인' />
-        <InputComponent type='password' placeholder='비밀번호' />
-        <InputComponent type='password' placeholder='비밀번호 확인' />
-        <ButtonComponent>회원가입</ButtonComponent>
+        <Input type='password' placeholder='비밀번호' />
+        <Input type='password' placeholder='비밀번호 확인' />
+        <Button>회원가입</Button>
       </form>
 
       <AuthNavLinks
