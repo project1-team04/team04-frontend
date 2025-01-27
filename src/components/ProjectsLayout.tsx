@@ -47,9 +47,12 @@ const ProjectsLayout = ({
       console.log('프로젝트 생성 진행');
       onCreate?.();
     } else {
-      console.log('프로젝트 설정 수정 진행');
-      console.log(projectId);
-      onUpdate?.(projectId);
+      if (projectId !== undefined) {
+        console.log('프로젝트 설정 수정 진행');
+        onUpdate?.(projectId);
+      } else {
+        console.error('프로젝트 ID가 undefined 입니다.');
+      }
     }
   };
 
