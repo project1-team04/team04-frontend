@@ -1,14 +1,19 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import instance from '@/apis/instance';
 import { paths } from '@/routers/paths';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import AuthNavLinks from '@/components/AuthNavLinks';
 
-type SignupFormInputs = {
+type SignupRequest = {
   name: string;
   email: string;
-  emailCode: string;
   password: string;
+};
+
+type SignupFormInputs = SignupRequest & {
+  emailCode: string;
   confirmPassword: string;
 };
 
@@ -16,10 +21,88 @@ const AuthSignupPage = () => {
   const {
     register,
     handleSubmit,
+    getValues,
+    setError,
     formState: { errors, isSubmitted, isSubmitting },
   } = useForm<SignupFormInputs>();
 
-  const onSubmit = (data: SignupFormInputs) => {
+  const [isEmailChecked, setIsEmailChecked] = useState(false); // 이메일 중복 확인 여부
+  const [isChecking, setIsChecking] = useState(false); // 이메일 확인 중인지 여부
+  const [isCodeSent, setIsCodeSent] = useState(false); // 인증번호 발송 여부
+  const [isCodeVerified, setIsCodeVerified] = useState(false); // 인증번호 확인 여부
+
+  // 이메일 중복 확인 + 인증번호 발송
+  const handleEmailVerification = async () => {
+    const email = getValues('email');
+    if (!email) return;
+
+    setIsChecking(true);
+
+    try {
+      // 1. 이메일 중복 확인
+      const checkResponse = await instance.post('auth/validate-email', {
+        email,
+      });
+
+      if (!checkResponse.data) {
+        setIsEmailChecked(true);
+      } else {
+        setError('email', { message: '이미 가입된 이메일입니다.' });
+        setIsEmailChecked(false);
+        setIsChecking(false);
+        return;
+      }
+
+      // 2. 인증번호 발송
+      const sendCodeResponse = await instance.post('/auth/verify-email', {
+        email,
+      });
+
+      if (sendCodeResponse.status === 200) {
+        setIsCodeSent(true);
+        alert('인증번호가 이메일로 전송되었습니다.');
+      } else {
+        setError('email', {
+          message: '인증번호 발송에 실패했습니다. 다시 시도해주세요.',
+        });
+      }
+    } catch (error) {
+      setError('email', {
+        message: '예상치 못한 오류가 발생했습니다. 다시 시도해주세요.',
+      });
+      setIsEmailChecked(false);
+    } finally {
+      setIsChecking(false);
+    }
+  };
+
+  // 인증 번호 확인
+  const handleEmailCodeVerification = async () => {
+    const email = getValues('email');
+    const emailCode = getValues('emailCode');
+
+    try {
+      const verifyResponse = await instance.post('/auth/verify', {
+        email,
+        verificationCode: emailCode,
+      });
+
+      if (verifyResponse.status === 200) {
+        setIsCodeVerified(true);
+        alert('이메일 인증이 완료되었습니다.');
+      } else {
+        setError('emailCode', {
+          message: '입력한 인증번호가 올바르지 않습니다.',
+        });
+      }
+    } catch (error) {
+      setError('emailCode', {
+        message: '인증번호 확인 중 오류가 발생했습니다.',
+      });
+    }
+  };
+
+  const onSubmit = async (data: SignupRequest) => {
     console.log(data);
   };
 
@@ -64,7 +147,12 @@ const AuthSignupPage = () => {
           })}
           iconPosition='right'
           icon={
-            <Button variant='outline' className='w-auto'>
+            <Button
+              variant='outline'
+              className='w-auto'
+              onClick={handleEmailVerification}
+              disabled={isEmailChecked || isChecking}
+            >
               인증
             </Button>
           }
@@ -75,7 +163,6 @@ const AuthSignupPage = () => {
           </small>
         )}
 
-        {/* TODO) '확인' 버튼 눌렀는지 확인 */}
         <Input
           placeholder='이메일 인증번호'
           aria-invalid={
@@ -87,7 +174,12 @@ const AuthSignupPage = () => {
           })}
           iconPosition='right'
           icon={
-            <Button variant='outline' className='w-auto'>
+            <Button
+              variant='outline'
+              className='w-auto'
+              onClick={handleEmailCodeVerification}
+              disabled={!isCodeSent}
+            >
               확인
             </Button>
           }
@@ -147,7 +239,7 @@ const AuthSignupPage = () => {
           </small>
         )}
 
-        <Button type='submit' disabled={isSubmitting}>
+        <Button type='submit' disabled={isSubmitting || !isCodeVerified}>
           회원가입
         </Button>
       </form>
