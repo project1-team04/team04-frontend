@@ -1,20 +1,45 @@
-interface IssueCardProps {
+import DropDown from './DropDown';
+
+export interface IssueCardProps {
+  id: string;
   title: string;
-  issueId: string;
-  manager: string;
+  assignee: string;
 }
 
-const IssueCard = ({ title, issueId, manager }: IssueCardProps) => {
+const IssueCard = ({ title, id, assignee }: IssueCardProps) => {
+  const dropdownItems = [
+    {
+      label: 'None',
+      onClick: () => console.log('None'),
+    },
+    {
+      label: 'Feature',
+      onClick: () => console.log('Feature'),
+    },
+    {
+      label: 'Bug',
+      onClick: () => console.log('Bug'),
+    },
+    {
+      label: 'Edit labels',
+      onClick: () => console.log('Edit labels'),
+    },
+  ];
+
   return (
-    <div className='h-[125px] w-full rounded-lg bg-bg p-7 pt-6'>
-      <span className='text-lg font-semibold'>{title}</span>
-      <div className='flex justify-between text-sm mt-7'>
+    // FIX) title, id, assignee 길어지는 경우 대응
+    <div className='grid h-32 w-full gap-6 rounded-lg bg-bg p-5'>
+      <span className='m-1 text-lg font-semibold'>{title}</span>
+      <div className='flex items-center justify-between text-sm'>
         <div className='flex items-center gap-2'>
-          <div className='w-3 h-3 rounded-full bg-red' />
-          {/* button? */}
-          <span>{issueId}</span>
+          <DropDown
+            items={dropdownItems}
+            className='h-2 rounded-full bg-red p-2'
+          />
+
+          <span>{id}</span>
         </div>
-        <span>{manager}</span>
+        <span>{assignee}</span>
       </div>
     </div>
   );

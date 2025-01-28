@@ -1,44 +1,47 @@
-import IssueCard from './IssueCard';
+import IssueCard, { IssueCardProps } from './IssueCard';
 
 interface KanbanCardProps {
   status: 'To Do' | 'On Progress' | 'Done';
   issueCount: string;
+  issues?: IssueCardProps[];
 }
 
 const variantStyles = {
-  'To Do': {
-    divideColor: 'divide-purple',
-    roundColor: 'bg-purple',
-  },
-  'On Progress': {
-    divideColor: 'divide-orange',
-    roundColor: 'bg-orange',
-  },
-  Done: {
-    divideColor: 'divide-green',
-    roundColor: 'bg-green',
-  },
+  'To Do': 'bg-purple',
+  'On Progress': 'bg-orange',
+  Done: 'bg-green',
 };
 
+const mockIssues: IssueCardProps[] = [
+  { id: 'a1b2c3d4', title: '로그인 오류 발생', assignee: '양혜림' },
+];
+
 // props: status, issueCount, data
-const KanbanCard = ({ status, issueCount }: KanbanCardProps) => {
-  const { divideColor, roundColor } = variantStyles[status];
+const KanbanCard = ({
+  status,
+  issueCount,
+  issues = mockIssues,
+}: KanbanCardProps) => {
+  const color = variantStyles[status];
 
   return (
     <div
-      className={`h-full w-[30%] divide-y-2 ${divideColor} overflow-auto rounded-t-2xl bg-bg-deep p-5`}
+      className={`flex h-full w-full flex-col gap-y-4 rounded-t-2xl bg-bg-deep p-4`}
     >
-      <div className='mb-3 flex h-9 items-center gap-4'>
-        <div className={`h-3 w-3 rounded-full ${roundColor}`} />
-        <span className='font-semibold'>{status}</span>
-        <span className='h-5 w-5 rounded-lg bg-border-default text-center text-sm'>
+      <div className='flex items-center gap-3'>
+        <div className={`h-3 w-3 rounded-full ${color}`} />
+        <p className='font-semibold'>{status}</p>
+        <p className='min-h-3 min-w-3 rounded-lg bg-border-default px-1.5 text-center text-sm'>
           {issueCount}
-        </span>
+        </p>
       </div>
 
-      <section className='flex max-h-[28rem] flex-col gap-5 overflow-auto pt-4'>
-        {/* data */}
-        <IssueCard title={'Merge 이슈'} issueId={'12345'} manager={'권보령'} />
+      <div className={`h-0.5 w-full ${color}`}></div>
+
+      <section className='grid grow gap-4 overflow-y-auto'>
+        {issues.map((issue) => (
+          <IssueCard key={issue.id} {...issue} />
+        ))}
       </section>
     </div>
   );

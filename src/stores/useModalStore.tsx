@@ -7,6 +7,11 @@ interface ModalStore {
   close: () => void; // 모달 닫을 때 호출
 }
 
+export const ModalType = {
+  DELETE_WARNING: 'deleteWarning',
+  INVITE_PEOPLE: 'invitePeople',
+} as const;
+
 export const useModalStore = create<ModalStore>((set) => ({
   isOpen: false,
   modalType: '',
