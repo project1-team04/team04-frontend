@@ -1,4 +1,4 @@
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { paths } from '@/routers/paths';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
@@ -44,7 +44,7 @@ const AuthSignupPage = () => {
         />
         {errors.name && (
           <small role='alert' className='text-text-error'>
-            {errors.name.message?.toString()}
+            {String(errors.name.message)}
           </small>
         )}
 
@@ -71,7 +71,7 @@ const AuthSignupPage = () => {
         />
         {errors.email && (
           <small role='alert' className='text-text-error'>
-            {errors.email.message?.toString()}
+            {String(errors.email.message)}
           </small>
         )}
 
@@ -94,7 +94,7 @@ const AuthSignupPage = () => {
         />
         {errors.emailCode && (
           <small role='alert' className='text-text-error'>
-            {errors.emailCode.message?.toString()}
+            {String(errors.emailCode.message)}
           </small>
         )}
 
@@ -122,7 +122,7 @@ const AuthSignupPage = () => {
         />
         {errors.password && (
           <small role='alert' className='text-text-error'>
-            {errors.password.message?.toString()}
+            {String(errors.password.message)}
           </small>
         )}
 
@@ -143,7 +143,7 @@ const AuthSignupPage = () => {
         />
         {errors.confirmPassword && (
           <small role='alert' className='text-text-error'>
-            {errors.confirmPassword.message?.toString()}
+            {String(errors.confirmPassword.message)}
           </small>
         )}
 

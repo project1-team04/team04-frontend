@@ -99,7 +99,7 @@ const AuthFindPasswordPage = () => {
         />
         {errors.email && (
           <small role='alert' className='text-text-error'>
-            {errors.email.message?.toString()}
+            {String(errors.email.message)}
           </small>
         )}
 

@@ -76,7 +76,7 @@ const AuthLoginPage = () => {
         />
         {errors.email && (
           <small role='alert' className='text-text-error'>
-            {errors.email.message?.toString()}
+            {String(errors.email.message)}
           </small>
         )}
         <Input
@@ -103,7 +103,7 @@ const AuthLoginPage = () => {
         />
         {errors.password && (
           <small role='alert' className='text-text-error'>
-            {errors.password.message?.toString()}
+            {String(errors.password.message)}
           </small>
         )}
 
@@ -120,7 +120,7 @@ const AuthLoginPage = () => {
 
         {errors.root && (
           <small role='alert' className='text-text-error'>
-            {errors.root.message?.toString()}
+            {String(errors.root.message)}
           </small>
         )}
 
