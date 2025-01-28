@@ -88,7 +88,7 @@ const ProjectsLayout = ({
 
       <main className='grow overflow-hidden'>
         <div className='flex h-full flex-col'>
-          <div className='mb-2 mt-4 grid w-full grid-cols-2 gap-5 overflow-y-auto bg-bg-deep p-4'>
+          <div className='mb-4 mt-4 grid w-full grid-cols-2 gap-5 overflow-y-auto bg-bg-deep p-4'>
             {member.map((member) => (
               <MemberCard
                 key={member.id}
@@ -99,7 +99,9 @@ const ProjectsLayout = ({
             ))}
           </div>
           {inviteMessage && (
-            <p className='mb-4 text-sm text-text-error'>{inviteMessage}</p>
+            <p className='mb-4 mt-[-10px] text-sm text-text-error'>
+              {inviteMessage}
+            </p>
           )}
 
           <div className='mb-9 flex w-full flex-col gap-y-4'>
