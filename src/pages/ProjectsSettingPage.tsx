@@ -27,6 +27,8 @@ const ProjectsSettingPage = () => {
 
   const { projectId } = useParams();
 
+  const [inviteMessage, setInviteMessage] = useState<string>('');
+
   const handleDelete = async (projectId: number) => {
     try {
       await deleteProject(projectId);
@@ -47,31 +49,40 @@ const ProjectsSettingPage = () => {
     }
   };
 
-  const handleInviteMember = async (projectId: number, email: string[]) => {
+  const handleInviteMember = async (projectId: number, email: string) => {
     try {
       const res = await inviteMember(projectId, email);
       console.log('프로젝트 생성 페이지 - 인원 초대', res);
+
+      console.log('프로젝트 생성 페이지 - 인원 초대', res.message);
+
+      if (res.message) {
+        setInviteMessage(res.message);
+      }
     } catch (error) {
       console.log('프로젝트 생성 페이지 에러 - 인원 초대', error);
     }
   };
 
-  console.log([email]);
+  console.log(email);
 
   return (
-    <ProjectsLayout
-      header='프로젝트 설정'
-      deleteButton='프로젝트 삭제'
-      member={member}
-      projectName={projectName}
-      projectId={projectId ? Number(projectId) : undefined}
-      onUpdate={handleUpdate}
-      onInputChange={(e) => setProjectName(e.target.value)}
-      onDelete={handleDelete}
-      onInvite={handleInviteMember}
-      onEmailChange={(e) => setEmail(e.target.value)}
-      email={email}
-    />
+    <>
+      <ProjectsLayout
+        header='프로젝트 설정'
+        deleteButton='프로젝트 삭제'
+        member={member}
+        projectName={projectName}
+        projectId={projectId ? Number(projectId) : undefined}
+        onUpdate={handleUpdate}
+        onInputChange={(e) => setProjectName(e.target.value)}
+        onDelete={handleDelete}
+        onInvite={handleInviteMember}
+        onEmailChange={(e) => setEmail(e.target.value)}
+        email={email}
+        inviteMessage={inviteMessage}
+      />
+    </>
   );
 };
 

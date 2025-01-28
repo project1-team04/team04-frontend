@@ -25,8 +25,9 @@ interface ProjectLayoutProps {
   onDelete?: (projectId: number) => void;
   projectId?: number | undefined;
   onEmailChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onInvite?: (projectId: number, email: string[]) => void;
+  onInvite?: (projectId: number, email: string) => void;
   email?: string;
+  inviteMessage?: string;
 }
 
 const ProjectsLayout = ({
@@ -43,6 +44,7 @@ const ProjectsLayout = ({
   onEmailChange,
   onInvite,
   email,
+  inviteMessage,
 }: ProjectLayoutProps) => {
   const { modalType, open, close } = useModalStore();
 
@@ -86,7 +88,7 @@ const ProjectsLayout = ({
 
       <main className='grow overflow-hidden'>
         <div className='flex h-full flex-col'>
-          <div className='my-4 grid w-full grid-cols-2 gap-5 overflow-y-auto bg-bg-deep p-4'>
+          <div className='mb-2 mt-4 grid w-full grid-cols-2 gap-5 overflow-y-auto bg-bg-deep p-4'>
             {member.map((member) => (
               <MemberCard
                 key={member.id}
@@ -96,6 +98,9 @@ const ProjectsLayout = ({
               />
             ))}
           </div>
+          {inviteMessage && (
+            <p className='mb-4 text-sm text-text-error'>{inviteMessage}</p>
+          )}
 
           <div className='mb-9 flex w-full flex-col gap-y-4'>
             <Button
@@ -152,13 +157,10 @@ const ProjectsLayout = ({
               text: '추가',
               onClick: () => {
                 if (projectId) {
-                  console.log('인원 추가 전송');
-
-                  console.log(projectId);
-                  console.log('인원 추가 로직 전달 email', [email]);
+                  console.log('인원 추가 전송:', projectId, email);
 
                   if (email) {
-                    onInvite?.(projectId, [email]);
+                    onInvite?.(projectId, email);
                   } else {
                     console.error('이메일이 비어 있습니다.');
                   }
