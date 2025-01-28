@@ -5,6 +5,7 @@ import { paths } from '@/routers/paths';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import AuthNavLinks from '@/components/AuthNavLinks';
+import { IoMdCheckmarkCircle } from 'react-icons/io';
 
 type SignupRequest = {
   name: string;
@@ -131,13 +132,13 @@ const AuthSignupPage = () => {
           </small>
         )}
 
-        {/* TODO) '인증' 버튼 눌렀는지 확인, 버튼 클릭 여부에 따라 label 다르게 표시 */}
         <Input
           type='email'
           placeholder='이메일'
           aria-invalid={
             isSubmitted ? (errors.email ? 'true' : 'false') : undefined
           }
+          disabled={isCodeSent}
           {...register('email', {
             required: '이메일을 입력해주세요.',
             pattern: {
@@ -151,9 +152,11 @@ const AuthSignupPage = () => {
               variant='outline'
               className='w-auto'
               onClick={handleEmailVerification}
+              // FIXME) 이메일 유효성 검사 통과해야만 버튼 활성화
+              // FIXME) 인증 버튼 눌렀을 때 폼 전체 입력 필드 유효성 검사 실행되지 않도록 수정
               disabled={isEmailChecked || isChecking}
             >
-              인증
+              {!isCodeSent ? '인증' : <IoMdCheckmarkCircle />}
             </Button>
           }
         />
@@ -168,6 +171,7 @@ const AuthSignupPage = () => {
           aria-invalid={
             isSubmitted ? (errors.emailCode ? 'true' : 'false') : undefined
           }
+          disabled={isCodeVerified}
           {...register('emailCode', {
             required:
               '메일로 전송된 인증번호를 입력하고 확인 버튼을 눌러주세요.',
@@ -178,9 +182,9 @@ const AuthSignupPage = () => {
               variant='outline'
               className='w-auto'
               onClick={handleEmailCodeVerification}
-              disabled={!isCodeSent}
+              disabled={!isCodeSent || isCodeVerified}
             >
-              확인
+              {!isCodeVerified ? '확인' : <IoMdCheckmarkCircle />}
             </Button>
           }
         />
