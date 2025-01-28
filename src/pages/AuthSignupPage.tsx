@@ -108,7 +108,7 @@ const AuthSignupPage = () => {
   };
 
   const passwordErrorMessage =
-    '비밀번호는 8~16자 길이로, 영문 대소문자, 숫자, 특수문자(@, !)를 각각 최소 1개 이상 포함해야 합니다.';
+    '영문, 숫자, 특수문자(@, !)를 포함하여 8~16자로 입력해주세요.';
 
   return (
     <div className='mt-6 flex flex-col items-center gap-y-6'>
@@ -222,7 +222,6 @@ const AuthSignupPage = () => {
           </small>
         )}
 
-        {/* TODO) password의 입력값과 같은지 확인 */}
         <Input
           type='password'
           placeholder='비밀번호 확인'
@@ -234,7 +233,12 @@ const AuthSignupPage = () => {
               : undefined
           }
           {...register('confirmPassword', {
-            required: '비밀번호를 입력해주세요.',
+            required: true,
+            validate: (value, formValues) => {
+              return (
+                value === formValues.password || '비밀번호가 일치하지 않습니다.'
+              );
+            },
           })}
         />
         {errors.confirmPassword && (
