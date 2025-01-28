@@ -33,8 +33,6 @@ const AuthLoginPage = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data: LoginFormInputs) => {
-    if (isSubmitting) return;
-
     try {
       const response = await login(data.email, data.password);
 

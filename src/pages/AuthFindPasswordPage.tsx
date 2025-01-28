@@ -20,8 +20,6 @@ const AuthFindPasswordPage = () => {
   const [isChecking, setIsChecking] = useState(false); // 이메일 확인 중인지 여부
 
   const handleCheckEmail = async () => {
-    if (isChecking) return;
-
     const email = getValues('email');
     if (!email) return;
 
