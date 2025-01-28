@@ -1,4 +1,5 @@
 import instance from './instance';
+import axios, { AxiosError } from 'axios';
 
 interface CreateProjectResponse {
   id: string;
@@ -94,7 +95,12 @@ export const inviteMember = async (projectId: number, email: string) => {
     console.log('인원 초대:', res.data);
     return res.data;
   } catch (error) {
-    console.log('Axios Error:', error.response?.status, error.response?.data);
-    return error.response?.data;
+    if (axios.isAxiosError(error)) {
+      console.log('Axios Error:', error.response?.status, error.response?.data);
+      return error.response?.data;
+    } else {
+      console.log('Unexpected Error:', error);
+      return { message: 'Unexpected error occurred' };
+    }
   }
 };
