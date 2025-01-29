@@ -1,7 +1,7 @@
 import ChatMessage from './ChatMessage';
 import ChatMessageInput from './ChatMessageInput';
 import ChatProfile from './ChatProfile';
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 interface Chatting {
   id: number;
@@ -24,14 +24,6 @@ const Chat = () => {
     },
     {
       id: 2,
-      nickname: '이지현',
-      profile: '/images/profile2.png',
-      chatting: `네! 곧 디자인 팀과 협업해서 최종 피드백을 받을 예정입니다.`,
-      time: '17:07',
-      isMe: false,
-    },
-    {
-      id: 3,
       nickname: '아무개',
       profile: '/images/my-profile.png',
       chatting: `신규 개인정보 수정 탭의 사이드 메뉴 UI를 맡고 있는데, 현재까지 기본적인 UI 마크업 작업을 마쳤습니다. 곧 기능 연동 후 공유드릴게요!`,
@@ -40,12 +32,14 @@ const Chat = () => {
     },
   ]);
 
+  // 채팅 자동 스크롤 다운
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chattings]);
 
+  // 메시지 전송
   const handleSendMessage = (message: string) => {
     if (!message.trim()) return; // 빈 메시지는 전송 X
 
