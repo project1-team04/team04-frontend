@@ -1,3 +1,4 @@
+import ChatMessage from './ChatMessage';
 import ChatMessageInput from './ChatMessageInput';
 import ChatProfile from './ChatProfile';
 
@@ -12,6 +13,7 @@ const Chat = () => {
       </div>
       <div className='mx-5 h-[80%] border-b-[0.5px] border-border-default p-5'>
         채팅룸
+        <ChatMessage />
       </div>
       <div className='m-3 h-[10%]'>
         <ChatMessageInput />
