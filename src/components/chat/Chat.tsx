@@ -13,24 +13,7 @@ interface Chatting {
 }
 
 const Chat = () => {
-  const [chattings, setChattings] = useState<Chatting[]>([
-    {
-      id: 1,
-      nickname: '양준석(팀장)',
-      profile: '/images/profile1.png',
-      chatting: `안녕하세요 프론트엔드 팀원 여러분, 우리 프론트엔드 팀에서는 새로운 UI 개선 사항과 현재 진행 중인 프로젝트의 진척도를 공유할 예정입니다. 각 팀원은 본인의 작업 부분에 대해 간단한 업데이트를 준비해 주세요.`,
-      time: '17:06',
-      isMe: false,
-    },
-    {
-      id: 2,
-      nickname: '아무개',
-      profile: '/images/my-profile.png',
-      chatting: `신규 개인정보 수정 탭의 사이드 메뉴 UI를 맡고 있는데, 현재까지 기본적인 UI 마크업 작업을 마쳤습니다. 곧 기능 연동 후 공유드릴게요!`,
-      time: '17:08',
-      isMe: true,
-    },
-  ]);
+  const [chattings, setChattings] = useState<Chatting[]>([]);
 
   // 채팅 자동 스크롤 다운
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -39,13 +22,64 @@ const Chat = () => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chattings]);
 
+  // 웹소켓
+  const socketRef = useRef<WebSocket | null>(null);
+
+  // 이슈 ID
+  const issueId = 102;
+
+  useEffect(() => {
+    const socket = new WebSocket(`ws://localhost:8080/chat/${issueId}`);
+    socketRef.current = socket;
+    console.log(socket);
+
+    socket.onopen = () => console.log('웹소켓 연결 성공');
+
+    socket.onmessage = (e) => {
+      const message = JSON.parse(e.data);
+      console.log('서버에서 받은 메시지:', message);
+
+      setChattings((prev) => [
+        ...prev,
+        {
+          id: message.id,
+          nickname: message.sender,
+          profile: '/images/profile1.png',
+          chatting: message.content,
+          time: new Date().toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+          }),
+          isMe: false,
+        },
+      ]);
+    };
+
+    socket.onclose = (e) =>
+      console.log(`웹소켓 연결 종료 (Code: ${e.code}, Reason: ${e.reason})`);
+
+    socket.onerror = (error) => {
+      console.error('웹소켓 오류:', error);
+
+      if (error instanceof Event) {
+        console.log("WebSocket 이벤트 발생(개발자 도구 '네트워크 → WS')");
+      } else {
+        console.log('오류 객체:', JSON.stringify(error, null, 2));
+      }
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, []);
+
   // 메시지 전송
   const handleSendMessage = (message: string) => {
-    if (!message.trim()) return; // 빈 메시지는 전송 X
+    if (!message.trim()) return;
 
     const newChat: Chatting = {
       id: chattings.length + 1,
-      nickname: '아무개',
+      nickname: 'Me',
       profile: '/images/my-profile.png',
       chatting: message,
       time: new Date().toLocaleTimeString([], {
@@ -56,10 +90,46 @@ const Chat = () => {
     };
 
     setChattings((prev) => [...prev, newChat]);
+
+    // 웹소켓을 통해 서버로 메시지 전송
+    if (socketRef.current) {
+      socketRef.current.send(
+        JSON.stringify({
+          sender: 'Me',
+          content: message,
+          issueId: issueId,
+          userId: 1,
+          readBy: [],
+          readById: [],
+        })
+      );
+    }
   };
 
+  // 페이지 로드 시 메시지 불러오기
+  useEffect(() => {
+    fetch(`/api/messages/${issueId}`)
+      .then((response) => response.json())
+      .then((messages) => {
+        setChattings(
+          messages.map((message: any) => ({
+            id: message.id,
+            nickname: message.sender,
+            profile: '/images/profile1.png',
+            chatting: message.content,
+            time: new Date().toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+            }),
+            isMe: false,
+          }))
+        );
+      })
+      .catch((error) => console.error('메시지 불러오기 오류:', error));
+  }, [issueId]);
+
   return (
-    <div className='flex h-full w-full flex-col bg-gray-50'>
+    <div className='flex flex-col w-full h-full bg-gray-50'>
       <div className='mx-5 flex h-[10%] items-center justify-between border-b-[0.5px] border-border-default'>
         <p className='font-semibold'>이슈명</p>
         <div className='flex'>
