@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 import Button from './Button';
 import Input from './Input';
 
@@ -9,7 +10,7 @@ interface EditProfileProps {
 type FormInputs = {
   oldPassword: string;
   newPassword: string;
-  confirmnewPassword: string;
+  confirmNewPassword: string;
 };
 
 const validatePassword = (value: string) => {
@@ -51,11 +52,15 @@ const EditProfile = ({ onCancel }: EditProfileProps) => {
             validate: validatePassword,
           })}
         />
-        {errors.oldPassword && (
-          <small role='alert' className='text-text-error'>
-            {errors.oldPassword.message?.toString()}
-          </small>
-        )}
+        <ErrorMessage
+          errors={errors}
+          name='oldPassword'
+          render={({ message }) => (
+            <small role='alert' className='text-text-error'>
+              {message}
+            </small>
+          )}
+        />
 
         <Input
           placeholder='변경할 비밀번호'
@@ -67,22 +72,26 @@ const EditProfile = ({ onCancel }: EditProfileProps) => {
             validate: validatePassword,
           })}
         />
-        {errors.newPassword && (
-          <small role='alert' className='text-text-error'>
-            {errors.newPassword.message?.toString()}
-          </small>
-        )}
+        <ErrorMessage
+          errors={errors}
+          name='newPassword'
+          render={({ message }) => (
+            <small role='alert' className='text-text-error'>
+              {message}
+            </small>
+          )}
+        />
 
         <Input
           placeholder='비밀번호 확인'
           aria-invalid={
             isSubmitted
-              ? errors.confirmnewPassword
+              ? errors.confirmNewPassword
                 ? 'true'
                 : 'false'
               : undefined
           }
-          {...register('confirmnewPassword', {
+          {...register('confirmNewPassword', {
             required: '변경할 비밀번호를 한 번 더 입력해 주세요.',
             validate: (value, formValues) => {
               return (
@@ -92,11 +101,15 @@ const EditProfile = ({ onCancel }: EditProfileProps) => {
             },
           })}
         />
-        {errors.confirmnewPassword && (
-          <small role='alert' className='text-text-error'>
-            {errors.confirmnewPassword.message?.toString()}
-          </small>
-        )}
+        <ErrorMessage
+          errors={errors}
+          name='confirmNewPassword'
+          render={({ message }) => (
+            <small role='alert' className='text-text-error'>
+              {message}
+            </small>
+          )}
+        />
 
         <div className='flex gap-4 pt-2'>
           <Button variant='outline' onClick={onCancel} className='flex-1 bg-bg'>
