@@ -1,10 +1,11 @@
-import { useForm } from 'react-hook-form';
+import { FieldErrors, useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import instance from '@/apis/instance';
 import Button from './Button';
 import Input from './Input';
 
 interface EditProfileProps {
-  onCancel: () => void;
+  onClose: () => void;
 }
 
 type FormInputs = {
@@ -18,19 +19,42 @@ const validatePassword = (value: string) => {
   return passwordRegex.test(value) || '비밀번호 형식에 맞지 않습니다.';
 };
 
-const EditProfile = ({ onCancel }: EditProfileProps) => {
+const EditProfile = ({ onClose }: EditProfileProps) => {
   const {
     register,
     handleSubmit,
+    setError,
+    getValues,
     formState: { errors, isSubmitted, isSubmitting },
   } = useForm<FormInputs>();
 
-  const onSubmit = (data: FormInputs) => {
-    console.log(data);
+  const onSubmit = async ({ oldPassword, newPassword }: FormInputs) => {
+    try {
+      const res = await instance.post('auth/change-password', {
+        oldPassword,
+        newPassword,
+      });
+
+      // FIXME) auth/change-password 400, 401 응답코드 추가되면 setError 메시지 보완
+      if (res.status === 200) {
+        alert('비밀번호가 변경되었습니다.');
+        onClose();
+      } else {
+        setError('root', {
+          message:
+            '비밀번호 변경에 실패했습니다. 입력한 정보를 다시 확인해 주세요.',
+        });
+      }
+    } catch (error) {
+      setError('root', {
+        message:
+          '서버와의 연결이 원활하지 않습니다. 잠시 후 다시 시도해 주세요.',
+      });
+    }
   };
 
   return (
-    <div className='div m-auto grid w-1/3 max-w-[450px] divide-y-2 divide-divider-default rounded-2xl bg-bg-deep px-4'>
+    <div className='div m-auto grid w-1/3 min-w-min max-w-[450px] divide-y-2 divide-divider-default rounded-2xl bg-bg-deep px-4'>
       <div className='flex flex-col gap-2 py-4'>
         <p className='text-xl font-bold'>비밀번호 변경</p>
         <p className='text-sm text-text-sub'>
@@ -43,6 +67,7 @@ const EditProfile = ({ onCancel }: EditProfileProps) => {
         noValidate // 기본 HTML5 검증 메세지 제거
       >
         <Input
+          type='password'
           placeholder='현재 비밀번호'
           aria-invalid={
             isSubmitted ? (errors.oldPassword ? 'true' : 'false') : undefined
@@ -63,13 +88,20 @@ const EditProfile = ({ onCancel }: EditProfileProps) => {
         />
 
         <Input
+          type='password'
           placeholder='변경할 비밀번호'
           aria-invalid={
             isSubmitted ? (errors.newPassword ? 'true' : 'false') : undefined
           }
           {...register('newPassword', {
             required: '변경할 비밀번호를 입력해 주세요.',
-            validate: validatePassword,
+            validate: (value) => {
+              if (value === getValues('oldPassword')) {
+                return '현재 비밀번호와 동일한 비밀번호는 사용할 수 없습니다.';
+              }
+
+              return validatePassword(value);
+            },
           })}
         />
         <ErrorMessage
@@ -83,6 +115,7 @@ const EditProfile = ({ onCancel }: EditProfileProps) => {
         />
 
         <Input
+          type='password'
           placeholder='비밀번호 확인'
           aria-invalid={
             isSubmitted
@@ -93,12 +126,9 @@ const EditProfile = ({ onCancel }: EditProfileProps) => {
           }
           {...register('confirmNewPassword', {
             required: '변경할 비밀번호를 한 번 더 입력해 주세요.',
-            validate: (value, formValues) => {
-              return (
-                value === formValues.newPassword ||
-                '비밀번호가 일치하지 않습니다.'
-              );
-            },
+            validate: (value) =>
+              value === getValues('newPassword') ||
+              '비밀번호가 일치하지 않습니다.',
           })}
         />
         <ErrorMessage
@@ -111,14 +141,29 @@ const EditProfile = ({ onCancel }: EditProfileProps) => {
           )}
         />
 
+        <ErrorMessage
+          errors={errors as FieldErrors<any>}
+          name='root'
+          render={({ message }) => (
+            <small role='alert' className='text-text-error'>
+              {message}
+            </small>
+          )}
+        />
+
         <div className='flex gap-4 pt-2'>
-          <Button variant='outline' onClick={onCancel} className='flex-1 bg-bg'>
-            취소
-          </Button>
-          {/* TODO) onClick 이벤트 핸들러에서 api 호출 후 paths.profile.root로 navigate */}
-          <Button type='submit' disabled={isSubmitting} className='flex-1'>
-            변경하기
-          </Button>
+          <Button
+            children={'취소'}
+            variant='outline'
+            onClick={onClose}
+            className='flex-1 bg-bg'
+          />
+          <Button
+            children={'변경하기'}
+            type='submit'
+            disabled={isSubmitting}
+            className='flex-1'
+          />
         </div>
       </form>
     </div>

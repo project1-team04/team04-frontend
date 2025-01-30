@@ -11,7 +11,7 @@ const ProfilePage = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   if (isEditing) {
-    return <EditProfile onCancel={() => setIsEditing(false)} />;
+    return <EditProfile onClose={() => setIsEditing(false)} />;
   }
 
   return (
