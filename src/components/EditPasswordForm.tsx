@@ -4,11 +4,11 @@ import instance from '@/apis/instance';
 import Button from './Button';
 import Input from './Input';
 
-interface EditProfileProps {
+interface EditPasswordFormProps {
   onClose: () => void;
 }
 
-type FormInputs = {
+type EditPasswordFormInputs = {
   oldPassword: string;
   newPassword: string;
   confirmNewPassword: string;
@@ -19,16 +19,19 @@ const validatePassword = (value: string) => {
   return passwordRegex.test(value) || '비밀번호 형식에 맞지 않습니다.';
 };
 
-const EditProfile = ({ onClose }: EditProfileProps) => {
+const EditPasswordForm = ({ onClose }: EditPasswordFormProps) => {
   const {
     register,
     handleSubmit,
     setError,
     getValues,
     formState: { errors, isSubmitted, isSubmitting },
-  } = useForm<FormInputs>();
+  } = useForm<EditPasswordFormInputs>();
 
-  const onSubmit = async ({ oldPassword, newPassword }: FormInputs) => {
+  const onSubmit = async ({
+    oldPassword,
+    newPassword,
+  }: EditPasswordFormInputs) => {
     try {
       const res = await instance.post('auth/change-password', {
         oldPassword,
@@ -170,4 +173,4 @@ const EditProfile = ({ onClose }: EditProfileProps) => {
   );
 };
 
-export default EditProfile;
+export default EditPasswordForm;

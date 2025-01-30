@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { paths } from '@/routers/paths';
-import EditProfile from '@/components/EditProfile';
+import EditPasswordForm from '@/components/EditPasswordForm';
 import Button from '@/components/Button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { IoChevronForward } from 'react-icons/io5';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditingPassword, setIsEditingPassword] = useState(false);
 
-  if (isEditing) {
-    return <EditProfile onClose={() => setIsEditing(false)} />;
+  if (isEditingPassword) {
+    return <EditPasswordForm onClose={() => setIsEditingPassword(false)} />;
   }
 
   return (
@@ -29,7 +29,9 @@ const ProfilePage = () => {
         </div>
       </div>
       <div className='flex w-full flex-col gap-2 py-4'>
-        <Button onClick={() => setIsEditing(true)}>비밀번호 변경</Button>
+        <Button onClick={() => setIsEditingPassword(true)}>
+          비밀번호 변경
+        </Button>
         <Button onClick={() => navigate(paths.profile.delegate.fullPath)}>
           프로젝트 권한 위임
         </Button>
