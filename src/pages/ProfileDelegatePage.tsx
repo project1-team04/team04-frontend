@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+import { paths } from '@/routers/paths';
 import Button from '@/components/Button';
 import Header from '@/components/Header';
 import DelegateCard from '@/components/DelegateCard';
@@ -13,6 +15,8 @@ const data = [
 ];
 
 const ProfileDelegatePage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className='mx-auto flex w-1/2 flex-col'>
       <header className='my-9 flex items-center gap-5'>
@@ -37,7 +41,9 @@ const ProfileDelegatePage = () => {
               children={'취소'}
               variant='outline'
               className='border-default flex-1 border bg-bg'
+              onClick={() => navigate(paths.profile.root)}
             />
+            {/* TODO) onClick 이벤트 핸들러에서 api 호출 후 paths.profile.root로 navigate */}
             <Button children={'위임 완료'} className='flex-1' />
           </div>
         </div>
