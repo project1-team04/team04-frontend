@@ -5,13 +5,13 @@ import DropDown from './DropDown';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { IoIosArrowDown } from 'react-icons/io';
 
-interface ProfileProps {
+interface NavProfileProps {
   name: string;
   src?: string;
   alt: string;
 }
 
-const Profile = ({ name, src, alt }: ProfileProps) => {
+const NavProfile = ({ name, src, alt }: NavProfileProps) => {
   const navigate = useNavigate();
   const dropdownItems = [
     {
@@ -46,4 +46,4 @@ const Profile = ({ name, src, alt }: ProfileProps) => {
   );
 };
 
-export default Profile;
+export default NavProfile;

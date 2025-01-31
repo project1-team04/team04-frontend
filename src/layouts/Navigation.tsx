@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { paths } from '@/routers/paths';
 import Logo from '@/components/Logo';
-import Profile from '@/components/Profile';
+import NavProfile from '@/components/NavProfile';
 
 interface NavigationProps {
   name: string;
@@ -15,7 +15,7 @@ const Navigation = ({ name, src, alt }: NavigationProps) => {
       <Link to={paths.projects.root}>
         <Logo />
       </Link>
-      <Profile name={name} src={src} alt={alt} />
+      <NavProfile name={name} src={src} alt={alt} />
     </nav>
   );
 };
