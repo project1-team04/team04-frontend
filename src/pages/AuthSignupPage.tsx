@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import {
+  checkEmailValidation,
+  checkPasswordValidation,
+} from '@/utils/authValidation';
 import instance from '@/apis/instance';
 import { paths } from '@/routers/paths';
+import AuthNavLinks from '@/components/AuthNavLinks';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
-import AuthNavLinks from '@/components/AuthNavLinks';
 import { IoMdCheckmarkCircle } from 'react-icons/io';
 
 type SignupRequest = {
@@ -26,7 +30,7 @@ const AuthSignupPage = () => {
     getValues,
     setError,
     formState: { errors, isSubmitted, isSubmitting },
-  } = useForm<SignupFormInputs>();
+  } = useForm<SignupFormInputs>({ mode: 'onChange' });
 
   const [isEmailChecked, setIsEmailChecked] = useState(false); // 이메일 중복 확인 여부
   const [isChecking, setIsChecking] = useState(false); // 이메일 확인 중인지 여부
@@ -108,9 +112,6 @@ const AuthSignupPage = () => {
     console.log(data);
   };
 
-  const passwordErrorMessage =
-    '영문, 숫자, 특수문자(@, !)를 포함하여 8~16자로 입력해주세요.';
-
   return (
     <div className='mt-6 flex flex-col items-center gap-y-6'>
       <form
@@ -146,10 +147,7 @@ const AuthSignupPage = () => {
           disabled={isCodeSent}
           {...register('email', {
             required: '이메일을 입력해주세요.',
-            pattern: {
-              value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
-              message: '이메일 형식에 맞지 않습니다.',
-            },
+            validate: checkEmailValidation,
           })}
           iconPosition='right'
           icon={
@@ -215,18 +213,7 @@ const AuthSignupPage = () => {
           }
           {...register('password', {
             required: '비밀번호를 입력해주세요.',
-            minLength: {
-              value: 8,
-              message: passwordErrorMessage,
-            },
-            maxLength: {
-              value: 16,
-              message: passwordErrorMessage,
-            },
-            pattern: {
-              value: /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@!])[a-zA-Z\d@!]{8,16}$/,
-              message: passwordErrorMessage,
-            },
+            validate: (value) => checkPasswordValidation(value, 'detail'),
           })}
         />
         <ErrorMessage
