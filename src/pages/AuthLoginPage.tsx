@@ -1,4 +1,5 @@
-import { useForm } from 'react-hook-form';
+import { FieldErrors, useForm } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 import { useNavigate } from 'react-router-dom';
 import { login } from '@/apis/authApi';
 import { paths } from '@/routers/paths';
@@ -74,11 +75,16 @@ const AuthLoginPage = () => {
             },
           })}
         />
-        {errors.email && (
-          <small role='alert' className='text-text-error'>
-            {errors.email.message?.toString()}
-          </small>
-        )}
+        <ErrorMessage
+          errors={errors}
+          name='email'
+          render={({ message }) => (
+            <small role='alert' className='text-text-error'>
+              {message}
+            </small>
+          )}
+        />
+
         <Input
           type='password'
           placeholder='비밀번호'
@@ -101,11 +107,15 @@ const AuthLoginPage = () => {
             },
           })}
         />
-        {errors.password && (
-          <small role='alert' className='text-text-error'>
-            {errors.password.message?.toString()}
-          </small>
-        )}
+        <ErrorMessage
+          errors={errors}
+          name='password'
+          render={({ message }) => (
+            <small role='alert' className='text-text-error'>
+              {message}
+            </small>
+          )}
+        />
 
         {/* TODO: '이메일 저장' 체크 후 로그인하면, 로그아웃 시 최근 로그인한 이메일이 자동 입력되도록 구현 */}
         <div className='my-2 flex items-center gap-2'>
@@ -118,11 +128,15 @@ const AuthLoginPage = () => {
           </label>
         </div>
 
-        {errors.root && (
-          <small role='alert' className='text-text-error'>
-            {errors.root.message?.toString()}
-          </small>
-        )}
+        <ErrorMessage
+          errors={errors as FieldErrors<any>}
+          name='root'
+          render={({ message }) => (
+            <small role='alert' className='text-text-error'>
+              {message}
+            </small>
+          )}
+        />
 
         <Button type='submit' disabled={isSubmitting}>
           로그인
