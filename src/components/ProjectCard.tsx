@@ -1,12 +1,11 @@
-import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
+import { Card, CardHeader, CardTitle } from './ui/card';
 
 interface ProjectCardProps {
   title: string;
-  issue: number;
   onClick: () => void;
 }
 
-const ProjectCard = ({ title, issue, onClick }: ProjectCardProps) => {
+const ProjectCard = ({ title, onClick }: ProjectCardProps) => {
   return (
     <Card
       className='w-[230px] transform rounded-2xl border-none transition-transform duration-200 hover:scale-105'
