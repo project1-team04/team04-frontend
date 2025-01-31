@@ -30,6 +30,21 @@ export const login = async (email: string, password: string) => {
   }
 };
 
+export const signup = async (
+  email: string,
+  username: string,
+  password: string
+) => {
+  try {
+    await instance.post('auth/signup', { email, username, password });
+    console.log('성공');
+  } catch (error: unknown) {
+    if (error instanceof AxiosError && error.response?.status === 400) {
+      throw new Error('잘못된 요청입니다. 입력 값을 확인해주세요.');
+    }
+    throw new Error('회원가입 중 예상치 못한 오류가 발생했습니다.');
+  }
+};
 export const logout = async () => {
   try {
     await instance.post('/auth/logout');

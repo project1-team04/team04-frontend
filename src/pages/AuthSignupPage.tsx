@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import {
@@ -6,6 +7,7 @@ import {
   checkPasswordValidation,
 } from '@/utils/authValidation';
 import instance from '@/apis/instance';
+import { signup } from '@/apis/authApi';
 import { paths } from '@/routers/paths';
 import AuthNavLinks from '@/components/AuthNavLinks';
 import Button from '@/components/Button';
@@ -24,6 +26,8 @@ type SignupFormInputs = SignupRequest & {
 };
 
 const AuthSignupPage = () => {
+  // FIXME) 토큰 유무에 따른 라우팅 로직 추가 후 navigate 관련 로직 삭제
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -108,8 +112,18 @@ const AuthSignupPage = () => {
     }
   };
 
-  const onSubmit = async (data: SignupRequest) => {
-    console.log(data);
+  const onSubmit = async ({ name, email, password }: SignupFormInputs) => {
+    try {
+      const response = await signup(email, name, password);
+
+      console.log(response);
+      alert('회원가입 완료');
+      navigate(paths.auth.login.fullPath);
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      }
+    }
   };
 
   return (
