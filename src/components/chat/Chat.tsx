@@ -26,10 +26,10 @@ const Chat = () => {
   const socketRef = useRef<WebSocket | null>(null);
 
   // 이슈 ID
-  const issueId = 102;
+  const issueId = 1;
 
   useEffect(() => {
-    const socket = new WebSocket(`ws://localhost:8080/chat/${issueId}`);
+    const socket = new WebSocket(`ws://34.22.102.28:8080/${issueId}`);
     socketRef.current = socket;
     console.log(socket);
 
@@ -129,7 +129,7 @@ const Chat = () => {
   }, [issueId]);
 
   return (
-    <div className='flex flex-col w-full h-full bg-gray-50'>
+    <div className='flex h-full w-full flex-col bg-gray-50'>
       <div className='mx-5 flex h-[10%] items-center justify-between border-b-[0.5px] border-border-default'>
         <p className='font-semibold'>이슈명</p>
         <div className='flex'>
