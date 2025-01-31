@@ -2,27 +2,26 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import { checkEmailValidation } from '@/utils/authValidation';
 import instance from '@/apis/instance';
 import { paths } from '@/routers/paths';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import AuthNavLinks from '@/components/AuthNavLinks';
 
-const AuthForgotPasswordPage = () => {
+const AuthFindPasswordPage = () => {
   const {
     register,
     handleSubmit,
     getValues,
     setError,
     formState: { errors, isSubmitted, isSubmitting, isValid },
-  } = useForm({ mode: 'onBlur' });
+  } = useForm({ mode: 'onChange' });
 
   const [isEmailChecked, setIsEmailChecked] = useState(false); // 이메일 검증 여부
   const [isChecking, setIsChecking] = useState(false); // 이메일 확인 중인지 여부
 
   const handleCheckEmail = async () => {
-    if (isChecking) return;
-
     const email = getValues('email');
     if (!email) return;
 
@@ -81,10 +80,7 @@ const AuthForgotPasswordPage = () => {
           }
           {...register('email', {
             required: '이메일을 입력해주세요.',
-            pattern: {
-              value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
-              message: '이메일 형식에 맞지 않습니다.',
-            },
+            validate: checkEmailValidation,
           })}
           iconPosition='right'
           icon={
@@ -126,4 +122,4 @@ const AuthForgotPasswordPage = () => {
   );
 };
 
-export default AuthForgotPasswordPage;
+export default AuthFindPasswordPage;

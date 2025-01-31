@@ -1,6 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { useNavigate } from 'react-router-dom';
+import {
+  checkEmailValidation,
+  checkPasswordValidation,
+} from '@/utils/authValidation';
 import { login } from '@/apis/authApi';
 import { paths } from '@/routers/paths';
 import Button from '@/components/Button';
@@ -34,8 +38,6 @@ const AuthLoginPage = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data: LoginFormInputs) => {
-    if (isSubmitting) return;
-
     try {
       const response = await login(data.email, data.password);
 
@@ -52,8 +54,6 @@ const AuthLoginPage = () => {
     }
   };
 
-  const passwordErrorMessage = '비밀번호 형식에 맞지 않습니다.';
-
   return (
     <div className='mt-6 flex flex-col items-center gap-y-6'>
       <form
@@ -69,10 +69,7 @@ const AuthLoginPage = () => {
           }
           {...register('email', {
             required: '이메일을 입력해주세요.',
-            pattern: {
-              value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
-              message: '이메일 형식에 맞지 않습니다.',
-            },
+            validate: checkEmailValidation,
           })}
         />
         <ErrorMessage
@@ -93,18 +90,7 @@ const AuthLoginPage = () => {
           }
           {...register('password', {
             required: '비밀번호를 입력해주세요.',
-            minLength: {
-              value: 8,
-              message: passwordErrorMessage,
-            },
-            maxLength: {
-              value: 16,
-              message: passwordErrorMessage,
-            },
-            pattern: {
-              value: /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@!])[a-zA-Z\d@!]{8,16}$/,
-              message: passwordErrorMessage,
-            },
+            validate: (value) => checkPasswordValidation(value),
           })}
         />
         <ErrorMessage
