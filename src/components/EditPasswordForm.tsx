@@ -1,5 +1,6 @@
 import { FieldErrors, useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import { checkPasswordValidation } from '@/utils/authValidation';
 import instance from '@/apis/instance';
 import Button from './Button';
 import Input from './Input';
@@ -12,11 +13,6 @@ type EditPasswordFormInputs = {
   oldPassword: string;
   newPassword: string;
   confirmNewPassword: string;
-};
-
-const validatePassword = (value: string) => {
-  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@!])[a-zA-Z\d@!]{8,16}$/;
-  return passwordRegex.test(value) || '비밀번호 형식에 맞지 않습니다.';
 };
 
 const EditPasswordForm = ({ onClose }: EditPasswordFormProps) => {
@@ -77,7 +73,7 @@ const EditPasswordForm = ({ onClose }: EditPasswordFormProps) => {
           }
           {...register('oldPassword', {
             required: '현재 비밀번호를 입력해 주세요.',
-            validate: validatePassword,
+            validate: (value) => checkPasswordValidation(value),
           })}
         />
         <ErrorMessage
@@ -103,7 +99,7 @@ const EditPasswordForm = ({ onClose }: EditPasswordFormProps) => {
                 return '현재 비밀번호와 동일한 비밀번호는 사용할 수 없습니다.';
               }
 
-              return validatePassword(value);
+              return checkPasswordValidation(value);
             },
           })}
         />
