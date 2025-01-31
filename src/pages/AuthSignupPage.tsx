@@ -1,4 +1,5 @@
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 import { paths } from '@/routers/paths';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
@@ -42,11 +43,15 @@ const AuthSignupPage = () => {
             required: '이름을 입력해주세요.',
           })}
         />
-        {errors.name && (
-          <small role='alert' className='text-text-error'>
-            {errors.name.message?.toString()}
-          </small>
-        )}
+        <ErrorMessage
+          errors={errors}
+          name='name'
+          render={({ message }) => (
+            <small role='alert' className='text-text-error'>
+              {message}
+            </small>
+          )}
+        />
 
         {/* TODO) '인증' 버튼 눌렀는지 확인, 버튼 클릭 여부에 따라 label 다르게 표시 */}
         <Input
@@ -69,11 +74,15 @@ const AuthSignupPage = () => {
             </Button>
           }
         />
-        {errors.email && (
-          <small role='alert' className='text-text-error'>
-            {errors.email.message?.toString()}
-          </small>
-        )}
+        <ErrorMessage
+          errors={errors}
+          name='email'
+          render={({ message }) => (
+            <small role='alert' className='text-text-error'>
+              {message}
+            </small>
+          )}
+        />
 
         {/* TODO) '확인' 버튼 눌렀는지 확인 */}
         <Input
@@ -92,11 +101,15 @@ const AuthSignupPage = () => {
             </Button>
           }
         />
-        {errors.emailCode && (
-          <small role='alert' className='text-text-error'>
-            {errors.emailCode.message?.toString()}
-          </small>
-        )}
+        <ErrorMessage
+          errors={errors}
+          name='emailCode'
+          render={({ message }) => (
+            <small role='alert' className='text-text-error'>
+              {message}
+            </small>
+          )}
+        />
 
         <Input
           type='password'
@@ -120,11 +133,15 @@ const AuthSignupPage = () => {
             },
           })}
         />
-        {errors.password && (
-          <small role='alert' className='text-text-error'>
-            {errors.password.message?.toString()}
-          </small>
-        )}
+        <ErrorMessage
+          errors={errors}
+          name='password'
+          render={({ message }) => (
+            <small role='alert' className='text-text-error'>
+              {message}
+            </small>
+          )}
+        />
 
         {/* TODO) password의 입력값과 같은지 확인 */}
         <Input
@@ -141,11 +158,15 @@ const AuthSignupPage = () => {
             required: '비밀번호를 입력해주세요.',
           })}
         />
-        {errors.confirmPassword && (
-          <small role='alert' className='text-text-error'>
-            {errors.confirmPassword.message?.toString()}
-          </small>
-        )}
+        <ErrorMessage
+          errors={errors}
+          name='confirmPassword'
+          render={({ message }) => (
+            <small role='alert' className='text-text-error'>
+              {message}
+            </small>
+          )}
+        />
 
         <Button type='submit' disabled={isSubmitting}>
           회원가입

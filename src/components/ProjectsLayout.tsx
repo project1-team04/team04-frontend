@@ -150,7 +150,7 @@ const ProjectsLayout = ({
               <span className='text-sm'>
                 이메일 <span className='text-red'>*</span>
               </span>
-              <Input className='bg-white' onChange={onEmailChange} />
+              <Input onChange={onEmailChange} />
             </div>
           }
           buttons={[
