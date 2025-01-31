@@ -105,11 +105,14 @@ const ProjectsLayout = ({
           )}
 
           <div className='mb-9 flex w-full flex-col gap-y-4'>
-            <Button
-              variant='secondary'
-              children={'+ 인원 추가'}
-              onClick={() => open(ModalType.INVITE_PEOPLE)}
-            />
+            {!isCreatePage && (
+              <Button
+                variant='secondary'
+                children={'+ 인원 추가'}
+                onClick={() => open(ModalType.INVITE_PEOPLE)}
+              />
+            )}
+
             <Button
               children={buttonText}
               disabled={!projectName}
