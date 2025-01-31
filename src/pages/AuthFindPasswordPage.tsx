@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 import instance from '@/apis/instance';
 import { paths } from '@/routers/paths';
 import Button from '@/components/Button';
@@ -97,11 +98,15 @@ const AuthForgotPasswordPage = () => {
             </Button>
           }
         />
-        {errors.email && (
-          <small role='alert' className='text-text-error'>
-            {errors.email.message?.toString()}
-          </small>
-        )}
+        <ErrorMessage
+          errors={errors}
+          name='email'
+          render={({ message }) => (
+            <small role='alert' className='text-text-error'>
+              {message}
+            </small>
+          )}
+        />
 
         <Button
           type='submit'
