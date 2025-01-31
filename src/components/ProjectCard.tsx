@@ -15,12 +15,7 @@ const ProjectCard = ({ title, issue, onClick }: ProjectCardProps) => {
       <CardHeader className='flex justify-center rounded-t-2xl bg-[#8280FF]/20'>
         <CardTitle className='truncate text-2xl'>{title}</CardTitle>
       </CardHeader>
-
-      <CardContent className='flex items-center justify-end gap-x-2 py-4 text-sm'>
-        <p>Issue</p>
-        <p>|</p>
-        <p className='text-green'>{issue}</p>
-      </CardContent>
+      <div className='flex items-center justify-end gap-x-2 py-4 text-sm'></div>
     </Card>
   );
 };
