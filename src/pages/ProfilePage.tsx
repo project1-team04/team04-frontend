@@ -4,14 +4,17 @@ import { paths } from '@/routers/paths';
 import EditPasswordForm from '@/components/EditPasswordForm';
 import EditProfileInfo from '@/components/EditProfileInfo';
 import Button from '@/components/Button';
+import { useCustomModalStore } from '@/stores/useCustomModalStore';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { RiEdit2Line } from 'react-icons/ri';
 import { IoChevronForward } from 'react-icons/io5';
+import { IoWarning } from 'react-icons/io5';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
   const [isEditingProfileInfo, setIsEditingProfileInfo] = useState(false);
   const [isEditingPassword, setIsEditingPassword] = useState(false);
+  const showModal = useCustomModalStore((state) => state.showModal);
 
   // 사진, 이름 변경
   if (isEditingProfileInfo) {
@@ -48,6 +51,7 @@ const ProfilePage = () => {
           <p className='text-text-sub'>hlhlstar@naver.com</p>
         </div>
       </div>
+
       <div className='flex w-full flex-col gap-2 py-4'>
         <Button onClick={() => setIsEditingPassword(true)}>
           비밀번호 변경
@@ -56,7 +60,30 @@ const ProfilePage = () => {
           프로젝트 권한 위임
         </Button>
       </div>
-      <div className='flex cursor-pointer items-center justify-end gap-1 py-4 text-sm text-text-sub'>
+
+      <div
+        className='flex cursor-pointer items-center justify-end gap-1 py-4 text-sm text-text-sub'
+        onClick={() =>
+          showModal({
+            icon: <IoWarning size={40} className='text-red' />,
+            title: '정말 탈퇴하시겠습니까?',
+            content: '탈퇴 버튼 클릭 시, 계정이 삭제되며 복구되지 않습니다.',
+            buttons: [
+              {
+                text: '취소',
+                variant: 'outline',
+              },
+              {
+                text: '탈퇴',
+                variant: 'negative',
+                onClick: () => {
+                  console.log('탈퇴하기');
+                },
+              },
+            ],
+          })
+        }
+      >
         <p>회원탈퇴</p>
         <IoChevronForward />
       </div>
