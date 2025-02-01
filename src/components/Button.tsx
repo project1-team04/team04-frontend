@@ -1,7 +1,7 @@
 import { Button as UiButton } from './ui/button';
 import { ButtonHTMLAttributes } from 'react';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   variant?: 'primary' | 'secondary' | 'outline' | 'negative';
   size?: 'default' | 'sm' | 'lg' | 'icon';
