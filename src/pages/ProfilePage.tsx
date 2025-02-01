@@ -24,30 +24,26 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className='div m-auto grid w-1/3 max-w-[450px] divide-y-2 divide-divider-default rounded-2xl bg-bg-deep px-4'>
+    <div className='div m-auto grid w-[300px] min-w-min divide-y-2 divide-divider-default rounded-2xl bg-bg-deep px-4'>
       <div className='flex w-full flex-col items-center gap-2 pb-4 pt-8'>
-        {/* TODO) UserStore에서 사용자 정보 가져오기 */}
-        <div
-          className='relative inline-block cursor-pointer'
-          onClick={() => setIsEditingProfileInfo(true)}
-        >
+        <div className='relative inline-block'>
           <Avatar className='h-20 w-20'>
             <AvatarImage />
             <AvatarFallback />
           </Avatar>
-          <RiEdit2Line
-            className='absolute bottom-0 right-0 rounded-full bg-white p-1 text-text-sub shadow-md'
-            size={20}
+          <button
+            className='absolute bottom-0 right-0 flex size-5 items-center justify-center rounded-full bg-white p-1 text-text-sub shadow-md'
             onClick={() => setIsEditingProfileInfo(true)}
-          />
+          >
+            <RiEdit2Line />
+          </button>
         </div>
         <div className='flex flex-col items-center'>
-          <p className='flex items-center gap-1 text-xl font-bold'>
+          <p
+            className='flex cursor-pointer items-center gap-1 text-xl font-bold'
+            onClick={() => setIsEditingProfileInfo(true)}
+          >
             양혜림
-            <RiEdit2Line
-              className='cursor-pointer text-text-sub'
-              onClick={() => setIsEditingProfileInfo(true)}
-            />
           </p>
           <p className='text-text-sub'>hlhlstar@naver.com</p>
         </div>
