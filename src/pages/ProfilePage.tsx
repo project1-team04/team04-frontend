@@ -9,12 +9,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { RiEdit2Line } from 'react-icons/ri';
 import { IoChevronForward } from 'react-icons/io5';
 import { IoWarning } from 'react-icons/io5';
+import { useDeactivateUser } from '@/hooks/useAuthMutation';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
   const [isEditingProfileInfo, setIsEditingProfileInfo] = useState(false);
   const [isEditingPassword, setIsEditingPassword] = useState(false);
   const showModal = useCustomModalStore((state) => state.showModal);
+  const { mutate: deactivateUserMutate } = useDeactivateUser();
 
   // 사진, 이름 변경
   if (isEditingProfileInfo) {
@@ -76,9 +78,7 @@ const ProfilePage = () => {
               {
                 text: '탈퇴',
                 variant: 'negative',
-                onClick: () => {
-                  console.log('탈퇴하기');
-                },
+                onClick: () => deactivateUserMutate(),
               },
             ],
           })
