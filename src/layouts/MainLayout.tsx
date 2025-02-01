@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import Navigation from '@/layouts/Navigation';
+import CustomModal from '@/components/CustomModal';
 
 const MainLayout = ({}) => {
   return (
@@ -8,6 +9,8 @@ const MainLayout = ({}) => {
       <main className='flex h-full overflow-y-auto'>
         <Outlet />
       </main>
+
+      <CustomModal />
     </div>
   );
 };
