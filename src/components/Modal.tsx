@@ -13,7 +13,7 @@ interface ModalProps {
 interface ButtonConfig {
   text: string;
   variantStyle?: 'primary' | 'secondary' | 'outline' | 'negative';
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const Modal = ({ title, content, icon, css, buttons }: ModalProps) => {
@@ -36,7 +36,7 @@ const Modal = ({ title, content, icon, css, buttons }: ModalProps) => {
               key={index}
               variant={button.variantStyle || 'primary'}
               onClick={() => {
-                button.onClick();
+                button.onClick?.();
                 close();
               }}
             >
