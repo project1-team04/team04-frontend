@@ -117,7 +117,7 @@ const ProjectsLayout = ({
           icon={<RiErrorWarningLine className='h-[60px] w-[60px]' />}
           css={'text-sm mt-[-18px]'}
           buttons={[
-            { text: '아니오', variantStyle: 'outline', onClick: close },
+            { text: '아니오', variantStyle: 'outline' },
             {
               text: '네',
               variantStyle: 'negative',
@@ -145,7 +145,7 @@ const ProjectsLayout = ({
             </div>
           }
           buttons={[
-            { text: '취소', variantStyle: 'outline', onClick: close },
+            { text: '취소', variantStyle: 'outline' },
             {
               text: '추가',
               onClick: () => {

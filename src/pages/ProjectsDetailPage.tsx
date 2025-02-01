@@ -2,15 +2,15 @@ import Header from '@/components/Header';
 import KanbanCard from '@/components/KanbanCard';
 import IssueSearchBar from '@/components/IssueSearchBar';
 import { Button } from '@/components/ui/button';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { deleteProject } from '@/apis/projectApi';
 import Modal from '@/components/Modal';
 import { RiErrorWarningLine } from 'react-icons/ri';
 import { IoSettingsOutline } from 'react-icons/io5';
-import { useModalStore, ModalType } from '@/stores/useModalStore';
+// import { useModalStore, ModalType } from '@/stores/useModalStore';
 
 const ProjectsDetailPage = () => {
-  const { open, close } = useModalStore();
+  // const openModal = useModalStore((state) => state.open);
   const navigate = useNavigate();
 
   const { state } = useLocation();
@@ -51,7 +51,7 @@ const ProjectsDetailPage = () => {
           variant='negative'
           children='프로젝트 나가기'
           onClick={() => {
-            open(ModalType.DELETE_WARNING);
+            openModal(ModalType.DELETE_WARNING);
           }}
         /> */}
       </aside>
@@ -93,7 +93,7 @@ const ProjectsDetailPage = () => {
         icon={<RiErrorWarningLine className='h-[60px] w-[60px]' />}
         css={'text-sm mt-[-18px]'}
         buttons={[
-          { text: '아니오', variantStyle: 'outline', onClick: close },
+          { text: '아니오', variantStyle: 'outline' },
           {
             text: '네',
             variantStyle: 'negative',
