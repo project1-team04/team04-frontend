@@ -13,6 +13,7 @@ import AuthNavLinks from '@/components/AuthNavLinks';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import { IoMdCheckmarkCircle } from 'react-icons/io';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 type SignupRequest = {
   name: string;
@@ -40,42 +41,43 @@ const AuthSignupPage = () => {
   const [isChecking, setIsChecking] = useState(false); // 이메일 확인 중인지 여부
   const [isCodeSent, setIsCodeSent] = useState(false); // 인증번호 발송 여부
   const [isCodeVerified, setIsCodeVerified] = useState(false); // 인증번호 확인 여부
+  const [isCodeVerifying, setIsCodeVerifying] = useState(false); // 인증번호 확인 요청 진행 중 여부
 
   // 이메일 중복 확인 + 인증번호 발송
   const handleEmailVerification = async () => {
-    const email = getValues('email');
-    if (!email) return;
-
     setIsChecking(true);
 
     try {
       // 1. 이메일 중복 확인
       const checkResponse = await instance.post('auth/validate-email', {
-        email,
+        email: getValues('email'),
       });
 
-      if (!checkResponse.data) {
-        setIsEmailChecked(true);
-      } else {
-        setError('email', { message: '이미 가입된 이메일입니다.' });
+      if (checkResponse.data) {
+        setError('email', {
+          message: '이미 가입되었거나 탈퇴한 이메일은 사용할 수 없습니다.',
+        });
         setIsEmailChecked(false);
         setIsChecking(false);
         return;
       }
 
+      setIsEmailChecked(true);
+
       // 2. 인증번호 발송
       const sendCodeResponse = await instance.post('/auth/verify-email', {
-        email,
+        email: getValues('email'),
       });
 
       if (sendCodeResponse.status === 200) {
         setIsCodeSent(true);
         alert('인증번호가 이메일로 전송되었습니다.');
-      } else {
-        setError('email', {
-          message: '인증번호 발송에 실패했습니다. 다시 시도해주세요.',
-        });
+        return;
       }
+
+      setError('email', {
+        message: '인증번호 발송에 실패했습니다. 다시 시도해주세요.',
+      });
     } catch (error) {
       setError('email', {
         message: '예상치 못한 오류가 발생했습니다. 다시 시도해주세요.',
@@ -88,27 +90,29 @@ const AuthSignupPage = () => {
 
   // 인증 번호 확인
   const handleEmailCodeVerification = async () => {
-    const email = getValues('email');
-    const emailCode = getValues('emailCode');
+    setIsCodeVerifying(true);
 
     try {
       const verifyResponse = await instance.post('/auth/verify', {
-        email,
-        verificationCode: emailCode,
+        email: getValues('email'),
+        verificationCode: getValues('emailCode'),
       });
 
       if (verifyResponse.status === 200) {
         setIsCodeVerified(true);
         alert('이메일 인증이 완료되었습니다.');
-      } else {
-        setError('emailCode', {
-          message: '입력한 인증번호가 올바르지 않습니다.',
-        });
+        return;
       }
+
+      setError('emailCode', {
+        message: '입력한 인증번호가 올바르지 않습니다.',
+      });
     } catch (error) {
       setError('emailCode', {
         message: '인증번호 확인 중 오류가 발생했습니다.',
       });
+    } finally {
+      setIsCodeVerifying(false);
     }
   };
 
@@ -166,14 +170,24 @@ const AuthSignupPage = () => {
           iconPosition='right'
           icon={
             <Button
+              type='button'
               variant='outline'
               className='w-auto'
               onClick={handleEmailVerification}
-              // FIXME) 이메일 유효성 검사 통과해야만 버튼 활성화
-              // FIXME) 인증 버튼 눌렀을 때 폼 전체 입력 필드 유효성 검사 실행되지 않도록 수정
-              disabled={isEmailChecked || isChecking}
+              disabled={
+                !getValues('email') ||
+                !!errors.email ||
+                isEmailChecked ||
+                isChecking
+              }
             >
-              {!isCodeSent ? '인증' : <IoMdCheckmarkCircle />}
+              {isChecking ? (
+                <AiOutlineLoading3Quarters className='animate-spin text-lg' />
+              ) : !isCodeSent ? (
+                '인증'
+              ) : (
+                <IoMdCheckmarkCircle />
+              )}
             </Button>
           }
         />
@@ -200,12 +214,19 @@ const AuthSignupPage = () => {
           iconPosition='right'
           icon={
             <Button
+              type='button'
               variant='outline'
               className='w-auto'
               onClick={handleEmailCodeVerification}
               disabled={!isCodeSent || isCodeVerified}
             >
-              {!isCodeVerified ? '확인' : <IoMdCheckmarkCircle />}
+              {isCodeVerifying ? (
+                <AiOutlineLoading3Quarters className='animate-spin text-lg' />
+              ) : !isCodeVerified ? (
+                '확인'
+              ) : (
+                <IoMdCheckmarkCircle />
+              )}
             </Button>
           }
         />

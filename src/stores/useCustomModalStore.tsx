@@ -10,12 +10,12 @@ interface CustomModalState {
   isOpen: boolean;
   icon?: React.ReactNode;
   title: string;
-  content?: string;
+  content?: React.ReactNode;
   buttons: ModalButton[];
   showModal: (config: {
     icon?: React.ReactNode;
     title: string;
-    content?: string;
+    content?: React.ReactNode;
     buttons: ModalButton[];
   }) => void;
   closeModal: () => void;
@@ -25,12 +25,12 @@ export const useCustomModalStore = create<CustomModalState>((set) => ({
   isOpen: false,
   icon: undefined,
   title: '',
-  content: '',
+  content: undefined,
   buttons: [],
   showModal: (config: {
     icon?: React.ReactNode;
     title: string;
-    content?: string;
+    content?: React.ReactNode;
     buttons: ModalButton[];
   }) =>
     set(() => ({
@@ -45,7 +45,7 @@ export const useCustomModalStore = create<CustomModalState>((set) => ({
       isOpen: false,
       icon: undefined,
       title: '',
-      content: '',
+      content: undefined,
       buttons: [],
     }),
 }));
