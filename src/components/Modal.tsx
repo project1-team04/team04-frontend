@@ -25,13 +25,13 @@ const Modal = ({ title, content, icon, css, buttons }: ModalProps) => {
     <>
       <div className='fixed inset-0 z-50 flex items-center justify-center'>
         <Backdrop onClick={close} />
-        <div className='flex h-[300px] w-[400px] flex-col items-center justify-center bg-bg-light'>
+        <div className='flex h-[300px] w-[400px] flex-col items-center justify-center rounded-xl bg-bg-light'>
           {icon && <>{icon}</>}
 
           <p className='m-5 text-2xl font-semibold'>{title}</p>
           <div className={css}>{content}</div>
 
-          <div className='m-5 flex gap-3'>
+          <div className='flex gap-3 m-5'>
             {buttons.map((button, index) => (
               <Button
                 key={index}
