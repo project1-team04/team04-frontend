@@ -5,6 +5,8 @@ import { Input } from './ui/input';
 import { useModalStore, ModalType } from '@/stores/useModalStore';
 import Modal from './Modal';
 import { RiErrorWarningLine } from 'react-icons/ri';
+import { useCustomModalStore } from '@/stores/useCustomModalStore';
+import { IoWarning } from 'react-icons/io5';
 
 interface Member {
   id: string;
@@ -47,6 +49,7 @@ const ProjectsLayout = ({
   inviteMessage,
 }: ProjectLayoutProps) => {
   const { modalType, open, close } = useModalStore();
+  const showModal = useCustomModalStore((state) => state.showModal);
 
   const buttonText = isCreatePage ? '생성 완료' : '설정 완료';
 
@@ -65,30 +68,53 @@ const ProjectsLayout = ({
   };
 
   return (
-    <div className='mx-auto flex w-1/2 flex-col'>
-      <header className='my-9 flex items-center justify-between gap-5'>
+    <div className='flex flex-col w-1/2 mx-auto'>
+      <header className='flex items-center justify-between gap-5 my-9'>
         <Header children={header} />
         {deleteButton && (
           <Button
             variant='negative'
             size='sm'
-            onClick={() => open(ModalType.DELETE_WARNING)}
+            onClick={() =>
+              showModal({
+                icon: <IoWarning size={40} className='text-red' />,
+                title: '정말 삭제하시겠습니까?',
+                content: '프로젝트 삭제 후에는 되돌리기가 불가능합니다.',
+                buttons: [
+                  {
+                    text: '취소',
+                    variant: 'outline',
+                  },
+                  {
+                    text: '삭제',
+                    variant: 'negative',
+                    onClick: () => {
+                      if (projectId !== undefined) {
+                        onDelete?.(projectId);
+                      } else {
+                        console.error('projectId가 undefined 입니다.');
+                      }
+                    },
+                  },
+                ],
+              })
+            }
           >
             {deleteButton}
           </Button>
         )}
       </header>
 
-      <div className='ml-3 flex items-center gap-5'>
+      <div className='flex items-center gap-5 ml-3'>
         <p>프로젝트 이름</p>
         <div className='flex-1'>
           <Input placeholder="Enter Project's name" onChange={onInputChange} />
         </div>
       </div>
 
-      <main className='grow overflow-hidden'>
-        <div className='flex h-full flex-col'>
-          <div className='mb-4 mt-4 grid w-full grid-cols-2 gap-5 overflow-y-auto bg-bg-deep p-4'>
+      <main className='overflow-hidden grow'>
+        <div className='flex flex-col h-full'>
+          <div className='grid w-full grid-cols-2 gap-5 p-4 mt-4 mb-4 overflow-y-auto bg-bg-deep'>
             {member.map((member) => (
               <MemberCard
                 key={member.id}
@@ -104,7 +130,7 @@ const ProjectsLayout = ({
             </p>
           )}
 
-          <div className='mb-9 flex w-full flex-col gap-y-4'>
+          <div className='flex flex-col w-full mb-9 gap-y-4'>
             {!isCreatePage && (
               <Button
                 variant='secondary'
@@ -121,29 +147,6 @@ const ProjectsLayout = ({
           </div>
         </div>
       </main>
-
-      {modalType === ModalType.DELETE_WARNING && (
-        <Modal
-          title={'정말 삭제하시겠습니까?'}
-          content={'삭제 후에는 되돌리기가 불가능합니다.'}
-          icon={<RiErrorWarningLine className='h-[60px] w-[60px]' />}
-          css={'text-sm mt-[-18px]'}
-          buttons={[
-            { text: '아니오', variantStyle: 'outline' },
-            {
-              text: '네',
-              variantStyle: 'negative',
-              onClick: () => {
-                if (projectId !== undefined) {
-                  onDelete?.(projectId);
-                } else {
-                  console.error('projectId가 undefined 입니다.');
-                }
-              },
-            },
-          ]}
-        />
-      )}
 
       {modalType === ModalType.INVITE_PEOPLE && (
         <Modal
