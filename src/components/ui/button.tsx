@@ -11,7 +11,7 @@ const buttonVariants = cva(
       variant: {
         primary: 'bg-purple hover:bg-purple-hover text-white',
         secondary: 'bg-gray hover:bg-gray-hover',
-        outline: 'border border-default hover:bg-gray-hover',
+        outline: 'bg-white border border-default hover:bg-gray-hover',
         negative: 'bg-red hover:bg-red-hover text-white',
       },
       size: {

@@ -10,7 +10,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ type = 'text', iconPosition, icon, ...props }, ref) => {
     return (
-      <div className='flex gap-1'>
+      <div className='flex w-full gap-1'>
         {iconPosition === 'left' && icon}
         <UiInput
           type={type}

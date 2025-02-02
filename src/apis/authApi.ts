@@ -45,6 +45,7 @@ export const signup = async (
     throw new Error('회원가입 중 예상치 못한 오류가 발생했습니다.');
   }
 };
+
 export const logout = async () => {
   try {
     await instance.post('/auth/logout');
@@ -53,5 +54,15 @@ export const logout = async () => {
     console.log('로그아웃 완료');
   } catch (error) {
     console.error('Logout failed:', error);
+  }
+};
+
+export const deactivateUser = async () => {
+  const res = await instance.post('auth/deactivate');
+
+  if (res.status === 200) {
+    return true;
+  } else {
+    throw new Error('회원 탈퇴 요청 실패');
   }
 };

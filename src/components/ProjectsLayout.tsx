@@ -26,6 +26,8 @@ interface ProjectLayoutProps {
   projectId?: number | undefined;
   onEmailChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onInvite?: (projectId: number, email: string) => void;
+  email?: string;
+  inviteMessage?: string;
 }
 
 const ProjectsLayout = ({
@@ -41,6 +43,8 @@ const ProjectsLayout = ({
   projectId,
   onEmailChange,
   onInvite,
+  email,
+  inviteMessage,
 }: ProjectLayoutProps) => {
   const { modalType, open, close } = useModalStore();
 
@@ -84,7 +88,7 @@ const ProjectsLayout = ({
 
       <main className='grow overflow-hidden'>
         <div className='flex h-full flex-col'>
-          <div className='my-4 grid w-full grid-cols-2 gap-5 overflow-y-auto bg-bg-deep p-4'>
+          <div className='mb-4 mt-4 grid w-full grid-cols-2 gap-5 overflow-y-auto bg-bg-deep p-4'>
             {member.map((member) => (
               <MemberCard
                 key={member.id}
@@ -94,13 +98,21 @@ const ProjectsLayout = ({
               />
             ))}
           </div>
+          {inviteMessage && (
+            <p className='mb-4 mt-[-10px] text-sm text-text-error'>
+              {inviteMessage}
+            </p>
+          )}
 
           <div className='mb-9 flex w-full flex-col gap-y-4'>
-            <Button
-              variant='secondary'
-              children={'+ 인원 추가'}
-              onClick={() => open(ModalType.INVITE_PEOPLE)}
-            />
+            {!isCreatePage && (
+              <Button
+                variant='secondary'
+                children={'+ 인원 추가'}
+                onClick={() => open(ModalType.INVITE_PEOPLE)}
+              />
+            )}
+
             <Button
               children={buttonText}
               disabled={!projectName}
@@ -117,7 +129,7 @@ const ProjectsLayout = ({
           icon={<RiErrorWarningLine className='h-[60px] w-[60px]' />}
           css={'text-sm mt-[-18px]'}
           buttons={[
-            { text: '아니오', variantStyle: 'outline', onClick: close },
+            { text: '아니오', variantStyle: 'outline' },
             {
               text: '네',
               variantStyle: 'negative',
@@ -145,13 +157,21 @@ const ProjectsLayout = ({
             </div>
           }
           buttons={[
-            { text: '취소', variantStyle: 'outline', onClick: close },
+            { text: '취소', variantStyle: 'outline' },
             {
               text: '추가',
               onClick: () => {
-                console.log('인원 추가 전송');
+                if (projectId) {
+                  console.log('인원 추가 전송:', projectId, email);
 
-                onInvite;
+                  if (email) {
+                    onInvite?.(projectId, email);
+                  } else {
+                    console.error('이메일이 비어 있습니다.');
+                  }
+                } else {
+                  console.error('projectId가 undefined입니다.');
+                }
               },
             },
           ]}

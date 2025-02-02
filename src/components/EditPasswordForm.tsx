@@ -53,7 +53,7 @@ const EditPasswordForm = ({ onClose }: EditPasswordFormProps) => {
   };
 
   return (
-    <div className='div m-auto grid w-1/3 min-w-min max-w-[450px] divide-y-2 divide-divider-default rounded-2xl bg-bg-deep px-4'>
+    <div className='div m-auto grid w-[300px] min-w-min divide-y-2 divide-divider-default rounded-2xl bg-bg-deep px-4'>
       <div className='flex flex-col gap-2 py-4'>
         <p className='text-xl font-bold'>비밀번호 변경</p>
         <p className='text-sm text-text-sub'>
