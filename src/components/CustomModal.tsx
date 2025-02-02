@@ -17,7 +17,7 @@ const CustomModal = () => {
           <p className='text-2xl font-semibold'>{title}</p>
         </header>
 
-        {content && <p className='text-center'>{content}</p>}
+        {content && <div className='w-full text-center'>{content}</div>}
 
         <footer className='flex w-full justify-center gap-4'>
           {buttons.map((button, index) => (
