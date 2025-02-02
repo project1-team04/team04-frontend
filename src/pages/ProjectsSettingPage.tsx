@@ -10,24 +10,14 @@ interface Member {
   position?: 'Project Manager' | 'Member';
 }
 
-const member: Member[] = [
-  {
-    id: '1',
-    name: '정태승',
-    email: 'hfgdf3@naver.com',
-    position: 'Project Manager',
-  },
-  // { id: '2', name: '권보령', email: 'hfgdf3@naver.com' },
-];
-
 const ProjectsSettingPage = () => {
-  const [projectName, setProjectName] = useState('');
-  const [email, setEmail] = useState<string>('');
   const navigate = useNavigate();
 
-  const { projectId } = useParams();
-
+  const [projectName, setProjectName] = useState('');
+  const [email, setEmail] = useState<string>('');
   const [inviteMessage, setInviteMessage] = useState<string>('');
+  const [members, setMembers] = useState<Member[]>([]);
+  const { projectId } = useParams();
 
   const handleDelete = async (projectId: number) => {
     try {
@@ -51,34 +41,45 @@ const ProjectsSettingPage = () => {
 
   const handleInviteMember = async (projectId: number, email: string) => {
     try {
-      const res = await inviteMember(projectId, email);
-      console.log('프로젝트 생성 페이지 - 인원 초대', res);
+      const {
+        name,
+        email: invitedEmail,
+        message,
+      } = await inviteMember(projectId, email);
+      console.log('프로젝트 생성 페이지 - 인원 초대', name, invitedEmail);
 
-      console.log('프로젝트 생성 페이지 - 인원 초대', res.message);
-
-      if (res.message) {
-        setInviteMessage(res.message);
-      }
+      if (!message) {
+        setMembers((prevMembers) => [
+          ...prevMembers,
+          {
+            id: crypto.randomUUID(),
+            name,
+            email: invitedEmail,
+            position: 'Member',
+          },
+        ]);
+      } else setInviteMessage(message);
     } catch (error) {
       console.log('프로젝트 생성 페이지 에러 - 인원 초대', error);
     }
   };
-
-  console.log(email);
 
   return (
     <>
       <ProjectsLayout
         header='프로젝트 설정'
         deleteButton='프로젝트 삭제'
-        member={member}
+        member={members}
         projectName={projectName}
         projectId={projectId ? Number(projectId) : undefined}
         onUpdate={handleUpdate}
         onInputChange={(e) => setProjectName(e.target.value)}
         onDelete={handleDelete}
         onInvite={handleInviteMember}
-        onEmailChange={(e) => setEmail(e.target.value)}
+        onEmailChange={(e) => {
+          setEmail(e.target.value);
+          setInviteMessage('');
+        }}
         email={email}
         inviteMessage={inviteMessage}
       />
