@@ -172,8 +172,12 @@ const AuthSignupPage = () => {
               variant='outline'
               className='w-auto'
               onClick={handleEmailVerification}
-              // FIXME) 이메일 유효성 검사 통과해야만 버튼 활성화
-              disabled={isEmailChecked || isChecking}
+              disabled={
+                !getValues('email') ||
+                !!errors.email ||
+                isEmailChecked ||
+                isChecking
+              }
             >
               {!isCodeSent ? '인증' : <IoMdCheckmarkCircle />}
             </Button>
