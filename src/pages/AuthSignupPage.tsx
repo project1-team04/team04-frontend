@@ -57,7 +57,9 @@ const AuthSignupPage = () => {
       if (!checkResponse.data) {
         setIsEmailChecked(true);
       } else {
-        setError('email', { message: '이미 가입된 이메일입니다.' });
+        setError('email', {
+          message: '이미 가입되었거나 탈퇴한 이메일은 사용할 수 없습니다.',
+        });
         setIsEmailChecked(false);
         setIsChecking(false);
         return;
@@ -166,11 +168,11 @@ const AuthSignupPage = () => {
           iconPosition='right'
           icon={
             <Button
+              type='button'
               variant='outline'
               className='w-auto'
               onClick={handleEmailVerification}
               // FIXME) 이메일 유효성 검사 통과해야만 버튼 활성화
-              // FIXME) 인증 버튼 눌렀을 때 폼 전체 입력 필드 유효성 검사 실행되지 않도록 수정
               disabled={isEmailChecked || isChecking}
             >
               {!isCodeSent ? '인증' : <IoMdCheckmarkCircle />}
@@ -200,6 +202,7 @@ const AuthSignupPage = () => {
           iconPosition='right'
           icon={
             <Button
+              type='button'
               variant='outline'
               className='w-auto'
               onClick={handleEmailCodeVerification}
