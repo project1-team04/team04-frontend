@@ -77,7 +77,6 @@ const ProjectsListPage = () => {
             <ProjectCard
               key={project.id}
               title={project.name}
-              issue={project.issueCount}
               onClick={() => handleProjectClick(project.id)}
             />
           ))}
