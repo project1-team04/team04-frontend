@@ -1,6 +1,5 @@
 import { useOutletContext } from 'react-router-dom';
 import { OutletContextType } from '@/types/userTypes';
-// import Chat from '../components/chat/Chat';
 import Chat from '../components/chat/Chat';
 
 const ProjectsIssueDetailPage = () => {
@@ -11,7 +10,7 @@ const ProjectsIssueDetailPage = () => {
   return (
     <>
       <div>Issue Name | Issue ID</div>
-      <Chat />
+      <Chat userId={data.userId} />
     </>
   );
 };
