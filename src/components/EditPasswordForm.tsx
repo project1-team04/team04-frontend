@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { checkPasswordValidation } from '@/utils/authValidation';
@@ -34,21 +35,28 @@ const EditPasswordForm = ({ onClose }: EditPasswordFormProps) => {
         newPassword,
       });
 
-      // FIXME) auth/change-password 400, 401 응답코드 추가되면 setError 메시지 보완
       if (res.status === 200) {
         alert('비밀번호가 변경되었습니다.');
         onClose();
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 401) {
+          setError('oldPassword', {
+            message: '입력한 현재 비밀번호가 일치하지 않습니다.',
+          });
+        } else {
+          setError('root', {
+            message:
+              '비밀번호 변경에 실패했습니다. 입력한 정보를 다시 확인해 주세요.',
+          });
+        }
       } else {
         setError('root', {
           message:
-            '비밀번호 변경에 실패했습니다. 입력한 정보를 다시 확인해 주세요.',
+            '서버와의 연결이 원활하지 않습니다. 잠시 후 다시 시도해 주세요.',
         });
       }
-    } catch (error) {
-      setError('root', {
-        message:
-          '서버와의 연결이 원활하지 않습니다. 잠시 후 다시 시도해 주세요.',
-      });
     }
   };
 
