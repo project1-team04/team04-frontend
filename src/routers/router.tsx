@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { paths } from './paths';
+import { protectedLoader } from './protectedRoute';
 import AuthLayout from '../layouts/AuthLayout';
 import MainLayout from '@/layouts/MainLayout';
 import AuthLoginPage from '@/pages/AuthLoginPage';
@@ -14,7 +15,7 @@ import ProfilePage from '@/pages/ProfilePage';
 import ProfileDelegatePage from '@/pages/ProfileDelegatePage';
 import NotFoundPage from '@/pages/NotFoundPage';
 
-// TODO) Protected Route 적용 및 루트 경로 접근 처리
+// TODO) 로그인 여부에 따라 동적으로 루트 경로 설정
 const router = createBrowserRouter([
   {
     path: paths.auth.root,
@@ -42,6 +43,7 @@ const router = createBrowserRouter([
   {
     path: paths.projects.root,
     element: <MainLayout />,
+    loader: protectedLoader,
     children: [
       {
         index: true,
@@ -73,6 +75,7 @@ const router = createBrowserRouter([
   {
     path: paths.profile.root,
     element: <MainLayout />,
+    loader: protectedLoader,
     children: [
       {
         index: true,
