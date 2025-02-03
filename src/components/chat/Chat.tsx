@@ -29,7 +29,7 @@ const Chat = () => {
   const issueId = 1;
 
   useEffect(() => {
-    const socket = new WebSocket(`ws://34.22.102.28:8080/${issueId}`);
+    const socket = new WebSocket(`ws://34.22.102.28:8080/api/chat/${issueId}`);
     socketRef.current = socket;
     console.log(socket);
 
@@ -108,7 +108,7 @@ const Chat = () => {
 
   // 페이지 로드 시 메시지 불러오기
   useEffect(() => {
-    fetch(`/api/messages/${issueId}`)
+    fetch(`/api/messages/get/${issueId}`)
       .then((response) => response.json())
       .then((messages) => {
         setChattings(
