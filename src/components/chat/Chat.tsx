@@ -38,6 +38,9 @@ const Chat = () => {
       const message = JSON.parse(e.data);
       console.log('서버에서 받은 메시지:', message);
 
+      const userId = message.userId;
+      console.log('서버에서 받은 메시지의 아이디:', userId);
+
       setChattings((prev) => [
         ...prev,
         {
@@ -48,7 +51,7 @@ const Chat = () => {
             hour: '2-digit',
             minute: '2-digit',
           }),
-          isMe: false,
+          isMe: message.sender === 'Me' || message.userId === message.id,
         },
       ]);
     };
@@ -75,18 +78,18 @@ const Chat = () => {
   const handleSendMessage = (message: string) => {
     if (!message.trim()) return;
 
-    const newChat: Chatting = {
-      id: chattings.length + 1,
-      nickname: 'Me',
-      chatting: message,
-      time: new Date().toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-      }),
-      isMe: true,
-    };
+    // const newChat: Chatting = {
+    //   id: chattings.length + 1,
+    //   nickname: 'Me',
+    //   chatting: message,
+    //   time: new Date().toLocaleTimeString([], {
+    //     hour: '2-digit',
+    //     minute: '2-digit',
+    //   }),
+    //   isMe: true,
+    // };
 
-    setChattings((prev) => [...prev, newChat]);
+    // setChattings((prev) => [...prev, newChat]);
 
     // 웹소켓을 통해 서버로 메시지 전송
     if (socketRef.current) {
@@ -117,7 +120,7 @@ const Chat = () => {
               hour: '2-digit',
               minute: '2-digit',
             }),
-            isMe: false,
+            isMe: message.sender === 'Me' || message.userId === message.id,
           }))
         );
       })
