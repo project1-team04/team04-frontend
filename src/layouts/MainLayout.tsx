@@ -11,7 +11,7 @@ const MainLayout = ({}) => {
     <div className='flex h-screen w-full flex-col'>
       <Navigation />
       <main className='flex h-full overflow-y-auto'>
-        <Outlet />
+        <Outlet context={{ data }} />
       </main>
 
       <CustomModal />
