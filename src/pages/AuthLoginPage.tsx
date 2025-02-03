@@ -34,15 +34,12 @@ const AuthLoginPage = () => {
     formState: { errors, isSubmitted, isSubmitting },
   } = useForm<LoginFormInputs>();
 
-  // FIXME) 토큰 유무에 따른 라우팅 로직 추가 후 navigate 관련 로직 삭제
-  const navigate = useNavigate();
-
   const onSubmit = async (data: LoginFormInputs) => {
     try {
       const response = await login(data.email, data.password);
 
       if (response.success) {
-        navigate(paths.projects.root);
+        window.location.href = paths.projects.root;
       } else {
         setError('root', { message: response.message });
       }
