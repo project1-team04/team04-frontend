@@ -11,7 +11,7 @@ interface Chatting {
   isMe: boolean;
 }
 
-const Chat = () => {
+const Chat: React.FC<{ userId: number }> = ({ userId }) => {
   const [chattings, setChattings] = useState<Chatting[]>([]);
 
   // 채팅 자동 스크롤 다운
@@ -37,10 +37,22 @@ const Chat = () => {
     socket.onmessage = (e) => {
       const message = JSON.parse(e.data);
       console.log('서버에서 받은 메시지:', message);
+      console.log('여기:', message.userId, message.id);
 
-      const userId = message.userId;
-      console.log('서버에서 받은 메시지의 아이디:', userId);
+      // 유저 id
+      // const userId = message.userId;
+      console.log(
+        '서버에서 받은 메시지의 아이디:',
+        message.userId,
+        '현재 유저 ID:',
+        userId
+      );
 
+      // 메시지의 유저 id와 현재 계정 유저의 id 비교
+      const isMe = message.userId === userId;
+      console.log('isMe 여부:', isMe);
+
+      // timestamp
       console.log('서버에서 받은 메시지의 시간:', message.timestamp);
 
       setChattings((prev) => [
@@ -53,7 +65,7 @@ const Chat = () => {
             hour: '2-digit',
             minute: '2-digit',
           }),
-          isMe: message.sender === 'Me' || message.userId === message.id,
+          isMe: isMe,
         },
       ]);
     };
@@ -99,7 +111,7 @@ const Chat = () => {
           sender: userId, //
           content: message,
           issueId: issueId,
-          // userId: 1,
+          userId: userId, //
           readBy: [],
           readById: [],
         })
@@ -117,7 +129,6 @@ const Chat = () => {
             id: message.id,
             nickname: message.sender,
             chatting: message.content,
-
             time: new Date(message.timestamp).toLocaleTimeString([], {
               hour: '2-digit',
               minute: '2-digit',
@@ -130,7 +141,7 @@ const Chat = () => {
   }, [issueId]);
 
   return (
-    <div className='flex h-full w-full flex-col bg-gray-50'>
+    <div className='flex flex-col w-full h-full bg-gray-50'>
       <div className='mx-5 flex h-[10%] items-center justify-between border-b-[0.5px] border-border-default'>
         <p className='font-semibold'>이슈명</p>
         <div className='flex'>
