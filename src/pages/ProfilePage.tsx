@@ -1,15 +1,16 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { paths } from '@/routers/paths';
+import { useCustomModalStore } from '@/stores/useCustomModalStore';
+import { useDeactivateUser } from '@/hooks/useAuthMutation';
+import { OutletContextType } from '@/types/userTypes';
 import EditPasswordForm from '@/components/EditPasswordForm';
 import EditProfileInfo from '@/components/EditProfileInfo';
 import Button from '@/components/Button';
-import { useCustomModalStore } from '@/stores/useCustomModalStore';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { RiEdit2Line } from 'react-icons/ri';
 import { IoChevronForward } from 'react-icons/io5';
 import { IoWarning } from 'react-icons/io5';
-import { useDeactivateUser } from '@/hooks/useAuthMutation';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const ProfilePage = () => {
   const [isEditingPassword, setIsEditingPassword] = useState(false);
   const showModal = useCustomModalStore((state) => state.showModal);
   const { mutate: deactivateUserMutate } = useDeactivateUser();
+  const { data } = useOutletContext<OutletContextType>();
 
   // 사진, 이름 변경
   if (isEditingProfileInfo) {
@@ -33,7 +35,10 @@ const ProfilePage = () => {
       <div className='flex w-full flex-col items-center gap-2 pb-4 pt-8'>
         <div className='relative inline-block'>
           <Avatar className='h-20 w-20'>
-            <AvatarImage />
+            <AvatarImage
+              src={data.profileImageUrl ?? undefined}
+              alt={`${data.username}의 프로필 이미지`}
+            />
             <AvatarFallback />
           </Avatar>
           <button
@@ -48,9 +53,9 @@ const ProfilePage = () => {
             className='flex cursor-pointer items-center gap-1 text-xl font-bold'
             onClick={() => setIsEditingProfileInfo(true)}
           >
-            양혜림
+            {data.username}
           </p>
-          <p className='text-text-sub'>hlhlstar@naver.com</p>
+          <p className='text-text-sub'>{data.email}</p>
         </div>
       </div>
 

@@ -1,13 +1,17 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLoaderData } from 'react-router-dom';
 import Navigation from '@/layouts/Navigation';
 import CustomModal from '@/components/CustomModal';
+import { UserData } from '@/types/userTypes';
 
 const MainLayout = ({}) => {
+  const data = useLoaderData() as UserData;
+  console.log('메인레이아웃', data);
+
   return (
     <div className='flex h-screen w-full flex-col'>
-      <Navigation name={'권보령'} alt={'프로필 사진'} />
+      <Navigation />
       <main className='flex h-full overflow-y-auto'>
-        <Outlet />
+        <Outlet context={{ data }} />
       </main>
 
       <CustomModal />
