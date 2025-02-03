@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import { changePassword } from '@/apis/authApi';
 import { checkPasswordValidation } from '@/utils/authValidation';
-import instance from '@/apis/instance';
 import Button from './Button';
 import Input from './Input';
 
@@ -30,18 +30,15 @@ const EditPasswordForm = ({ onClose }: EditPasswordFormProps) => {
     newPassword,
   }: EditPasswordFormInputs) => {
     try {
-      const res = await instance.post('auth/change-password', {
-        oldPassword,
-        newPassword,
-      });
+      const res = await changePassword(oldPassword, newPassword);
 
       if (res.status === 200) {
         alert('비밀번호가 변경되었습니다.');
         onClose();
       }
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        if (error.response.status === 401) {
+      if (axios.isAxiosError(error)) {
+        if (error.status === 401) {
           setError('oldPassword', {
             message: '입력한 현재 비밀번호가 일치하지 않습니다.',
           });
@@ -161,6 +158,7 @@ const EditPasswordForm = ({ onClose }: EditPasswordFormProps) => {
         <div className='flex gap-4 pt-2'>
           <Button
             children={'취소'}
+            type='button'
             variant='outline'
             onClick={onClose}
             className='flex-1 bg-bg'
