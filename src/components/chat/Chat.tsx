@@ -6,7 +6,6 @@ import { useState, useRef, useEffect } from 'react';
 interface Chatting {
   id: number;
   nickname: string;
-  profile: string;
   chatting: string;
   time: string;
   isMe: boolean;
@@ -44,7 +43,6 @@ const Chat = () => {
         {
           id: message.id,
           nickname: message.sender,
-          profile: '/images/profile1.png',
           chatting: message.content,
           time: new Date().toLocaleTimeString([], {
             hour: '2-digit',
@@ -80,7 +78,6 @@ const Chat = () => {
     const newChat: Chatting = {
       id: chattings.length + 1,
       nickname: 'Me',
-      profile: '/images/my-profile.png',
       chatting: message,
       time: new Date().toLocaleTimeString([], {
         hour: '2-digit',
@@ -115,7 +112,6 @@ const Chat = () => {
           messages.map((message: any) => ({
             id: message.id,
             nickname: message.sender,
-            profile: '/images/profile1.png',
             chatting: message.content,
             time: new Date().toLocaleTimeString([], {
               hour: '2-digit',
