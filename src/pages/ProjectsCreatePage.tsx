@@ -1,5 +1,7 @@
 import { createProject } from '@/apis/projectApi';
+import MemberCard from '@/components/MemberCard';
 import ProjectsLayout from '@/components/ProjectsLayout';
+import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -42,12 +44,29 @@ const ProjectsCreatePage = () => {
   return (
     <ProjectsLayout
       header='프로젝트 생성'
-      projectName={projectName}
-      member={member}
-      isCreatePage={true}
       onInputChange={(e) => setProjectName(e.target.value)}
-      onCreate={handleCreateProject}
-    />
+    >
+      <div className='flex h-full flex-col'>
+        <div className='mb-4 mt-4 grid w-full grid-cols-2 gap-5 overflow-y-auto bg-bg-deep p-4'>
+          {member.map((member) => (
+            <MemberCard
+              key={member.id}
+              name={member.name}
+              email={member.email}
+              position={member.position}
+            />
+          ))}
+        </div>
+
+        <div className='mb-9 flex w-full flex-col gap-y-4'>
+          <Button
+            children='생성 완료'
+            disabled={!projectName}
+            onClick={handleCreateProject}
+          />
+        </div>
+      </div>
+    </ProjectsLayout>
   );
 };
 
