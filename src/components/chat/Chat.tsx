@@ -9,7 +9,7 @@ interface Chatting {
   chatting: string;
   time: string;
   isMe: boolean;
-  isRead: boolean;
+  isRead: boolean | '읽음';
 }
 
 const Chat: React.FC<{ userId: number; username: string }> = ({
@@ -17,6 +17,7 @@ const Chat: React.FC<{ userId: number; username: string }> = ({
   username,
 }) => {
   const [chattings, setChattings] = useState<Chatting[]>([]);
+  const [hasReadMessages, setHasReadMessages] = useState(false);
 
   // 채팅 자동 스크롤 다운
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -148,6 +149,8 @@ const Chat: React.FC<{ userId: number; username: string }> = ({
     const token = localStorage.getItem('AccessToken');
     console.log(token);
 
+    if (hasReadMessages) return; // 이미 읽음 처리된 메시지가 있으면 다시 처리하지 않음
+
     if (token) {
       fetch(`/api/messages/read/${issueId}`, {
         method: 'GET',
@@ -159,12 +162,18 @@ const Chat: React.FC<{ userId: number; username: string }> = ({
         .then((response) => response.json())
         .then((data) => {
           console.log('읽음 처리된 메시지:', data);
-          setChattings((prev) =>
-            prev.map((chat) => {
-              const isMessageRead = data.some((msg: any) => msg.id === chat.id); // 읽음 처리된 메시지에 포함되면 true
-              return { ...chat, isRead: isMessageRead };
-            })
-          );
+
+          // 읽음 처리된 메시지와 기존 상태를 비교해서 업데이트
+          setChattings((prev) => {
+            return prev.map((chat) => {
+              console.log('isRead 값:', chat.isRead);
+              const isMessageRead = data.some((msg: any) => msg.id === chat.id);
+              return {
+                ...chat,
+                isRead: isMessageRead ? '읽음' : chat.isRead, // 이미 읽은 메시지 상태 유지
+              };
+            });
+          });
         })
         .catch((error) =>
           console.error('Error marking messages as read:', error)
