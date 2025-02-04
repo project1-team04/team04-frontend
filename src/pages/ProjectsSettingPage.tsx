@@ -1,10 +1,15 @@
-import { deleteProject, inviteMember, modifyProject } from '@/apis/projectApi';
+import {
+  deleteProject,
+  getMember,
+  inviteMember,
+  modifyProject,
+} from '@/apis/projectApi';
 import MemberCard from '@/components/MemberCard';
 import Modal from '@/components/Modal';
 import ProjectsLayout from '@/components/ProjectsLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useModalStore, ModalType } from '@/stores/useModalStore';
 
@@ -12,7 +17,7 @@ interface Member {
   id: string;
   name: string;
   email: string;
-  position?: 'Project Manager' | 'Member';
+  role: 'MANAGER' | 'MEMBER';
 }
 
 const ProjectsSettingPage = () => {
@@ -45,6 +50,36 @@ const ProjectsSettingPage = () => {
     }
   };
 
+  const handleMember = async (projectId: number) => {
+    try {
+      const membersData = await getMember(projectId);
+
+      console.log('프로젝트 설정 - 팀원', membersData);
+
+      if (Array.isArray(membersData)) {
+        setMembers(
+          membersData.map((member) => ({
+            id: member.userId,
+            name: member.userName,
+            email: member.email,
+            role: member.role,
+          }))
+        );
+      } else {
+        console.log('팀원 데이터가 배열이 아닙니다:', membersData);
+        setMembers([]); // 데이터가 잘못된 경우 빈 배열로 설정
+      }
+    } catch (error) {
+      console.log('프로젝트 생성 페이지 에러 - 인원 초대', error);
+    }
+  };
+
+  useEffect(() => {
+    if (projectId) {
+      handleMember(Number(projectId));
+    }
+  }, [projectId]);
+
   const handleInviteMember = async (projectId: number, email: string) => {
     try {
       const {
@@ -61,7 +96,7 @@ const ProjectsSettingPage = () => {
             id: crypto.randomUUID(),
             name,
             email: invitedEmail,
-            position: 'Member',
+            role: 'MEMBER',
           },
         ]);
       } else setInviteMessage(message);
@@ -78,16 +113,20 @@ const ProjectsSettingPage = () => {
       projectId={Number(projectId)}
       onInputChange={(e) => setProjectName(e.target.value)}
     >
-      <div className='flex h-full flex-col'>
-        <div className='mb-4 mt-4 grid w-full grid-cols-2 gap-5 overflow-y-auto bg-bg-deep p-4'>
-          {members.map((member) => (
-            <MemberCard
-              key={member.id}
-              name={member.name}
-              email={member.email}
-              position={member.position}
-            />
-          ))}
+      <div className='flex flex-col h-full'>
+        <div className='grid w-full grid-cols-2 gap-5 p-4 mt-4 mb-4 overflow-y-auto bg-bg-deep'>
+          {members && members.length > 0 ? (
+            members.map((member) => (
+              <MemberCard
+                key={member.id}
+                name={member.name}
+                email={member.email}
+                role={member.role}
+              />
+            ))
+          ) : (
+            <p>팀원이 없습니다.</p>
+          )}
         </div>
         {inviteMessage && (
           <p className='mb-4 mt-[-10px] text-sm text-text-error'>
@@ -95,7 +134,7 @@ const ProjectsSettingPage = () => {
           </p>
         )}
 
-        <div className='mb-9 flex w-full flex-col gap-y-4'>
+        <div className='flex flex-col w-full mb-9 gap-y-4'>
           <Button
             variant='secondary'
             children={'+ 인원 추가'}
