@@ -75,8 +75,7 @@ const ProjectsListPage = () => {
       <main>
         {projects.length === 0 ? (
           <EmptyState
-            message='아직 생성된 프로젝트가 없습니다.'
-            actionText='프로젝트 생성하기'
+            message='아직 생성된 프로젝트가 없습니다!'
             // onActionClick={() => navigate('/projects/new')}
           />
         ) : (
