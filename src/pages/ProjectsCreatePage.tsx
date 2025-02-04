@@ -1,5 +1,7 @@
 import { createProject } from '@/apis/projectApi';
+import MemberCard from '@/components/MemberCard';
 import ProjectsLayout from '@/components/ProjectsLayout';
+import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,17 +9,17 @@ interface Member {
   id: string;
   name: string;
   email: string;
-  position?: 'Project Manager' | 'Member';
+  role: 'MANAGER' | 'MEMBER';
 }
 
+// 목 데이터: 프로필에서 받아온 본인 정보를 Member에 넣어야 함
 const member: Member[] = [
   {
     id: '1',
     name: '정태승',
     email: 'hfgdf3@naver.com',
-    position: 'Project Manager',
+    role: 'MANAGER',
   },
-  // { id: '2', name: '권보령', email: 'hfgdf3@naver.com' },
 ];
 
 const ProjectsCreatePage = () => {
@@ -42,12 +44,29 @@ const ProjectsCreatePage = () => {
   return (
     <ProjectsLayout
       header='프로젝트 생성'
-      projectName={projectName}
-      member={member}
-      isCreatePage={true}
       onInputChange={(e) => setProjectName(e.target.value)}
-      onCreate={handleCreateProject}
-    />
+    >
+      <div className='flex h-full flex-col'>
+        <div className='mb-4 mt-4 grid w-full grid-cols-2 gap-5 overflow-y-auto bg-bg-deep p-4'>
+          {member.map((member) => (
+            <MemberCard
+              key={member.id}
+              name={member.name}
+              email={member.email}
+              role={member.role}
+            />
+          ))}
+        </div>
+
+        <div className='mb-9 flex w-full flex-col gap-y-4'>
+          <Button
+            children='생성 완료'
+            disabled={!projectName}
+            onClick={handleCreateProject}
+          />
+        </div>
+      </div>
+    </ProjectsLayout>
   );
 };
 
