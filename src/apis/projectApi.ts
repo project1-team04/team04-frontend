@@ -104,3 +104,15 @@ export const inviteMember = async (projectId: number, email: string) => {
     }
   }
 };
+
+export const getMember = async (projectId: number) => {
+  try {
+    const res = await instance.get('/projects/users', {
+      params: { projectId },
+    });
+    console.log('프로젝트 설정 - 팀원 조회:', res.data);
+    return res.data;
+  } catch (error) {
+    console.log('프로젝트 설정 - 팀원 조회 에러: ', error);
+  }
+};
