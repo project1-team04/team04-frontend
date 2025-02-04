@@ -14,7 +14,6 @@ const ChatMessage = ({ nickname, chatting, time, isMe, isRead }: any) => {
           <div id='time' className='flex flex-col justify-end mr-3'>
             <div className='flex gap-2'>
               <p className='text-xs text-black'>{isRead}</p>
-              {/* {readBy.length > 0 && <span>읽음</span>} */}
               <p className='text-xs text-black'>{time}</p>
             </div>
           </div>
