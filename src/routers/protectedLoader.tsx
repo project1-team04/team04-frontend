@@ -1,4 +1,4 @@
-import { LoaderFunction, Outlet, redirect } from 'react-router-dom';
+import { LoaderFunction, redirect } from 'react-router-dom';
 import { QueryClient } from '@tanstack/react-query';
 import { paths } from './paths';
 import { UserData } from '@/types/userTypes';
@@ -22,9 +22,3 @@ export const protectedLoader = (queryClient: QueryClient): LoaderFunction => {
     }
   };
 };
-
-const protectedRoute = () => {
-  return <Outlet />;
-};
-
-export default protectedRoute;

@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { QueryClient } from '@tanstack/react-query';
 import { paths } from './paths';
-import { protectedLoader } from './protectedRoute';
+import { protectedLoader } from './protectedLoader';
 import AuthLayout from '../layouts/AuthLayout';
 import MainLayout from '@/layouts/MainLayout';
 import AuthLoginPage from '@/pages/AuthLoginPage';
