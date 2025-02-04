@@ -12,6 +12,7 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import { getUserProjects, Project, getProjectsDetail } from '@/apis/projectApi';
 import { useLocation, useNavigate } from 'react-router-dom';
+import EmptyState from '@/components/EmptyState';
 
 const ProjectsListPage = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -63,8 +64,8 @@ const ProjectsListPage = () => {
   };
 
   return (
-    <div className='mx-auto flex flex-col'>
-      <header className='my-9 flex items-center gap-5'>
+    <div className='flex flex-col mx-auto'>
+      <header className='flex items-center gap-5 my-9'>
         <Header children={'내 프로젝트'} />
         <Button variant='outline' onClick={() => navigate('/projects/new')}>
           프로젝트 생성
@@ -72,51 +73,61 @@ const ProjectsListPage = () => {
       </header>
 
       <main>
-        <div className='grid grid-cols-3 gap-5'>
-          {projects.map((project) => (
-            <ProjectCard
-              key={project.id}
-              title={project.name}
-              onClick={() => handleProjectClick(project.id)}
-            />
-          ))}
-        </div>
+        {projects.length === 0 ? (
+          <EmptyState
+            message='아직 생성된 프로젝트가 없습니다.'
+            actionText='프로젝트 생성하기'
+            // onActionClick={() => navigate('/projects/new')}
+          />
+        ) : (
+          <>
+            <div className='grid grid-cols-3 gap-5'>
+              {projects.map((project) => (
+                <ProjectCard
+                  key={project.id}
+                  title={project.name}
+                  onClick={() => handleProjectClick(project.id)}
+                />
+              ))}
+            </div>
 
-        <Pagination className='my-9'>
-          <PaginationContent>
-            <PaginationItem>
-              <button
-                onClick={() => handlePageChange(page - 1)}
-                disabled={page === 0}
-                className={page === 0 ? 'text-gray-400' : ''}
-              >
-                <MdKeyboardArrowLeft />
-              </button>
-            </PaginationItem>
+            <Pagination className='my-9'>
+              <PaginationContent>
+                <PaginationItem>
+                  <button
+                    onClick={() => handlePageChange(page - 1)}
+                    disabled={page === 0}
+                    className={page === 0 ? 'text-gray-400' : ''}
+                  >
+                    <MdKeyboardArrowLeft />
+                  </button>
+                </PaginationItem>
 
-            {Array.from({ length: totalPages }, (_, i) => (
-              <PaginationItem key={i}>
-                <PaginationLink
-                  href='#'
-                  onClick={() => handlePageChange(i)}
-                  className={page === i ? 'text-blue-500' : ''}
-                >
-                  {i + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <PaginationItem key={i}>
+                    <PaginationLink
+                      href='#'
+                      onClick={() => handlePageChange(i)}
+                      className={page === i ? 'text-blue-500' : ''}
+                    >
+                      {i + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
 
-            <PaginationItem>
-              <button
-                onClick={() => handlePageChange(page + 1)}
-                disabled={page === totalPages - 1}
-                className={page === totalPages - 1 ? 'text-gray-400' : ''}
-              >
-                <MdKeyboardArrowRight />
-              </button>
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+                <PaginationItem>
+                  <button
+                    onClick={() => handlePageChange(page + 1)}
+                    disabled={page === totalPages - 1}
+                    className={page === totalPages - 1 ? 'text-gray-400' : ''}
+                  >
+                    <MdKeyboardArrowRight />
+                  </button>
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </>
+        )}
       </main>
     </div>
   );
