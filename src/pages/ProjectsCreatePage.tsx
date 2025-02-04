@@ -9,17 +9,17 @@ interface Member {
   id: string;
   name: string;
   email: string;
-  position?: 'Project Manager' | 'Member';
+  role: 'MANAGER' | 'MEMBER';
 }
 
+// 목 데이터: 프로필에서 받아온 본인 정보를 Member에 넣어야 함
 const member: Member[] = [
   {
     id: '1',
     name: '정태승',
     email: 'hfgdf3@naver.com',
-    position: 'Project Manager',
+    role: 'MANAGER',
   },
-  // { id: '2', name: '권보령', email: 'hfgdf3@naver.com' },
 ];
 
 const ProjectsCreatePage = () => {
@@ -53,7 +53,7 @@ const ProjectsCreatePage = () => {
               key={member.id}
               name={member.name}
               email={member.email}
-              position={member.position}
+              role={member.role}
             />
           ))}
         </div>
