@@ -30,6 +30,13 @@ const Chat: React.FC<{ userId: number; username: string }> = ({
   // 이슈 ID
   const issueId = 1;
 
+  // 메시지 입력란 참조
+  const messageInputRef = useRef<HTMLInputElement>(null);
+
+  // 토큰
+  const token = localStorage.getItem('AccessToken');
+  console.log(token);
+
   useEffect(() => {
     const socket = new WebSocket(`ws://34.22.102.28:8080/api/chat/${issueId}`);
     socketRef.current = socket;
@@ -124,6 +131,40 @@ const Chat: React.FC<{ userId: number; username: string }> = ({
       .catch((error) => console.error('메시지 불러오기 오류:', error));
   }, [issueId]);
 
+  // 메시지 읽음 처리
+  const markAsRead = () => {
+    fetch(`/api/messages/read/${issueId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        console.log('Response received:', response);
+        return response.text();
+      })
+      .then((data) => {
+        try {
+          const parsedData = JSON.parse(data); // 응답이 JSON일 경우 직접 파싱
+          setChattings(parsedData); // 읽음 처리된 메시지 업데이트
+        } catch (error) {
+          console.error('Error parsing response as JSON:', error);
+        }
+      })
+      .catch((error) =>
+        console.error('Error marking messages as read:', error)
+      );
+  };
+
+  // input 포커스 이벤트 처리
+  const handleFocus = () => {
+    markAsRead();
+  };
+
   return (
     <div className='flex flex-col w-full h-full bg-gray-50'>
       <div className='mx-5 flex h-[10%] items-center justify-between border-b-[0.5px] border-border-default'>
@@ -151,7 +192,11 @@ const Chat: React.FC<{ userId: number; username: string }> = ({
         <div ref={chatEndRef}></div>
       </div>
       <div className='m-3 h-[10%]'>
-        <ChatMessageInput onSendMessage={handleSendMessage} />
+        <ChatMessageInput
+          onSendMessage={handleSendMessage}
+          inputRef={messageInputRef}
+          onFocus={handleFocus}
+        />
       </div>
     </div>
   );
