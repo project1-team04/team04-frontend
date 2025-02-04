@@ -11,7 +11,10 @@ interface Chatting {
   isMe: boolean;
 }
 
-const Chat: React.FC<{ userId: number }> = ({ userId }) => {
+const Chat: React.FC<{ userId: number; username: string }> = ({
+  userId,
+  username,
+}) => {
   const [chattings, setChattings] = useState<Chatting[]>([]);
 
   // 채팅 자동 스크롤 다운
@@ -38,19 +41,12 @@ const Chat: React.FC<{ userId: number }> = ({ userId }) => {
       const message = JSON.parse(e.data);
       console.log('서버에서 받은 메시지:', message);
       console.log('여기:', message.userId, message.id);
-
-      // 유저 id
-      // const userId = message.userId;
       console.log(
         '서버에서 받은 메시지의 아이디:',
         message.userId,
         '현재 유저 ID:',
         userId
       );
-
-      // 메시지의 유저 id와 현재 계정 유저의 id 비교
-      const isMe = message.userId === userId;
-      console.log('isMe 여부:', isMe);
 
       // timestamp
       console.log('서버에서 받은 메시지의 시간:', message.timestamp);
@@ -65,7 +61,7 @@ const Chat: React.FC<{ userId: number }> = ({ userId }) => {
             hour: '2-digit',
             minute: '2-digit',
           }),
-          isMe: isMe,
+          isMe: message.userId === userId,
         },
       ]);
     };
@@ -92,27 +88,14 @@ const Chat: React.FC<{ userId: number }> = ({ userId }) => {
   const handleSendMessage = (message: string) => {
     if (!message.trim()) return;
 
-    // const newChat: Chatting = {
-    //   id: chattings.length + 1,
-    //   nickname: 'Me',
-    //   chatting: message,
-    //   time: new Date().toLocaleTimeString([], {
-    //     hour: '2-digit',
-    //     minute: '2-digit',
-    //   }),
-    //   isMe: true,
-    // };
-    // setChattings((prev) => [...prev, newChat]);
-    console.log('메시지 전송 시 전달: ', userId);
-
     // 웹소켓을 통해 서버로 메시지 전송
     if (socketRef.current) {
       socketRef.current.send(
         JSON.stringify({
-          sender: userId, //
+          sender: username,
           content: message,
           issueId: issueId,
-          userId: userId, //
+          userId: userId,
           readBy: [],
           readById: [],
         })
@@ -134,7 +117,7 @@ const Chat: React.FC<{ userId: number }> = ({ userId }) => {
               hour: '2-digit',
               minute: '2-digit',
             }),
-            isMe: message.userId === message.id,
+            isMe: message.userId === userId,
           }))
         );
       })
