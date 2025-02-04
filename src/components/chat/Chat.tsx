@@ -166,7 +166,7 @@ const Chat: React.FC<{ userId: number; username: string }> = ({
           // 읽음 처리된 메시지와 기존 상태를 비교해서 업데이트
           setChattings((prev) => {
             return prev.map((chat) => {
-              console.log('isRead 값:', chat.isRead);
+              // console.log('isRead 값:', chat.isRead);
               const isMessageRead = data.some((msg: any) => msg.id === chat.id);
               return {
                 ...chat,
