@@ -1,14 +1,13 @@
+import AuthHeroIllu from '../assets/auth-hero-illustration.svg?react';
 interface EmptyStateProps {
   message: string;
-  actionText: string;
 }
 
-const EmptyState = ({ message, actionText }: EmptyStateProps) => {
+const EmptyState = ({ message }: EmptyStateProps) => {
   return (
-    <div>
-      <div>빈 상자</div>
-      <div>{message}</div>
-      <div>{actionText}</div>
+    <div className='flex flex-col items-center justify-center gap-3 h-80 w-96'>
+      <AuthHeroIllu className='h-60 w-60' />
+      <div className='text-xl font-semibold'>{message}</div>
     </div>
   );
 };
