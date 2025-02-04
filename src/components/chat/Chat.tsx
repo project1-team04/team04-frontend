@@ -9,6 +9,7 @@ interface Chatting {
   chatting: string;
   time: string;
   isMe: boolean;
+  isRead: boolean;
 }
 
 const Chat: React.FC<{ userId: number; username: string }> = ({
@@ -33,10 +34,6 @@ const Chat: React.FC<{ userId: number; username: string }> = ({
   // 메시지 입력란 참조
   const messageInputRef = useRef<HTMLInputElement>(null);
 
-  // 토큰
-  const token = localStorage.getItem('AccessToken');
-  console.log(token);
-
   useEffect(() => {
     const socket = new WebSocket(`ws://34.22.102.28:8080/api/chat/${issueId}`);
     socketRef.current = socket;
@@ -54,23 +51,29 @@ const Chat: React.FC<{ userId: number; username: string }> = ({
         '현재 유저 ID:',
         userId
       );
-
-      // timestamp
       console.log('서버에서 받은 메시지의 시간:', message.timestamp);
 
-      setChattings((prev) => [
-        ...prev,
-        {
-          id: message.id,
-          nickname: message.sender,
-          chatting: message.content,
-          time: new Date(message.timestamp).toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
-          }),
-          isMe: message.userId === userId,
-        },
-      ]);
+      setChattings((prev) => {
+        // 기존 메시지에 동일한 ID의 메시지가 있으면 추가하지 않음 -> 자꾸 테스트 메시지가 추가되는 문제 때문에 추가
+        if (prev.some((chat) => chat.id === message.id)) {
+          return prev;
+        }
+
+        return [
+          ...prev,
+          {
+            id: message.id,
+            nickname: message.sender,
+            chatting: message.content,
+            time: new Date(message.timestamp).toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+            }),
+            isMe: message.userId === userId,
+            isRead: message.readBy && message.readBy.length > 0,
+          },
+        ];
+      });
     };
 
     socket.onclose = (e) =>
@@ -115,49 +118,58 @@ const Chat: React.FC<{ userId: number; username: string }> = ({
     fetch(`/api/messages/get/${issueId}`)
       .then((response) => response.json())
       .then((messages) => {
-        setChattings(
-          messages.map((message: any) => ({
-            id: message.id,
-            nickname: message.sender,
-            chatting: message.content,
-            time: new Date(message.timestamp).toLocaleTimeString([], {
-              hour: '2-digit',
-              minute: '2-digit',
-            }),
-            isMe: message.userId === userId,
-          }))
-        );
+        setChattings((prev) => {
+          const newMessages = messages.filter(
+            (msg: any) => !prev.some((chat) => chat.id === msg.id)
+          );
+
+          return [
+            ...prev,
+            ...newMessages.map((message: any) => ({
+              id: message.id,
+              nickname: message.sender,
+              chatting: message.content,
+              time: new Date(message.timestamp).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+              }),
+              isMe: message.userId === userId,
+              isRead: message.readBy && message.readBy.length > 0,
+            })),
+          ];
+        });
       })
       .catch((error) => console.error('메시지 불러오기 오류:', error));
   }, [issueId]);
 
   // 메시지 읽음 처리
   const markAsRead = () => {
-    fetch(`/api/messages/read/${issueId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        console.log('Response received:', response);
-        return response.text();
+    // 토큰
+    const token = localStorage.getItem('AccessToken');
+    console.log(token);
+
+    if (token) {
+      fetch(`/api/messages/read/${issueId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
       })
-      .then((data) => {
-        try {
-          const parsedData = JSON.parse(data); // 응답이 JSON일 경우 직접 파싱
-          setChattings(parsedData); // 읽음 처리된 메시지 업데이트
-        } catch (error) {
-          console.error('Error parsing response as JSON:', error);
-        }
-      })
-      .catch((error) =>
-        console.error('Error marking messages as read:', error)
-      );
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('읽음 처리된 메시지:', data);
+          setChattings((prev) =>
+            prev.map((chat) => {
+              const isMessageRead = data.some((msg: any) => msg.id === chat.id); // 읽음 처리된 메시지에 포함되면 true
+              return { ...chat, isRead: isMessageRead };
+            })
+          );
+        })
+        .catch((error) =>
+          console.error('Error marking messages as read:', error)
+        );
+    }
   };
 
   // input 포커스 이벤트 처리
@@ -180,15 +192,18 @@ const Chat: React.FC<{ userId: number; username: string }> = ({
           msOverflowStyle: 'none',
         }}
       >
-        {chattings.map(({ id, nickname, chatting, time, isMe }) => (
-          <ChatMessage
-            key={id}
-            nickname={nickname}
-            chatting={chatting}
-            time={time}
-            isMe={isMe}
-          />
-        ))}
+        {chattings.map(
+          ({ id, nickname, chatting, time, isMe, isRead }, index) => (
+            <ChatMessage
+              key={`${id}-${time}-${index}`} //
+              nickname={nickname}
+              chatting={chatting}
+              time={time}
+              isMe={isMe}
+              isRead={isMe && isRead ? '읽음' : ''}
+            />
+          )
+        )}
         <div ref={chatEndRef}></div>
       </div>
       <div className='m-3 h-[10%]'>
