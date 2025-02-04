@@ -209,7 +209,7 @@ const Chat: React.FC<{ userId: number; username: string }> = ({
               chatting={chatting}
               time={time}
               isMe={isMe}
-              isRead={isMe && isRead ? '읽음' : ''}
+              isRead={isRead ? '읽음' : ''}
             />
           )
         )}
