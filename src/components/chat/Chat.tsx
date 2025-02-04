@@ -1,3 +1,4 @@
+import { useGetUser } from '@/hooks/useUser';
 import ChatMessage from './ChatMessage';
 import ChatMessageInput from './ChatMessageInput';
 import ChatProfile from './ChatProfile';
@@ -12,10 +13,8 @@ interface Chatting {
   isRead: boolean | '읽음';
 }
 
-const Chat: React.FC<{ userId: number; username: string }> = ({
-  userId,
-  username,
-}) => {
+const Chat = () => {
+  const { data: user } = useGetUser();
   const [chattings, setChattings] = useState<Chatting[]>([]);
   const [hasReadMessages, setHasReadMessages] = useState(false);
 
@@ -50,7 +49,7 @@ const Chat: React.FC<{ userId: number; username: string }> = ({
         '서버에서 받은 메시지의 아이디:',
         message.userId,
         '현재 유저 ID:',
-        userId
+        user.userId
       );
       console.log('서버에서 받은 메시지의 시간:', message.timestamp);
 
@@ -70,7 +69,7 @@ const Chat: React.FC<{ userId: number; username: string }> = ({
               hour: '2-digit',
               minute: '2-digit',
             }),
-            isMe: message.userId === userId,
+            isMe: message.userId === user.userId,
             isRead: message.readBy && message.readBy.length > 0,
           },
         ];
@@ -93,7 +92,7 @@ const Chat: React.FC<{ userId: number; username: string }> = ({
     return () => {
       socket.close();
     };
-  }, [userId]);
+  }, [user.userId]);
 
   // 메시지 전송
   const handleSendMessage = (message: string) => {
@@ -103,10 +102,10 @@ const Chat: React.FC<{ userId: number; username: string }> = ({
     if (socketRef.current) {
       socketRef.current.send(
         JSON.stringify({
-          sender: username,
+          sender: user.username,
           content: message,
           issueId: issueId,
-          userId: userId,
+          userId: user.userId,
           readBy: [],
           readById: [],
         })
@@ -134,7 +133,7 @@ const Chat: React.FC<{ userId: number; username: string }> = ({
                 hour: '2-digit',
                 minute: '2-digit',
               }),
-              isMe: message.userId === userId,
+              isMe: message.userId === user.userId,
               isRead: message.readBy && message.readBy.length > 0,
             })),
           ];
