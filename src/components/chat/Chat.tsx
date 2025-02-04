@@ -86,10 +86,10 @@ const Chat: React.FC<{ userId: number }> = ({ userId }) => {
     return () => {
       socket.close();
     };
-  }, []);
+  }, [userId]);
 
   // 메시지 전송
-  const handleSendMessage = (message: string, userId: number) => {
+  const handleSendMessage = (message: string) => {
     if (!message.trim()) return;
 
     // const newChat: Chatting = {
@@ -103,6 +103,7 @@ const Chat: React.FC<{ userId: number }> = ({ userId }) => {
     //   isMe: true,
     // };
     // setChattings((prev) => [...prev, newChat]);
+    console.log('메시지 전송 시 전달: ', userId);
 
     // 웹소켓을 통해 서버로 메시지 전송
     if (socketRef.current) {
@@ -133,7 +134,7 @@ const Chat: React.FC<{ userId: number }> = ({ userId }) => {
               hour: '2-digit',
               minute: '2-digit',
             }),
-            isMe: message.sender === 'Me' || message.userId === message.id,
+            isMe: message.userId === message.id,
           }))
         );
       })
