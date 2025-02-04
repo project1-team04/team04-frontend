@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { paths } from '@/routers/paths';
-import { useCustomModalStore } from '@/stores/useCustomModalStore';
+import { useGetUser } from '@/hooks/useUser';
 import { useDeactivateUser } from '@/hooks/useAuthMutation';
-import { OutletContextType } from '@/types/userTypes';
+import { useCustomModalStore } from '@/stores/useCustomModalStore';
 import EditPasswordForm from '@/components/EditPasswordForm';
 import EditProfileInfo from '@/components/EditProfileInfo';
 import Button from '@/components/Button';
@@ -18,7 +18,7 @@ const ProfilePage = () => {
   const [isEditingPassword, setIsEditingPassword] = useState(false);
   const showModal = useCustomModalStore((state) => state.showModal);
   const { mutate: deactivateUserMutate } = useDeactivateUser();
-  const { data } = useOutletContext<OutletContextType>();
+  const { data: user } = useGetUser();
 
   // 사진, 이름 변경
   if (isEditingProfileInfo) {
@@ -36,8 +36,8 @@ const ProfilePage = () => {
         <div className='relative inline-block'>
           <Avatar className='h-20 w-20'>
             <AvatarImage
-              src={data.profileImageUrl ?? undefined}
-              alt={`${data.username}의 프로필 이미지`}
+              src={user.profileImageUrl ?? undefined}
+              alt={`${user.username}의 프로필 이미지`}
             />
             <AvatarFallback />
           </Avatar>
@@ -53,9 +53,9 @@ const ProfilePage = () => {
             className='flex cursor-pointer items-center gap-1 text-xl font-bold'
             onClick={() => setIsEditingProfileInfo(true)}
           >
-            {data.username}
+            {user.username}
           </p>
-          <p className='text-text-sub'>{data.email}</p>
+          <p className='text-text-sub'>{user.email}</p>
         </div>
       </div>
 
