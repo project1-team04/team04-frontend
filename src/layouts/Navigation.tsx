@@ -1,11 +1,11 @@
-import { Link, useLoaderData } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { paths } from '@/routers/paths';
+import { useGetUser } from '@/hooks/useUser';
 import Logo from '@/components/Logo';
 import NavProfile from '@/components/NavProfile';
-import { UserData } from '@/types/userTypes';
 
 const Navigation = () => {
-  const data = useLoaderData() as UserData;
+  const { data: user } = useGetUser();
 
   return (
     <nav className='flex w-full items-center justify-between border-b-[1px] border-divider-default px-16 py-4'>
@@ -13,9 +13,9 @@ const Navigation = () => {
         <Logo />
       </Link>
       <NavProfile
-        name={data.username}
-        src={data.profileImageUrl ?? undefined}
-        alt={`${data.username}의 프로필 이미지`}
+        name={user.username}
+        src={user.profileImageUrl ?? undefined}
+        alt={`${user.username}의 프로필 이미지`}
       />
     </nav>
   );
