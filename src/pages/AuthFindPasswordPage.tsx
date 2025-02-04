@@ -46,7 +46,6 @@ const AuthFindPasswordPage = () => {
     }
   };
 
-  // FIXME) 토큰 유무에 따른 라우팅 로직 추가 후 navigate 관련 로직 삭제
   const navigate = useNavigate();
 
   const onSubmit = async (data: any) => {
@@ -54,7 +53,7 @@ const AuthFindPasswordPage = () => {
       await instance.post('auth/reset-password', { email: data.email });
 
       alert('임시 비밀번호가 이메일로 전송되었습니다.');
-      navigate(paths.auth.login.fullPath);
+      navigate(paths.auth.login.fullPath, { replace: true });
     } catch (error) {
       setError('email', {
         message: '임시 비밀번호 발급에 실패했습니다. 다시 시도해주세요.',
@@ -64,7 +63,6 @@ const AuthFindPasswordPage = () => {
 
   return (
     <div className='mt-6 flex flex-col items-center gap-y-6'>
-      {/* TODO) 폼 제출 후 바로 로그인 페이지로 리다이렉트, 임시 비밀번호로 로그인하면 바로 마이페이지로 리다이렉트 */}
       <p className='text-sm text-text-sub'>
         가입하신 이메일로 임시 비밀번호를 보내드릴게요.
       </p>
