@@ -8,7 +8,7 @@ const ProjectsIssueDetailPage = () => {
   return (
     <>
       <div>Issue Name | Issue ID</div>
-      <Chat userId={data.userId} />
+      <Chat userId={data.userId} username={data.username} />
     </>
   );
 };
