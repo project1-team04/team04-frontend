@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import instance from './instance';
 
 interface LoginResponse {
@@ -64,5 +64,27 @@ export const deactivateUser = async () => {
     return true;
   } else {
     throw new Error('회원 탈퇴 요청 실패');
+  }
+};
+
+export const changePassword = async (
+  oldPassword: string,
+  newPassword: string
+) => {
+  try {
+    const res = await instance.post('auth/change-password', {
+      oldPassword,
+      newPassword,
+    });
+
+    return res;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw error;
+    }
+
+    throw new Error(
+      '서버와의 연결이 원활하지 않습니다. 잠시 후 다시 시도해 주세요.'
+    );
   }
 };
