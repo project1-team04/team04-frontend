@@ -27,7 +27,6 @@ type SignupFormInputs = SignupRequest & {
 };
 
 const AuthSignupPage = () => {
-  // FIXME) 토큰 유무에 따른 라우팅 로직 추가 후 navigate 관련 로직 삭제
   const navigate = useNavigate();
   const {
     register,
@@ -122,7 +121,7 @@ const AuthSignupPage = () => {
 
       console.log(response);
       alert('회원가입 완료');
-      navigate(paths.auth.login.fullPath);
+      navigate(paths.auth.login.fullPath, { replace: true });
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message);
