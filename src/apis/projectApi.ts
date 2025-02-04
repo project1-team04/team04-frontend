@@ -47,7 +47,9 @@ export const getProjectsDetail = async (projectId: string) => {
   }
 };
 
-export const createProject = async (name: string) => {
+export const createProject = async (
+  name: string
+): Promise<{ id: string; name: string }> => {
   try {
     const res = await instance.post('/projects', { name });
 
@@ -55,6 +57,7 @@ export const createProject = async (name: string) => {
     return res.data;
   } catch (error) {
     console.log('프로젝트 생성 에러: ', error);
+    throw new Error('프로젝트 생성 실패');
   }
 };
 
