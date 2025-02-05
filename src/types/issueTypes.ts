@@ -1,11 +1,5 @@
 export type IssueStatus = 'TODO' | 'ON_PROGRESS' | 'DONE';
 
-export interface IssueCardProps {
-  id: string;
-  name: string;
-  assigneeUserId: number | null;
-}
-
 export interface CreateIssueRequest {
   projectId: number;
   labelId: number;
@@ -27,3 +21,8 @@ export interface IssueResponse {
   troubleShooting: string;
   status: IssueStatus;
 }
+
+export type IssueCardProps = Pick<
+  IssueResponse,
+  'id' | 'name' | 'assigneeUserId' | 'projectId'
+>;
