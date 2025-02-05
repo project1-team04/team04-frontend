@@ -33,7 +33,11 @@ const NavProfile = ({ name, src, alt }: NavProfileProps) => {
       <p>{name}</p>
 
       <Avatar>
-        <AvatarImage src={src} alt={alt} />
+        <AvatarImage
+          src={src}
+          alt={alt}
+          className='h-full w-full object-cover'
+        />
         <AvatarFallback />
       </Avatar>
 
