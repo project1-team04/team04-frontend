@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDeleteIssue, useGetIssue } from '@/hooks/useIssue';
 import Button from '@/components/Button';
+import IssueDetails from '@/components/IssueDetails';
 import Chat from '@/components/chat/Chat';
 import { IoChevronBack, IoWarning } from 'react-icons/io5';
 import { useCustomModalStore } from '@/stores/useCustomModalStore';
@@ -68,26 +69,14 @@ const ProjectsIssueDetailPage = () => {
             disabled={isDeleting}
           />
         </div>
-        {isLoading ? (
-          <p>이슈 정보를 불러오는 중...</p>
-        ) : isError || !issueData ? (
-          <p>이슈 정보를 불러올 수 없습니다.</p>
-        ) : (
-          <>
-            <p>
-              {issueData.name} | ID: {issueData.id}
-            </p>
-            <div>
-              <p>작성자: {issueData.reporterUserId}</p>
-              <p>담당자: {issueData.assigneeUserId}</p>
-              <p>라벨 ID: {issueData.labelId}</p>
-            </div>
-            <div>
-              <p>Description title</p>
-              <div>{issueData.description || '내용이 없습니다.'}</div>
-            </div>
-          </>
-        )}
+
+        <div>
+          <IssueDetails
+            issueData={issueData}
+            isLoading={isLoading}
+            isError={isError}
+          />
+        </div>
       </div>
 
       <div className='w-1/3 min-w-[400px] border-l border-divider-default'>
