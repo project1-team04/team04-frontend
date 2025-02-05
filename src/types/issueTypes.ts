@@ -1,5 +1,11 @@
 export type IssueStatus = 'TODO' | 'ON_PROGRESS' | 'DONE';
 
+export interface IssueCardProps {
+  id: string;
+  name: string;
+  assigneeUserId: number | null;
+}
+
 export interface CreateIssueRequest {
   projectId: number;
   labelId: number;
