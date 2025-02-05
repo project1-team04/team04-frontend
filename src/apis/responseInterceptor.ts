@@ -5,6 +5,7 @@ import axios, {
 } from 'axios';
 import instance from './instance';
 import { PUBLIC_API_ENDPOINTS } from './publicEndpoints';
+import { paths } from '@/routers/paths';
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -47,9 +48,9 @@ export const responseRejectInterceptor = async (error: AxiosError) => {
     } catch (refreshError) {
       console.error('토큰 갱신 실패:', refreshError);
 
-      // 로그아웃 처리
+      // 리프레시 토큰도 만료된 경우 로그아웃 처리
       localStorage.removeItem('AccessToken');
-      // TODO) 로그인 페이지로 이동
+      window.location.href = paths.auth.login.fullPath;
 
       return Promise.reject(refreshError);
     }
