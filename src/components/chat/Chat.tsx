@@ -230,7 +230,7 @@ const Chat = ({ projectId, issueDataName, issueDataId }: ChatProps) => {
         {chattings.map(
           ({ id, nickname, chatting, time, isMe, isRead }, index) => (
             <ChatMessage
-              key={`${id}-${time}-${index}`} //
+              key={`${id}-${time}-${index}`}
               nickname={nickname}
               chatting={chatting}
               time={time}
