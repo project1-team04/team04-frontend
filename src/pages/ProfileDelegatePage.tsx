@@ -3,7 +3,10 @@ import { paths } from '@/routers/paths';
 import Button from '@/components/Button';
 import Header from '@/components/Header';
 import DelegateCard from '@/components/DelegateCard';
-import { getProjectsWithMembersByManager } from '@/apis/projectApi';
+import {
+  assignManager,
+  getProjectsWithMembersByManager,
+} from '@/apis/projectApi';
 import { useEffect, useState } from 'react';
 
 interface Member {
@@ -59,9 +62,22 @@ const ProfileDelegatePage = () => {
 
   const handleDelegateComplete = async () => {
     try {
-      console.log('최종 위임 정보:', selectedDelegates);
+      if (selectedDelegates.length === 0) {
+        console.warn('선택된 위임 정보가 없습니다.');
+        return;
+      }
 
-      // navigate(paths.profile.root);
+      const formattedDelegates = selectedDelegates.map(
+        ({ projectId, userId }) => ({
+          projectId: Number(projectId),
+          userId,
+        })
+      );
+      console.log('최종 위임 정보:', formattedDelegates);
+
+      await assignManager(formattedDelegates);
+
+      navigate(paths.profile.root);
     } catch (error) {
       console.error('권한 위임 완료 에러', error);
     }
