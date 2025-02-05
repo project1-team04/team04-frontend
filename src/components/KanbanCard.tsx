@@ -1,4 +1,5 @@
-import IssueCard, { IssueCardProps } from './IssueCard';
+import { IssueCardProps } from '@/types/issueTypes';
+import IssueCard from './IssueCard';
 
 interface KanbanCardProps {
   status: 'To Do' | 'On Progress' | 'Done';
@@ -12,16 +13,7 @@ const variantStyles = {
   Done: 'bg-green',
 };
 
-const mockIssues: IssueCardProps[] = [
-  { id: 'a1b2c3d4', title: '로그인 오류 발생', assignee: '양혜림' },
-];
-
-// props: status, issueCount, data
-const KanbanCard = ({
-  status,
-  issueCount,
-  issues = mockIssues,
-}: KanbanCardProps) => {
+const KanbanCard = ({ status, issueCount, issues = [] }: KanbanCardProps) => {
   const color = variantStyles[status];
 
   return (
