@@ -4,8 +4,6 @@ import { paths } from './paths';
 import { UserData } from '@/types/userTypes';
 import { getUserWithId } from '@/utils/getUserWithId';
 
-// TODO) 로그인 여부에 따라 루트 경로를 동적으로 리다이렉트
-// TODO) 로그인 상태에서는 (토큰 존재할 때) 퍼블릭 경로로 이동 불가하도록 설정
 export const protectedLoader = (queryClient: QueryClient): LoaderFunction => {
   return async () => {
     try {
