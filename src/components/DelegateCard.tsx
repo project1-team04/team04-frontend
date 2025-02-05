@@ -5,6 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useState } from 'react';
 
 interface DelegateCardProps {
   project: {
@@ -13,7 +14,7 @@ interface DelegateCardProps {
     name: string;
     issueCount: number;
   };
-  members: Member[];
+  members?: Member[];
 }
 
 interface Member {
@@ -24,19 +25,26 @@ interface Member {
 }
 
 const DelegateCard = ({ project, members }: DelegateCardProps) => {
-  console.log(project, members);
+  const [, setSelectedUserId] = useState<number | null>(null);
+
+  const handleSelectChange = (userId: string) => {
+    const selectedId = Number(userId);
+    setSelectedUserId(selectedId);
+
+    console.log(`프로젝트 id: ${project.id}, 위임할 유저 id: ${selectedId}`);
+  };
 
   return (
-    <div className='flex items-center justify-between w-full px-8 py-4 bg-white rounded-2xl'>
+    <div className='flex w-full items-center justify-between rounded-2xl bg-white px-8 py-4'>
       <span className='text-lg font-semibold'>{project.name}</span>
 
-      <Select>
+      <Select onValueChange={handleSelectChange}>
         <SelectTrigger className='w-fit'>
           <SelectValue placeholder='위임' />
         </SelectTrigger>
         <SelectContent className='min-w-fit'>
-          {members.map((member) => (
-            <SelectItem key={member.userId} value={member.userName}>
+          {members?.map((member) => (
+            <SelectItem key={member.userId} value={member.userId.toString()}>
               {member.userName}
             </SelectItem>
           ))}
