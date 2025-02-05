@@ -7,25 +7,37 @@ import {
 } from '@/components/ui/select';
 
 interface DelegateCardProps {
-  title: string;
-  member: string[];
+  project: {
+    id: string;
+    projectKey: string;
+    name: string;
+    issueCount: number;
+  };
+  members: Member[];
 }
 
-const DelegateCard = ({ title, member }: DelegateCardProps) => {
+interface Member {
+  userId: number;
+  userName: string;
+  email: string;
+  role: string;
+}
+
+const DelegateCard = ({ project, members }: DelegateCardProps) => {
+  console.log(project, members);
+
   return (
-    <div className='flex w-full items-center justify-between rounded-2xl bg-white px-8 py-4'>
-      <span className='text-lg font-semibold'>{title}</span>
+    <div className='flex items-center justify-between w-full px-8 py-4 bg-white rounded-2xl'>
+      <span className='text-lg font-semibold'>{project.name}</span>
 
       <Select>
         <SelectTrigger className='w-fit'>
           <SelectValue placeholder='위임' />
         </SelectTrigger>
         <SelectContent className='min-w-fit'>
-          {member.map((memberName) => (
-            // FIX) 멤버 고유 id로 key 변경
-            // 동명이인이 있을 수 있으므로 memberName은 key로 부적합
-            <SelectItem key={memberName} value={memberName}>
-              {memberName}
+          {members.map((member) => (
+            <SelectItem key={member.userId} value={member.userName}>
+              {member.userName}
             </SelectItem>
           ))}
         </SelectContent>
