@@ -6,6 +6,7 @@ import IssueSearchBar from '@/components/IssueSearchBar';
 import { Button } from '@/components/ui/button';
 import Modal from '@/components/Modal';
 import { useCreateIssue } from '@/hooks/useIssue';
+import { useGetLabels } from '@/hooks/useProject';
 import { IssueStatus } from '@/types/issueTypes';
 import { RiErrorWarningLine } from 'react-icons/ri';
 import { IoSettingsOutline } from 'react-icons/io5';
@@ -44,6 +45,10 @@ const ProjectsDetailPage = () => {
   };
 
   const { mutate: createIssueMutate } = useCreateIssue();
+  const { data: labels } = useGetLabels(Number(projectId));
+
+  const noneLabel = labels?.find((label) => label.name === 'None');
+  const labelId = noneLabel ? Number(noneLabel.id) : 0;
 
   const handleCreateIssue = () => {
     if (!projectId) return;
@@ -51,7 +56,7 @@ const ProjectsDetailPage = () => {
     createIssueMutate(
       {
         projectId: Number(projectId),
-        labelId: 1,
+        labelId: labelId,
         name: 'New Issue',
         description: '내용이 없습니다',
         troubleShooting: '내용이 없습니다',
