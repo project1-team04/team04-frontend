@@ -16,7 +16,7 @@ interface Chatting {
 const Chat = () => {
   const { data: user } = useGetUser();
   const [chattings, setChattings] = useState<Chatting[]>([]);
-  const [hasReadMessages, setHasReadMessages] = useState(false);
+  const [hasReadMessages] = useState(false);
 
   // 채팅 자동 스크롤 다운
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -41,23 +41,13 @@ const Chat = () => {
 
     socket.onopen = () => console.log('웹소켓 연결 성공');
 
+    // 상대방으로부터 어떤 메시지가 왔는지 처리
     socket.onmessage = (e) => {
       const message = JSON.parse(e.data);
-      console.log('서버에서 받은 메시지:', message);
-      console.log('여기:', message.userId, message.id);
-      console.log(
-        '서버에서 받은 메시지의 아이디:',
-        message.userId,
-        '현재 유저 ID:',
-        user.userId
-      );
-      console.log('서버에서 받은 메시지의 시간:', message.timestamp);
 
       setChattings((prev) => {
         // 기존 메시지에 동일한 ID의 메시지가 있으면 추가하지 않음 -> 자꾸 테스트 메시지가 추가되는 문제 때문에 추가
-        if (prev.some((chat) => chat.id === message.id)) {
-          return prev;
-        }
+        if (prev.some((chat) => chat.id === message.id)) return prev;
 
         return [
           ...prev,
@@ -113,7 +103,7 @@ const Chat = () => {
     }
   };
 
-  // 페이지 로드 시 메시지 불러오기
+  // 페이지 로드 시 메시지 불러오기(전체 메시지를 불러옴)
   useEffect(() => {
     fetch(`/api/messages/get/${issueId}`)
       .then((response) => response.json())
@@ -143,40 +133,44 @@ const Chat = () => {
   }, [issueId]);
 
   // 메시지 읽음 처리
-  const markAsRead = () => {
+  const markAsRead = async () => {
     // 토큰
     const token = localStorage.getItem('AccessToken');
-    console.log(token);
 
     if (hasReadMessages) return; // 이미 읽음 처리된 메시지가 있으면 다시 처리하지 않음
 
     if (token) {
-      fetch(`/api/messages/read/${issueId}`, {
+      // 1. 메시지에 대한 읽음 처리 먼저 진행
+      await fetch(`/api/messages/read/${issueId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('읽음 처리된 메시지:', data);
+      });
 
-          // 읽음 처리된 메시지와 기존 상태를 비교해서 업데이트
+      // 2. 그 다음 읽음 메시지를 동기화
+      await fetch(`/api/messages/get/${issueId}`)
+        .then((response) => response.json())
+        .then((messages) => {
+          const userId = user.userId;
+          const myChats = messages.filter(
+            (message: any) => message.userId === userId
+          );
+
           setChattings((prev) => {
             return prev.map((chat) => {
-              // console.log('isRead 값:', chat.isRead);
-              const isMessageRead = data.some((msg: any) => msg.id === chat.id);
-              return {
-                ...chat,
-                isRead: isMessageRead ? '읽음' : chat.isRead, // 이미 읽은 메시지 상태 유지
-              };
+              const eachMyChat = myChats.find((msg: any) => msg.id === chat.id);
+
+              if (eachMyChat && eachMyChat.readBy.length > 0) {
+                return { ...chat, isRead: true };
+              }
+
+              return chat;
             });
           });
         })
-        .catch((error) =>
-          console.error('Error marking messages as read:', error)
-        );
+        .catch((error) => console.error('메시지 불러오기 오류:', error));
     }
   };
 
@@ -186,7 +180,7 @@ const Chat = () => {
   };
 
   return (
-    <div className='flex flex-col w-full h-full bg-gray-50'>
+    <div className='flex h-full w-full flex-col bg-gray-50'>
       <div className='mx-5 flex h-[10%] items-center justify-between border-b-[0.5px] border-border-default'>
         <p className='font-semibold'>이슈명</p>
         <div className='flex'>
