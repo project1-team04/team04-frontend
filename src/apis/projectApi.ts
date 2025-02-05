@@ -1,5 +1,5 @@
 import instance from './instance';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 
 interface CreateProjectResponse {
   id: string;
@@ -47,7 +47,9 @@ export const getProjectsDetail = async (projectId: string) => {
   }
 };
 
-export const createProject = async (name: string) => {
+export const createProject = async (
+  name: string
+): Promise<{ id: string; name: string }> => {
   try {
     const res = await instance.post('/projects', { name });
 
@@ -55,6 +57,7 @@ export const createProject = async (name: string) => {
     return res.data;
   } catch (error) {
     console.log('프로젝트 생성 에러: ', error);
+    throw new Error('프로젝트 생성 실패');
   }
 };
 
@@ -102,5 +105,17 @@ export const inviteMember = async (projectId: number, email: string) => {
       console.log('Unexpected Error:', error);
       return { message: 'Unexpected error occurred' };
     }
+  }
+};
+
+export const getMember = async (projectId: number) => {
+  try {
+    const res = await instance.get('/projects/users', {
+      params: { projectId },
+    });
+    console.log('프로젝트 설정 - 팀원 조회:', res.data);
+    return res.data;
+  } catch (error) {
+    console.log('프로젝트 설정 - 팀원 조회 에러: ', error);
   }
 };

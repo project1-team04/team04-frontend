@@ -2,7 +2,7 @@ import Header from '@/components/Header';
 import KanbanCard from '@/components/KanbanCard';
 import IssueSearchBar from '@/components/IssueSearchBar';
 import { Button } from '@/components/ui/button';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { deleteProject } from '@/apis/projectApi';
 import Modal from '@/components/Modal';
 import { RiErrorWarningLine } from 'react-icons/ri';
@@ -15,21 +15,21 @@ const ProjectsDetailPage = () => {
 
   const { state } = useLocation();
   const projectDetails = state?.projectDetails;
-  const projectId = projectDetails.id;
 
   if (!projectDetails) {
     return <p>프로젝트 상세 정보가 없습니다.</p>;
   }
 
-  // const { projectId: paramProjectId } = useParams();
-  // console.log(paramProjectId);
+  // projectId -> 목록 페이지에서 들어가는 상세 페이지와 생성 페이지에서 이동되는 상세 페이지의 쿼리가 다름
+  const { projectId: paramProjectId } = useParams();
+  console.log(paramProjectId);
 
-  // const query = new URLSearchParams(location.search);
-  // const queryProjectId = query.get('projectId');
-  // console.log(queryProjectId);
+  const query = new URLSearchParams(location.search);
+  const queryProjectId = query.get('projectId');
+  console.log(queryProjectId);
 
-  // const projectId = paramProjectId || queryProjectId;
-  // console.log(projectId);
+  const projectId = paramProjectId || queryProjectId;
+  console.log(projectId);
 
   const handleDelete = async (projectId: number) => {
     try {

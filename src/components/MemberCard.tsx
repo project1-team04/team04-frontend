@@ -7,22 +7,21 @@ import {
 } from '@/components/ui/card';
 
 interface MemberCardProps {
-  position?: 'Project Manager' | 'Member';
+  role?: 'MANAGER' | 'MEMBER';
   name: string;
   email: string;
 }
 
-const MemberCard = ({ position = 'Member', name, email }: MemberCardProps) => {
-  const variantStyles =
-    position === 'Project Manager' ? 'bg-green' : 'bg-orange';
+const MemberCard = ({ role = 'MEMBER', name, email }: MemberCardProps) => {
+  const variantStyles = role === 'MANAGER' ? 'bg-green' : 'bg-orange';
 
   return (
     <Card>
       <CardHeader
         className={`m-4 flex w-fit justify-center rounded-lg ${variantStyles} px-3 py-1`}
       >
-        <CardTitle className='text-center text-xs font-medium text-white'>
-          {position}
+        <CardTitle className='text-xs font-medium text-center text-white'>
+          {role}
         </CardTitle>
       </CardHeader>
 
