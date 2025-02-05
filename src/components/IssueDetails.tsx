@@ -18,7 +18,7 @@ const IssueDetails = ({ issueData, isLoading, isError }: IssueDetailsProps) => {
   return (
     <>
       <p>
-        {issueData.name} | ID: {issueData.id}
+        {issueData.name} | ID: {issueData.issueKey}
       </p>
 
       {/* 관련 정보 */}

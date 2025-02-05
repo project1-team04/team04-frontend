@@ -3,7 +3,13 @@ import { paths } from '@/routers/paths';
 import { IssueCardProps } from '@/types/issueTypes';
 import DropDown from './DropDown';
 
-const IssueCard = ({ id, name, assigneeUserId, projectId }: IssueCardProps) => {
+const IssueCard = ({
+  id,
+  issueKey,
+  name,
+  assigneeUserId,
+  projectId,
+}: IssueCardProps) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -48,7 +54,7 @@ const IssueCard = ({ id, name, assigneeUserId, projectId }: IssueCardProps) => {
             className='h-2 rounded-full bg-red p-2'
           />
 
-          <span>{id}</span>
+          <span>{issueKey}</span>
         </div>
         {assigneeUserId && <span>{assigneeUserId}</span>}
       </div>

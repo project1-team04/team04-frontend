@@ -24,5 +24,5 @@ export interface IssueResponse {
 
 export type IssueCardProps = Pick<
   IssueResponse,
-  'id' | 'name' | 'assigneeUserId' | 'projectId'
+  'id' | 'issueKey' | 'name' | 'assigneeUserId' | 'projectId'
 >;
