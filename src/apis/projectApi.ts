@@ -131,16 +131,10 @@ export const getProjectsWithMembersByManager = async () => {
 };
 
 export const assignManager = async (
-  projectId: number,
-  newManagerId: number
+  assignments: { projectId: number; userId: number }[]
 ) => {
   try {
-    const res = await instance.patch('/projects/assign-manager', {
-      params: { projectId, newManagerId },
-    });
-
-    console.log('프로젝트 권한 위임:', res.data);
-    return res.data;
+    await instance.patch('/projects/assign-manager', assignments);
   } catch (error) {
     console.log('프로젝트 권한 위임 에러: ', error);
   }
