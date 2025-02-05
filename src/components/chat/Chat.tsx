@@ -3,6 +3,7 @@ import ChatMessage from './ChatMessage';
 import ChatMessageInput from './ChatMessageInput';
 import ChatProfile from './ChatProfile';
 import { useState, useRef, useEffect } from 'react';
+import { getMember } from '@/apis/projectApi';
 
 interface Chatting {
   id: number;
@@ -14,20 +15,41 @@ interface Chatting {
 }
 
 interface ChatProps {
+  projectId: number;
   issueDataName: string;
   issueDataId: number;
 }
 
-const Chat = ({ issueDataName, issueDataId }: ChatProps) => {
+const Chat = ({ projectId, issueDataName, issueDataId }: ChatProps) => {
   const { data: user } = useGetUser();
   const [chattings, setChattings] = useState<Chatting[]>([]);
   const [hasReadMessages] = useState(false);
+
+  // 유저 정보
+  const [users, setUsers] = useState<
+    { userId: number; userName: string; imgUrl: string | null }[]
+  >([]);
+
+  // 유저들 프로필 url 가져오기
+  const fetchUsers = async (projectId: number) => {
+    try {
+      const res = await getMember(projectId);
+      setUsers(
+        res.map((user: any) => ({ userId: user.userId, imgUrl: user.imgUrl }))
+      );
+
+      console.log('채팅 - 모든 조회: ', res);
+    } catch (error) {
+      console.log('채팅 - 모든 조회 에러: ', error);
+    }
+  };
 
   // 채팅 자동 스크롤 다운
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    fetchUsers(projectId);
   }, [chattings]);
 
   // 웹소켓
@@ -189,7 +211,13 @@ const Chat = ({ issueDataName, issueDataId }: ChatProps) => {
       <div className='mx-5 flex h-[10%] items-center justify-between border-b-[0.5px] border-border-default'>
         <p className='font-semibold'>{issueDataName}</p>
         <div className='flex'>
-          <ChatProfile />
+          {users.map((user) => (
+            <ChatProfile
+              key={user.userId}
+              userName={user.userName}
+              imgUrl={user.imgUrl}
+            />
+          ))}
         </div>
       </div>
       <div
