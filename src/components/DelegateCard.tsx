@@ -5,27 +5,53 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useState } from 'react';
 
 interface DelegateCardProps {
-  title: string;
-  member: string[];
+  project: {
+    id: string;
+    projectKey: string;
+    name: string;
+    issueCount: number;
+  };
+  members?: Member[];
+  onSelectDelegate: (projectId: string, userId: number) => void;
 }
 
-const DelegateCard = ({ title, member }: DelegateCardProps) => {
+interface Member {
+  userId: number;
+  userName: string;
+  email: string;
+  role: string;
+}
+
+const DelegateCard = ({
+  project,
+  members,
+  onSelectDelegate,
+}: DelegateCardProps) => {
+  const [, setSelectedUserId] = useState<number | null>(null);
+
+  const handleSelectChange = (userId: string) => {
+    const selectedId = Number(userId);
+    setSelectedUserId(selectedId);
+    onSelectDelegate(project.id, selectedId);
+
+    console.log(`프로젝트 id: ${project.id}, 위임할 유저 id: ${selectedId}`);
+  };
+
   return (
     <div className='flex w-full items-center justify-between rounded-2xl bg-white px-8 py-4'>
-      <span className='text-lg font-semibold'>{title}</span>
+      <span className='text-lg font-semibold'>{project.name}</span>
 
-      <Select>
+      <Select onValueChange={handleSelectChange}>
         <SelectTrigger className='w-fit'>
           <SelectValue placeholder='위임' />
         </SelectTrigger>
         <SelectContent className='min-w-fit'>
-          {member.map((memberName) => (
-            // FIX) 멤버 고유 id로 key 변경
-            // 동명이인이 있을 수 있으므로 memberName은 key로 부적합
-            <SelectItem key={memberName} value={memberName}>
-              {memberName}
+          {members?.map((member) => (
+            <SelectItem key={member.userId} value={member.userId.toString()}>
+              {member.userName}
             </SelectItem>
           ))}
         </SelectContent>

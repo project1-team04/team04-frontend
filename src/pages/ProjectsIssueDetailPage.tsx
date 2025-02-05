@@ -80,7 +80,13 @@ const ProjectsIssueDetailPage = () => {
       </div>
 
       <div className='w-1/3 min-w-[400px] border-l border-divider-default'>
-        <Chat />
+        {issueData && (
+          <Chat
+            projectId={Number(projectId)}
+            issueDataName={issueData.name}
+            issueDataId={Number(issueData.id)}
+          />
+        )}
       </div>
     </div>
   );

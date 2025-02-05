@@ -1,19 +1,28 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { deleteProject } from '@/apis/projectApi';
 import Header from '@/components/Header';
 import KanbanCard from '@/components/KanbanCard';
 import IssueSearchBar from '@/components/IssueSearchBar';
 import { Button } from '@/components/ui/button';
+import { deleteProject, getMember } from '@/apis/projectApi';
 import Modal from '@/components/Modal';
 import { useCreateIssue, useGetProjectIssues } from '@/hooks/useIssue';
 import { useGetLabels } from '@/hooks/useProject';
 import { IssueStatus } from '@/types/issueTypes';
 import { RiErrorWarningLine } from 'react-icons/ri';
 import { IoSettingsOutline } from 'react-icons/io5';
-// import { useModalStore, ModalType } from '@/stores/useModalStore';
+import { useEffect, useState } from 'react';
+import { useGetUser } from '@/hooks/useUser';
+import { useModalStore, ModalType } from '@/stores/useModalStore';
+
+interface ProjectMember {
+  userId: number;
+  userName: string;
+  email: string;
+  role: 'MANAGER' | 'MEMBER';
+}
 
 const ProjectsDetailPage = () => {
-  // const openModal = useModalStore((state) => state.open);
+  const openModal = useModalStore((state) => state.open);
   const navigate = useNavigate();
 
   const { state } = useLocation();
@@ -34,6 +43,9 @@ const ProjectsDetailPage = () => {
   const projectId = paramProjectId || queryProjectId;
   console.log(projectId);
 
+  const { data: user } = useGetUser();
+  const [isManager, setIsManager] = useState(false);
+
   const handleDelete = async (projectId: number) => {
     try {
       await deleteProject(projectId);
@@ -43,6 +55,29 @@ const ProjectsDetailPage = () => {
       console.log('프로젝트 삭제:', error);
     }
   };
+
+  const fetchUsers = async (projectId: number) => {
+    try {
+      const res: ProjectMember[] = await getMember(projectId);
+      console.log('프로젝트 모든 유저 조회:', res);
+
+      const currentUser = res.find(
+        (member) => member.userName === user.username
+      );
+
+      if (currentUser?.role === 'MANAGER') {
+        setIsManager(true);
+      }
+    } catch (error) {
+      console.log('프로젝트 모든 유저 조회 에러:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (projectId !== null) {
+      fetchUsers(Number(projectId));
+    }
+  }, [projectId]);
 
   // 이슈 생성
   const { mutate: createIssueMutate } = useCreateIssue();
@@ -87,30 +122,33 @@ const ProjectsDetailPage = () => {
     <div className='flex h-full w-full'>
       <aside className='flex h-full w-[22%] flex-col overflow-hidden border-r border-divider-default p-4'>
         <IssueSearchBar />
-        {/* 초대된 유저(일반 유저)만 보임 */}
-        {/* <Button
-          className='w-24 text-xs'
-          variant='negative'
-          children='프로젝트 나가기'
-          onClick={() => {
-            openModal(ModalType.DELETE_WARNING);
-          }}
-        /> */}
+        {!isManager && (
+          <Button
+            className='w-24 text-xs'
+            variant='negative'
+            children='프로젝트 나가기'
+            onClick={() => {
+              openModal(ModalType.DELETE_WARNING);
+            }}
+          />
+        )}
       </aside>
 
       <div className='flex grow flex-col px-6'>
         <div className='my-9 flex items-center justify-between'>
           <div className='flex gap-4'>
             <Header children={projectDetails.name} />
-            <Button
-              variant='outline'
-              className='border-none p-2'
-              onClick={() => {
-                navigate(`/projects/${projectId}/settings`);
-              }}
-            >
-              <IoSettingsOutline />
-            </Button>
+            {isManager && (
+              <Button
+                variant='outline'
+                className='border-none p-2'
+                onClick={() => {
+                  navigate(`/projects/${projectId}/settings`);
+                }}
+              >
+                <IoSettingsOutline />
+              </Button>
+            )}
           </div>
           <Button variant='outline' onClick={handleCreateIssue}>
             이슈 생성

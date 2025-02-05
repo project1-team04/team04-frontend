@@ -2,7 +2,8 @@ import { createProject } from '@/apis/projectApi';
 import MemberCard from '@/components/MemberCard';
 import ProjectsLayout from '@/components/ProjectsLayout';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import { useGetUser } from '@/hooks/useUser';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface Member {
@@ -12,19 +13,24 @@ interface Member {
   role: 'MANAGER' | 'MEMBER';
 }
 
-// 목 데이터: 프로필에서 받아온 본인 정보를 Member에 넣어야 함
-const member: Member[] = [
-  {
-    id: '1',
-    name: '정태승',
-    email: 'hfgdf3@naver.com',
-    role: 'MANAGER',
-  },
-];
-
 const ProjectsCreatePage = () => {
-  const [projectName, setProjectName] = useState('');
   const navigate = useNavigate();
+  const [projectName, setProjectName] = useState('');
+
+  const { data: user } = useGetUser();
+  const [members, setMembers] = useState<Member[]>([]);
+
+  useEffect(() => {
+    if (user) {
+      const newMember: Member = {
+        id: String(user.userId),
+        name: user.username,
+        email: user.email,
+        role: 'MANAGER',
+      };
+      setMembers([newMember]);
+    }
+  }, [user]);
 
   const handleCreateProject = async () => {
     try {
@@ -48,7 +54,7 @@ const ProjectsCreatePage = () => {
     >
       <div className='flex h-full flex-col'>
         <div className='mb-4 mt-4 grid w-full grid-cols-2 gap-5 overflow-y-auto bg-bg-deep p-4'>
-          {member.map((member) => (
+          {members.map((member) => (
             <MemberCard
               key={member.id}
               name={member.name}

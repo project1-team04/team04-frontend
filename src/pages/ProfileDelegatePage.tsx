@@ -3,19 +3,89 @@ import { paths } from '@/routers/paths';
 import Button from '@/components/Button';
 import Header from '@/components/Header';
 import DelegateCard from '@/components/DelegateCard';
+import {
+  assignManager,
+  getProjectsWithMembersByManager,
+} from '@/apis/projectApi';
+import { useEffect, useState } from 'react';
 
-// 목 데이터
-const data = [
-  { id: '1', title: 'Threadly', member: ['앵무새', '고양이', '강아지'] },
-  { id: '2', title: 'Apple', member: ['권', '보', '령'] },
-  { id: '3', title: 'Banana', member: ['ㅇ', 'ㄴ', 'ㅈ'] },
-  // { id: '33', title: 'Banana', member: ['ㅇ', 'ㄴ', 'ㅈ'] },
-  // { id: '31', title: 'Banana', member: ['ㅇ', 'ㄴ', 'ㅈ'] },
-  // { id: '321', title: 'Banana', member: ['ㅇ', 'ㄴ', 'ㅈ'] },
-];
+interface Member {
+  userId: number;
+  userName: string;
+  email: string;
+  role: string;
+}
+
+interface ProjectData {
+  project: {
+    id: string;
+    projectKey: string;
+    name: string;
+    issueCount: number;
+  };
+  members: Member[];
+}
+
+interface DelegateSelection {
+  projectId: string;
+  userId: number;
+}
 
 const ProfileDelegatePage = () => {
   const navigate = useNavigate();
+  const [projectsData, setProjects] = useState<ProjectData[]>([]);
+  const [selectedDelegates, setSelectedDelegates] = useState<
+    DelegateSelection[]
+  >([]);
+
+  const fetchUsersProjects = async () => {
+    try {
+      const res = await getProjectsWithMembersByManager();
+      setProjects(res);
+    } catch (error) {
+      console.log('프로젝트 권한 위임 에러', error);
+    }
+  };
+
+  const handleSelectDelegate = (projectId: string, userId: number) => {
+    setSelectedDelegates((prev) => {
+      // 기존 배열에서 같은 projectId가 있으면 덮어씀(없으면 추가)
+      const updated = prev.filter((item) => item.projectId !== projectId);
+      return [...updated, { projectId, userId }];
+    });
+
+    console.log(`저장된 위임 정보:`, [
+      ...selectedDelegates,
+      { projectId, userId },
+    ]);
+  };
+
+  const handleDelegateComplete = async () => {
+    try {
+      if (selectedDelegates.length === 0) {
+        console.warn('선택된 위임 정보가 없습니다.');
+        return;
+      }
+
+      const formattedDelegates = selectedDelegates.map(
+        ({ projectId, userId }) => ({
+          projectId: Number(projectId),
+          userId,
+        })
+      );
+      console.log('최종 위임 정보:', formattedDelegates);
+
+      await assignManager(formattedDelegates);
+
+      navigate(paths.profile.root);
+    } catch (error) {
+      console.error('권한 위임 완료 에러', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsersProjects();
+  }, []);
 
   return (
     <div className='mx-auto flex w-1/2 flex-col'>
@@ -25,13 +95,13 @@ const ProfileDelegatePage = () => {
 
       <main className='mb-9 grow overflow-hidden'>
         <div className='flex h-full flex-col items-center rounded-2xl bg-bg-deep p-4'>
-          {/* 스크롤 적용 영역 */}
           <div className='flex w-full flex-1 flex-col gap-4 overflow-y-auto'>
-            {data.map((project) => (
+            {projectsData.map((projectData) => (
               <DelegateCard
-                key={project.id}
-                title={project.title}
-                member={project.member}
+                key={projectData.project.id}
+                project={projectData.project}
+                members={projectData.members}
+                onSelectDelegate={handleSelectDelegate}
               />
             ))}
           </div>
@@ -43,8 +113,12 @@ const ProfileDelegatePage = () => {
               className='border-default flex-1 border bg-bg'
               onClick={() => navigate(paths.profile.root)}
             />
-            {/* TODO) onClick 이벤트 핸들러에서 api 호출 후 paths.profile.root로 navigate */}
-            <Button children={'위임 완료'} className='flex-1' />
+            <Button
+              children={'위임 완료'}
+              className='flex-1'
+              onClick={handleDelegateComplete}
+              disabled={Object.keys(selectedDelegates).length === 0}
+            />
           </div>
         </div>
       </main>
