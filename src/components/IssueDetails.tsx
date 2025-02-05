@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { IssueResponse } from '@/types/issueTypes';
 import Button from './Button';
+import EditIssueForm from './EditIssueForm';
 import { RiEdit2Line } from 'react-icons/ri';
 
 interface IssueDetailsProps {
@@ -9,12 +11,23 @@ interface IssueDetailsProps {
 }
 
 const IssueDetails = ({ issueData, isLoading, isError }: IssueDetailsProps) => {
+  const [isEditMode, setIsEditMode] = useState(false);
+
   if (isLoading) {
     return <p>이슈 정보를 불러오는 중...</p>;
   }
 
   if (isError || !issueData) {
     return <p>이슈 정보를 불러올 수 없습니다.</p>;
+  }
+
+  if (isEditMode) {
+    return (
+      <EditIssueForm
+        issueData={issueData}
+        onClose={() => setIsEditMode(false)}
+      />
+    );
   }
 
   return (
@@ -34,6 +47,7 @@ const IssueDetails = ({ issueData, isLoading, isError }: IssueDetailsProps) => {
             variant='secondary'
             className='w-fit'
             size='sm'
+            onClick={() => setIsEditMode(true)}
           />
         </div>
 
