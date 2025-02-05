@@ -4,7 +4,3 @@ export interface UserData {
   username: string;
   profileImageUrl: string | null;
 }
-
-export interface OutletContextType {
-  data: UserData;
-}
