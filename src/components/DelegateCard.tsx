@@ -15,6 +15,7 @@ interface DelegateCardProps {
     issueCount: number;
   };
   members?: Member[];
+  onSelectDelegate: (projectId: string, userId: number) => void;
 }
 
 interface Member {
@@ -24,12 +25,17 @@ interface Member {
   role: string;
 }
 
-const DelegateCard = ({ project, members }: DelegateCardProps) => {
+const DelegateCard = ({
+  project,
+  members,
+  onSelectDelegate,
+}: DelegateCardProps) => {
   const [, setSelectedUserId] = useState<number | null>(null);
 
   const handleSelectChange = (userId: string) => {
     const selectedId = Number(userId);
     setSelectedUserId(selectedId);
+    onSelectDelegate(project.id, selectedId);
 
     console.log(`프로젝트 id: ${project.id}, 위임할 유저 id: ${selectedId}`);
   };
