@@ -46,15 +46,16 @@ const IssueCard = ({
       className='grid h-32 w-full gap-6 rounded-lg bg-bg p-5'
       onClick={handleClick}
     >
-      <span className='m-1 text-lg font-semibold'>{name}</span>
+      <span className='text-lg font-semibold'>{name}</span>
       <div className='flex items-center justify-between text-sm'>
-        <div className='flex items-center gap-2'>
-          <DropDown
+        <div className='flex items-center justify-center gap-2'>
+          {/* TODO) selector로 변경 */}
+          {/* <DropDown
             items={dropdownLabels}
             className='h-2 rounded-full bg-red p-2'
-          />
+          /> */}
 
-          <span>{issueKey}</span>
+          <p className='text-text-sub'>#{issueKey}</p>
         </div>
         {assigneeUserId && <span>{assigneeUserId}</span>}
       </div>
