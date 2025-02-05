@@ -32,3 +32,11 @@ export const getProjectIssues = async (
 
   return response.data;
 };
+
+// 이슈 삭제 API
+export const deleteIssue = async (
+  projectId: number,
+  issueId: number
+): Promise<void> => {
+  await instance.delete(`/projects/${projectId}/issues/${issueId}`);
+};

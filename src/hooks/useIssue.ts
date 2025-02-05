@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createIssue, getIssue, getProjectIssues } from '@/apis/issueApi';
+import {
+  createIssue,
+  deleteIssue,
+  getIssue,
+  getProjectIssues,
+} from '@/apis/issueApi';
 import { IssueResponse } from '@/types/issueTypes';
 
 // 이슈 생성
@@ -44,5 +49,29 @@ export const useGetProjectIssues = (projectId: number) => {
     queryKey: ['projectIssues', projectId],
     queryFn: () => getProjectIssues(projectId),
     enabled: !!projectId, // projectId가 존재할 때만 실행
+  });
+};
+
+// 이슈 삭제
+export const useDeleteIssue = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      projectId,
+      issueId,
+    }: {
+      projectId: number;
+      issueId: number;
+    }) => deleteIssue(projectId, issueId),
+    onSuccess: (_, { projectId }) => {
+      // 이슈 목록 캐시 무효화 (삭제된 이슈 반영)
+      queryClient.invalidateQueries({
+        queryKey: ['projectIssues', projectId],
+      });
+    },
+    onError: (error) => {
+      console.error('이슈 삭제 실패:', error);
+    },
   });
 };
