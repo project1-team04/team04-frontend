@@ -38,6 +38,7 @@ const ProfilePage = () => {
             <AvatarImage
               src={user.profileImageUrl ?? undefined}
               alt={`${user.username}의 프로필 이미지`}
+              className='h-full w-full object-cover'
             />
             <AvatarFallback />
           </Avatar>
