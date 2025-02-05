@@ -21,3 +21,8 @@ export interface IssueResponse {
   troubleShooting: string;
   status: IssueStatus;
 }
+
+export type IssueCardProps = Pick<
+  IssueResponse,
+  'id' | 'name' | 'assigneeUserId' | 'projectId'
+>;
