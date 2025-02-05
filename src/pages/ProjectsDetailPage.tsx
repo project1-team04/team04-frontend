@@ -5,7 +5,7 @@ import KanbanCard from '@/components/KanbanCard';
 import IssueSearchBar from '@/components/IssueSearchBar';
 import { Button } from '@/components/ui/button';
 import Modal from '@/components/Modal';
-import { useCreateIssue } from '@/hooks/useIssue';
+import { useCreateIssue, useGetProjectIssues } from '@/hooks/useIssue';
 import { useGetLabels } from '@/hooks/useProject';
 import { IssueStatus } from '@/types/issueTypes';
 import { RiErrorWarningLine } from 'react-icons/ri';
@@ -44,6 +44,7 @@ const ProjectsDetailPage = () => {
     }
   };
 
+  // 이슈 생성
   const { mutate: createIssueMutate } = useCreateIssue();
   const { data: labels } = useGetLabels(Number(projectId));
 
@@ -70,6 +71,17 @@ const ProjectsDetailPage = () => {
       }
     );
   };
+
+  // 전체 이슈 목록 가져오기
+  // TODO) isLoading, isError일 때 렌더링할 요소 추가
+  const { data: issues = [] } = useGetProjectIssues(Number(projectId));
+
+  // 이슈 상태별 렌더링
+  const todoIssues = issues.filter((issue) => issue.status === 'TODO');
+  const progressIssues = issues.filter(
+    (issue) => issue.status === 'ON_PROGRESS'
+  );
+  const doneIssues = issues.filter((issue) => issue.status === 'DONE');
 
   return (
     <div className='flex h-full w-full'>
@@ -106,9 +118,21 @@ const ProjectsDetailPage = () => {
         </div>
 
         <div className='flex h-full justify-between gap-x-6 overflow-hidden'>
-          <KanbanCard status='To Do' issueCount='4' />
-          <KanbanCard status='On Progress' issueCount='3' />
-          <KanbanCard status='Done' issueCount='200' />
+          <KanbanCard
+            status='To Do'
+            issueCount={todoIssues.length.toString()}
+            issues={todoIssues}
+          />
+          <KanbanCard
+            status='On Progress'
+            issueCount={progressIssues.length.toString()}
+            issues={progressIssues}
+          />
+          <KanbanCard
+            status='Done'
+            issueCount={doneIssues.length.toString()}
+            issues={doneIssues}
+          />
         </div>
       </div>
 
