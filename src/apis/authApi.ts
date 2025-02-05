@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import instance from './instance';
+import { paths } from '@/routers/paths';
 
 interface LoginResponse {
   accessToken: string;
@@ -51,7 +52,7 @@ export const logout = async () => {
     await instance.post('/auth/logout');
 
     localStorage.removeItem('AccessToken');
-    console.log('로그아웃 완료');
+    window.location.href = paths.auth.login.fullPath;
   } catch (error) {
     console.error('Logout failed:', error);
   }
