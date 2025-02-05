@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { QueryClient } from '@tanstack/react-query';
 import { paths } from './paths';
+import { rootLoader } from './rootLoader';
 import { protectedLoader } from './protectedLoader';
 import AuthLayout from '../layouts/AuthLayout';
 import MainLayout from '@/layouts/MainLayout';
@@ -18,6 +19,7 @@ import NotFoundPage from '@/pages/NotFoundPage';
 
 export const createRouter = (queryClient: QueryClient) => {
   return createBrowserRouter([
+    { path: '/', loader: rootLoader },
     {
       path: paths.auth.root,
       element: <AuthLayout />,
