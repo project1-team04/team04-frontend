@@ -1,10 +1,25 @@
-const ChatProfile = () => {
+const ChatProfile = ({
+  userName,
+  imgUrl,
+}: {
+  userName: string;
+  imgUrl: string | null;
+}) => {
   return (
-    <img
-      src='https://www.zespri.com/content/dam/zespri/kr/kiwibrother/about_gold_figure.jpeg'
-      alt=''
-      className='h-10 w-10 rounded-full border-[1px] border-border-default'
-    />
+    <div
+      className={`h-8 w-8 rounded-full border-[1px] border-border-default ${
+        imgUrl ? '' : 'bg-gray-400'
+      } relative -ml-2`}
+      title={userName}
+    >
+      {imgUrl && (
+        <img
+          src={imgUrl}
+          alt={`${userName}의 프로필`}
+          className='h-full w-full rounded-full object-cover'
+        />
+      )}
+    </div>
   );
 };
 
