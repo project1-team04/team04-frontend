@@ -44,6 +44,7 @@ const ProjectsIssueDetailPage = () => {
       <div className='w-1/3 min-w-[400px]'>
         {issueData && (
           <Chat
+            projectId={Number(projectId)}
             issueDataName={issueData.name}
             issueDataId={Number(issueData.id)}
           />
