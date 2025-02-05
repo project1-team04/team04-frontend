@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useGetUser } from '@/hooks/useUser';
+import { useGetUser, useUpdateUser } from '@/hooks/useUser';
 import Button from './Button';
 import Input from './Input';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
@@ -11,37 +11,70 @@ interface EditProfileInfoProps {
   onClose: () => void;
 }
 
+interface EditProfileFormData {
+  username: string;
+  profileImage: string | File | null;
+}
+
 const EditProfileInfo = ({ onClose }: EditProfileInfoProps) => {
   const { data: user } = useGetUser();
-  const { register, handleSubmit, setValue } = useForm({
-    defaultValues: {
-      username: user.username,
-      profileImage: user.profileImageUrl as string | File | null,
-    },
-  });
+  const { mutate: getUserMutate } = useUpdateUser();
+
+  const { register, handleSubmit, setValue, getValues } =
+    useForm<EditProfileFormData>({
+      defaultValues: {
+        username: user.username,
+        profileImage: user.profileImageUrl,
+      },
+    });
 
   const [preview, setPreview] = useState<string | null>(user.profileImageUrl);
 
   const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const image = e.target.files?.[0];
+    if (!e.target.files || e.target.files.length === 0) return;
 
-    if (image) {
-      setPreview(URL.createObjectURL(image));
-      setValue('profileImage', image);
+    const imageFile = e.target.files[0];
+
+    if (imageFile) {
+      const imageUrl = URL.createObjectURL(imageFile);
+      setValue('profileImage', imageFile);
+      setPreview(imageUrl);
     }
   };
 
   const handleRemoveImage = () => {
+    if (!getValues('profileImage')) return;
+
     setPreview(null);
     setValue('profileImage', null);
   };
 
   // 프로필 수정
-  const onSubmit = (data: any) => {
-    console.log(data);
-    console.log(preview);
+  const onSubmit = (data: EditProfileFormData) => {
+    const formData = new FormData();
 
-    // 성공시 onClose
+    const jsonBlob = new Blob([JSON.stringify({ username: data.username })], {
+      type: 'application/json',
+    });
+    formData.append('text', jsonBlob);
+
+    if (data.profileImage instanceof File) {
+      // 새로운 이미지 업로드
+      formData.append('image', data.profileImage);
+    } else if (typeof data.profileImage === 'string') {
+      // 기존 이미지 유지
+      formData.append('imageURL', data.profileImage);
+    }
+    // data.profileImage가 null이면 서버에서 이미지 삭제 처리
+
+    getUserMutate(formData, {
+      onSuccess: () => {
+        onClose(); // 프로필 페이지로 이동
+      },
+      onError: (error) => {
+        console.error('프로필 업데이트 실패', error);
+      },
+    });
   };
 
   return (
