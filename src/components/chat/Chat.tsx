@@ -13,7 +13,12 @@ interface Chatting {
   isRead: boolean | '읽음';
 }
 
-const Chat = () => {
+interface ChatProps {
+  issueDataName: string;
+  issueDataId: number;
+}
+
+const Chat = ({ issueDataName, issueDataId }: ChatProps) => {
   const { data: user } = useGetUser();
   const [chattings, setChattings] = useState<Chatting[]>([]);
   const [hasReadMessages] = useState(false);
@@ -29,7 +34,7 @@ const Chat = () => {
   const socketRef = useRef<WebSocket | null>(null);
 
   // 이슈 ID
-  const issueId = 1;
+  const issueId = issueDataId;
 
   // 메시지 입력란 참조
   const messageInputRef = useRef<HTMLInputElement>(null);
@@ -182,7 +187,7 @@ const Chat = () => {
   return (
     <div className='flex h-full w-full flex-col bg-gray-50'>
       <div className='mx-5 flex h-[10%] items-center justify-between border-b-[0.5px] border-border-default'>
-        <p className='font-semibold'>이슈명</p>
+        <p className='font-semibold'>{issueDataName}</p>
         <div className='flex'>
           <ChatProfile />
         </div>

@@ -42,7 +42,12 @@ const ProjectsIssueDetailPage = () => {
       </div>
 
       <div className='w-1/3 min-w-[400px]'>
-        <Chat />
+        {issueData && (
+          <Chat
+            issueDataName={issueData.name}
+            issueDataId={Number(issueData.id)}
+          />
+        )}
       </div>
     </div>
   );
