@@ -1,10 +1,12 @@
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { deleteProject } from '@/apis/projectApi';
 import Header from '@/components/Header';
 import KanbanCard from '@/components/KanbanCard';
 import IssueSearchBar from '@/components/IssueSearchBar';
 import { Button } from '@/components/ui/button';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { deleteProject } from '@/apis/projectApi';
 import Modal from '@/components/Modal';
+import { useCreateIssue } from '@/hooks/useIssue';
+import { IssueStatus } from '@/types/issueTypes';
 import { RiErrorWarningLine } from 'react-icons/ri';
 import { IoSettingsOutline } from 'react-icons/io5';
 // import { useModalStore, ModalType } from '@/stores/useModalStore';
@@ -41,6 +43,29 @@ const ProjectsDetailPage = () => {
     }
   };
 
+  const { mutate: createIssueMutate } = useCreateIssue();
+
+  const handleCreateIssue = () => {
+    if (!projectId) return;
+
+    createIssueMutate(
+      {
+        projectId: Number(projectId),
+        labelId: 1,
+        name: 'New Issue',
+        description: '내용이 없습니다',
+        troubleShooting: '내용이 없습니다',
+        status: 'TODO' as IssueStatus,
+      },
+      {
+        onSuccess: (newIssue) => {
+          // 이슈 생성 성공 시 해당 이슈의 상세 페이지로 이동
+          navigate(`/projects/${projectId}/issues/${newIssue.id}`);
+        },
+      }
+    );
+  };
+
   return (
     <div className='flex h-full w-full'>
       <aside className='flex h-full w-[22%] flex-col overflow-hidden border-r border-divider-default p-4'>
@@ -70,12 +95,7 @@ const ProjectsDetailPage = () => {
               <IoSettingsOutline />
             </Button>
           </div>
-          <Button
-            variant='outline'
-            onClick={() => {
-              navigate(`/projects/${projectId}/issues/:issueId`);
-            }}
-          >
+          <Button variant='outline' onClick={handleCreateIssue}>
             이슈 생성
           </Button>
         </div>
