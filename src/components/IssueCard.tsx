@@ -1,7 +1,19 @@
+import { useNavigate } from 'react-router-dom';
+import { paths } from '@/routers/paths';
 import { IssueCardProps } from '@/types/issueTypes';
 import DropDown from './DropDown';
 
-const IssueCard = ({ id, name, assigneeUserId }: IssueCardProps) => {
+const IssueCard = ({ id, name, assigneeUserId, projectId }: IssueCardProps) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(
+      paths.projects.issueDetail.fullPath
+        .replace(':projectId', String(projectId))
+        .replace(':issueId', String(id))
+    );
+  };
+
   // TODO) 라벨 목록 API에서 불러오기
   const dropdownLabels = [
     {
@@ -24,7 +36,10 @@ const IssueCard = ({ id, name, assigneeUserId }: IssueCardProps) => {
 
   return (
     // FIX) title, id, assignee 길어지는 경우 대응
-    <div className='grid h-32 w-full gap-6 rounded-lg bg-bg p-5'>
+    <div
+      className='grid h-32 w-full gap-6 rounded-lg bg-bg p-5'
+      onClick={handleClick}
+    >
       <span className='m-1 text-lg font-semibold'>{name}</span>
       <div className='flex items-center justify-between text-sm'>
         <div className='flex items-center gap-2'>
