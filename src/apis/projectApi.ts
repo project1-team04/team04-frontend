@@ -129,3 +129,19 @@ export const getProjectsWithMembersByManager = async () => {
     console.log('PM 맡은 프로젝트 목록 및 일반 유저 에러: ', error);
   }
 };
+
+export const assignManager = async (
+  projectId: number,
+  newManagerId: number
+) => {
+  try {
+    const res = await instance.patch('/projects/assign-manager', {
+      params: { projectId, newManagerId },
+    });
+
+    console.log('프로젝트 권한 위임:', res.data);
+    return res.data;
+  } catch (error) {
+    console.log('프로젝트 권한 위임 에러: ', error);
+  }
+};
