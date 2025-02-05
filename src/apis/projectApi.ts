@@ -119,3 +119,13 @@ export const getMember = async (projectId: number) => {
     console.log('프로젝트 설정 - 팀원 조회 에러: ', error);
   }
 };
+
+export const getProjectsWithMembersByManager = async () => {
+  try {
+    const res = await instance.get('/projects/managed');
+    console.log('PM 맡은 프로젝트 목록 및 일반 유저: ', res.data);
+    return res.data;
+  } catch (error) {
+    console.log('PM 맡은 프로젝트 목록 및 일반 유저 에러: ', error);
+  }
+};
