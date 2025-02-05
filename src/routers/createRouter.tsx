@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { QueryClient } from '@tanstack/react-query';
 import { paths } from './paths';
 import { rootLoader } from './rootLoader';
+import { publicLoader } from './publicLoader';
 import { protectedLoader } from './protectedLoader';
 import AuthLayout from '../layouts/AuthLayout';
 import MainLayout from '@/layouts/MainLayout';
@@ -23,6 +24,7 @@ export const createRouter = (queryClient: QueryClient) => {
     {
       path: paths.auth.root,
       element: <AuthLayout />,
+      loader: publicLoader,
       children: [
         {
           // /auth 경로 접근 시 /auth/login으로 자동 리다이렉트
