@@ -1,8 +1,9 @@
-import { IssueResponse } from '@/types/issueTypes';
-import Button from './Button';
 import { useForm } from 'react-hook-form';
-import Input from './Input';
 import { ErrorMessage } from '@hookform/error-message';
+import { useUpdateIssue } from '@/hooks/useIssue';
+import { IssueResponse, UpdateIssueRequest } from '@/types/issueTypes';
+import Button from './Button';
+import Input from './Input';
 
 interface EditIssueFormProps {
   issueData: IssueResponse;
@@ -10,18 +11,34 @@ interface EditIssueFormProps {
 }
 
 const EditIssueForm = ({ issueData, onClose }: EditIssueFormProps) => {
+  const { mutate: updateIssue, isPending } = useUpdateIssue();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<UpdateIssueRequest>({
     defaultValues: {
-      ...issueData,
+      name: issueData.name,
+      description: issueData.description || '',
+      troubleShooting: issueData.troubleShooting || '',
+      assigneeUserId: issueData.assigneeUserId ?? 0,
+      status: issueData.status,
     },
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = (data: UpdateIssueRequest) => {
+    updateIssue(
+      {
+        projectId: issueData.projectId,
+        issueId: Number(issueData.id),
+        updatedData: data,
+      },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
   };
 
   return (
@@ -85,8 +102,14 @@ const EditIssueForm = ({ issueData, onClose }: EditIssueFormProps) => {
           type='button'
           className='w-fit'
           onClick={onClose}
+          disabled={isPending}
         />
-        <Button children={'변경 내용 저장'} type='submit' className='w-fit' />
+        <Button
+          children={'변경 내용 저장'}
+          type='submit'
+          className='w-fit'
+          disabled={isPending}
+        />
       </div>
     </form>
   );

@@ -77,7 +77,7 @@ const IssueDetails = ({ issueData, isLoading, isError }: IssueDetailsProps) => {
           <div className='flex flex-col gap-4'>
             <p className='text-2xl font-semibold'>Trouble Shooting</p>
             <p className='text-text-sub'>
-              {issueData.description || '내용이 없습니다.'}
+              {issueData.troubleShooting || '내용이 없습니다.'}
             </p>
           </div>
         </div>
