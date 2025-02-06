@@ -19,7 +19,7 @@ export interface ProjectResponse {
 
 export const getUserProjects = async (page: number, size: number) => {
   try {
-    const res = await instance.get<ProjectResponse>('/projects', {
+    const res = await instance.get<ProjectResponse>('/projects/search', {
       params: { page, size },
     });
     console.log('프로젝트 목록:', res.data);
