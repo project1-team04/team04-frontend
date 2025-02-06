@@ -4,8 +4,9 @@ import {
   deleteIssue,
   getIssue,
   getProjectIssues,
+  updateIssue,
 } from '@/apis/issueApi';
-import { IssueResponse } from '@/types/issueTypes';
+import { IssueResponse, UpdateIssueRequest } from '@/types/issueTypes';
 
 // 이슈 생성
 export const useCreateIssue = () => {
@@ -72,6 +73,37 @@ export const useDeleteIssue = () => {
     },
     onError: (error) => {
       console.error('이슈 삭제 실패:', error);
+    },
+  });
+};
+
+// 이슈 수정
+export const useUpdateIssue = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      projectId,
+      issueId,
+      updatedData,
+    }: {
+      projectId: number;
+      issueId: number;
+      updatedData: UpdateIssueRequest;
+    }) => updateIssue(projectId, issueId, updatedData),
+    onSuccess: (_, { projectId, issueId }) => {
+      // 이슈 상세 데이터 캐시 무효화 (최신 데이터 반영)
+      queryClient.invalidateQueries({
+        queryKey: ['issue', projectId, issueId],
+      });
+
+      // 이슈 목록도 갱신 (목록에서도 변경된 정보 반영)
+      queryClient.invalidateQueries({
+        queryKey: ['projectIssues', projectId],
+      });
+    },
+    onError: (error) => {
+      console.error('이슈 수정 실패:', error);
     },
   });
 };

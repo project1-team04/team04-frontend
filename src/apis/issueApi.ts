@@ -1,5 +1,9 @@
 import instance from './instance';
-import { CreateIssueRequest, IssueResponse } from '@/types/issueTypes';
+import {
+  CreateIssueRequest,
+  IssueResponse,
+  UpdateIssueRequest,
+} from '@/types/issueTypes';
 
 // 이슈 생성 API
 export const createIssue = async (
@@ -39,4 +43,17 @@ export const deleteIssue = async (
   issueId: number
 ): Promise<void> => {
   await instance.delete(`/projects/${projectId}/issues/${issueId}`);
+};
+
+// 이슈 수정 API
+export const updateIssue = async (
+  projectId: number,
+  issueId: number,
+  updatedData: UpdateIssueRequest
+): Promise<IssueResponse> => {
+  const response = await instance.patch(
+    `/projects/${projectId}/issues/${issueId}`,
+    updatedData
+  );
+  return response.data;
 };

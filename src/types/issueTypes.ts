@@ -26,3 +26,8 @@ export type IssueCardProps = Pick<
   IssueResponse,
   'id' | 'issueKey' | 'name' | 'assigneeUserId' | 'projectId'
 >;
+
+export type UpdateIssueRequest = Pick<
+  IssueResponse,
+  'name' | 'description' | 'troubleShooting' | 'assigneeUserId' | 'status'
+>;
